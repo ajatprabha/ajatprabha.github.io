@@ -11,7 +11,7 @@ subclass: 'post tag-getting-started'
 author: ajatprabha
 ---
 
-Recently I came to know about TDD (Test Driven Development), a development methodology in [Agile Software Craftsmanship](http://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile/). At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.
+Recently I came to know about TDD (Test Driven Development), a development methodology in [Agile Software Craftsmanship](http://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile). At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.
 
 ## What is TDD?
 

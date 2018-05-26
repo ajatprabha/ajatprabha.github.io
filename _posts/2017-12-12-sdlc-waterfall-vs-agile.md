@@ -49,7 +49,7 @@ This is one of the most important steps of SDLC. During the past 2-3 decades, te
 
 > No Tests, No Deployment
 
-Once the code is developed, then various types of tests are written and run on the code to find bugs and reassure the functioning of the software. It also helps in future quality assurance when refactoring is done, or a new feature is added, or an old one is removed. Tests will make sure that you don’t violate the contract that a function is bound to fulfil. There are [unit tests](http://ajatprabha.in/2017/12/20/tdd-why-bother/), integration tests, automation tests, and performance tests, to name a few.
+Once the code is developed, then various types of tests are written and run on the code to find bugs and reassure the functioning of the software. It also helps in future quality assurance when refactoring is done, or a new feature is added, or an old one is removed. Tests will make sure that you don’t violate the contract that a function is bound to fulfil. There are [unit tests](http://ajatprabha.in/2017/12/20/tdd-why-bother), integration tests, automation tests, and performance tests, to name a few.
 
 #### Deployment
 
