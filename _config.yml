@@ -68,7 +68,7 @@ safe: False
 lsi: False
 username: ajatprabha
 repo: ajatprabha.github.io
-branch: master
+branch: blog
 relative_source: ../ajatprabha.github.io/
 destination: ../ajatprabha.github.io-pages/
 production_url:  http://ajatprabha.github.io/
