@@ -11,7 +11,7 @@
 
 
 
-    <title>Ajat Prabha</title>
+    <title>Tdd - Ajat Prabha</title>
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Styles'n'Scripts -->
@@ -25,19 +25,19 @@
     <!-- This tag outputs SEO meta+structured data and other important settings -->
     <meta name="description" content="Blog" />
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png" />
-    <link rel="canonical" href="/" />
+    <link rel="canonical" href="/tag/tdd/" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
 
      <!--title below is coming from _includes/dynamic_title-->
     <meta property="og:site_name" content="Ajat Prabha" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Ajat Prabha" />
+    <meta property="og:title" content="Tdd - Ajat Prabha" />
     <meta property="og:description" content="Blog" />
-    <meta property="og:url" content="/" />
+    <meta property="og:url" content="/tag/tdd/" />
     <meta property="og:image" content="/assets/images/blog-cover.jpg" />
     <meta property="article:publisher" content="https://www.facebook.com/iAmAjat" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Ajat Prabha" />
+    <meta name="twitter:title" content="Tdd - Ajat Prabha" />
     <meta name="twitter:description" content="Blog" />
     <meta name="twitter:url" content="/" />
     <meta name="twitter:image" content="/assets/images/blog-cover.jpg" />
@@ -57,7 +57,7 @@
         "name": "Ajat Prabha",
         "logo": "/assets/images/blog-icon.png"
     },
-    "url": "/",
+    "url": "/tag/tdd/",
     "image": {
         "@type": "ImageObject",
         "url": "/assets/images/blog-cover.jpg",
@@ -66,7 +66,7 @@
     },
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "/"
+        "@id": "/tag/tdd/"
     },
     "description": "Blog"
 }
@@ -81,31 +81,30 @@
     </script> -->
 
     <meta name="generator" content="Jekyll 3.6.2" />
-    <link rel="alternate" type="application/rss+xml" title="Ajat Prabha" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Tag Page" href="/feed.xml" />
 
 
 </head>
-<body class="home-template">
+<body class="tag-template">
 
     <div class="site-wrapper">
         <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
-        <!-- < default -->
-<!-- The tag above means: insert everything in this file
-into the {body} of the default.hbs template -->
+        <!-- default -->
+<!-- The tag above means - insert everything in this file into the {body} of the default.hbs template -->
 
 <!-- The big featured header, it uses blog cover image as a BG if available -->
-<header class="site-header outer " style="background-image:  url(/assets/images/blog-cover.jpg) ">
+<!-- #tag -->
+<!-- dynamically loading backgrounds for tags,  descriptions and page titles -->
+
+
+<header class="site-header outer no-cover">
     <div class="inner">
-        <div class="site-header-content">
-            <h1 class="site-title">
-                
-                    <img class="site-logo" src="/assets/images/blog-icon.png" alt="Ajat Prabha"/>
-                
-            </h1>
-            <h2 class="site-description">Blog</h2>
-        </div>
         <nav class="site-nav">
     <div class="site-nav-left">
+        
+            
+                <a class="site-nav-logo" href="/"><img src="/assets/images/blog-icon.png" alt="Ajat Prabha" /></a>
+            
         
         
             <ul class="nav" role="menu">
@@ -130,17 +129,25 @@ into the {body} of the default.hbs template -->
     </div>
 </nav>
 
+        <div class="site-header-content">
+            <h1 class="site-title">Tdd</h1>
+            <h2 class="site-description">
+                
+    			    A collection of 1 posts
+                
+            </h2>
+        </div>
     </div>
 </header>
+<!-- tag -->
 
 <!-- The main content area -->
 <main id="site-main" class="site-main outer" role="main">
     <div class="inner">
-
         <div class="post-feed">
             <!-- The tag below includes the markup for each post - partials/post-card.hbs -->
             
-    <article class="post-card home-template">
+    <article class="post-card tag-template">
         
             <a class="post-card-image-link" href="/2017/12/20/tdd-why-bother">
                 <div class="post-card-image" style="background-image: url(/assets/images/tdd-why-bother.jpg)"></div>
@@ -178,55 +185,8 @@ into the {body} of the default.hbs template -->
         </div>
     </article>
 
-    <article class="post-card home-template">
-        
-            <a class="post-card-image-link" href="/2017/12/12/sdlc-waterfall-vs-agile">
-                <div class="post-card-image" style="background-image: url(/assets/images/getting-to-know.jpg)"></div>
-            </a>
-        
-        <div class="post-card-content">
-            <a class="post-card-content-link" href="/2017/12/12/sdlc-waterfall-vs-agile">
-                <header class="post-card-header">
-                    
-                        
-                            
-                               <span class="post-card-tags">Sdlc</span>
-                            
-                        
-                            
-                               <span class="post-card-tags">Agile development</span>
-                            
-                        
-                            
-                                <span class="post-card-tags">Waterfall</span>
-                            
-                        
-                    
-
-                    <h2 class="post-card-title">Getting to know SDLC | Waterfall vs Agile Development</h2>
-                </header>
-                <section class="post-card-excerpt">
-                    <p>I was always curious to know, how a professional business software is developed from start to finish. Unlike what we do during our study of software designing or developing a hobby project, we</p>
-                </section>
-            </a>
-            <footer class="post-card-meta">
-                
-                    
-                        
-                        <img class="author-profile-image" src="/assets/images/ajat.jpg" alt="Ajat Prabha" />
-                        
-                        <span class="post-card-author">
-                            <a href="/author/ajatprabha/">Ajat Prabha</a>
-                        </span>
-                    
-                
-            </footer>
-        </div>
-    </article>
-
 
         </div>
-
     </div>
 </main>
 

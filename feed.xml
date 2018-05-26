@@ -1,4 +1,161 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2018-05-26T20:07:25+00:00</updated><id>/</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Getting to know SDLC | Waterfall vs Agile Development</title><link href="/2017/12/12/getting-to-know-sdlc" rel="alternate" type="text/html" title="Getting to know SDLC | Waterfall vs Agile Development" /><published>2017-12-12T17:49:00+00:00</published><updated>2017-12-12T17:49:00+00:00</updated><id>/2017/12/12/getting-to-know-sdlc</id><content type="html" xml:base="/2017/12/12/getting-to-know-sdlc">&lt;p&gt;I was always curious to know, how a professional business software is developed from start to finish. Unlike what we do during our study of software designing or developing a hobby project, we don’t take the steps involved in making a professional software that seriously! But when you’re out there in the real world you can’t afford to mess things up due to the lack of a streamlined workflow. So while searching for a tested methodology for software development, I came across something called SDLC aka ‘Software Development Life Cycle’. It essentially used to describe the various processes involved in the development of a software viz.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2018-05-26T20:27:23+00:00</updated><id>/</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">TDD (Test Driven Development), why bother?</title><link href="/2017/12/20/tdd-why-bother" rel="alternate" type="text/html" title="TDD (Test Driven Development), why bother?" /><published>2017-12-20T17:24:00+00:00</published><updated>2017-12-20T17:24:00+00:00</updated><id>/2017/12/20/tdd-why-bother</id><content type="html" xml:base="/2017/12/20/tdd-why-bother">&lt;p&gt;Recently I came to know about TDD (Test Driven Development), a development methodology in &lt;a href=&quot;http://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile/&quot;&gt;Agile Software Craftsmanship&lt;/a&gt;. At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-tdd&quot;&gt;What is TDD?&lt;/h2&gt;
+
+&lt;p&gt;You already know the full-form of TDD. Now, TDD is a process that is used to create software with very small repetitive cycles which include: analysis of the requirement, converting that requirement into a very specific test case which shall fail, then we write the production code to make the test pass, we refactor the code and then again repeat the cycle with new requirement. After each cycle, all the tests must pass. We’re not that great at coming up with a code that has correct behaviour and correct structure simultaneously. To overcome this, we follow the RGR cycle in TDD, while always keeping the three laws of TDD in mind.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-three-laws-of-tdd&quot;&gt;The Three Laws of TDD&lt;/h2&gt;
+
+&lt;p&gt;These laws lock a developer into a cycle that is short but is very crucial to maintain. They are:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ol&gt;
+    &lt;li&gt;You may not write production code until you have written a failing unit test.&lt;/li&gt;
+    &lt;li&gt;You may not write more of a unit test that is sufficient to fail, and not compiling is failing.&lt;/li&gt;
+    &lt;li&gt;You may not write more production code that is sufficient to pass the currently failing test.&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The purpose of these laws is just to provide line-by-line granularity to the code. Almost every second you keep these laws into consideration.&lt;/p&gt;
+
+&lt;h2 id=&quot;rgr-cycle&quot;&gt;RGR Cycle&lt;/h2&gt;
+
+&lt;p&gt;Red-Green-Refactor cycle is repeated after every complete unit test or after a couple of the three laws cycles. They are:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ol&gt;
+    &lt;li&gt;Write a failing unit test&lt;/li&gt;
+    &lt;li&gt;Write production code that makes the unit test pass, by any means necessary&lt;/li&gt;
+    &lt;li&gt;Clean up the mess, i.e. refactor the code&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ajatprabha.in/assets/images/RGR-cycle-300x300.png&quot; alt=&quot;RGR
+Cycle
+Infographic&quot; /&gt;&lt;br /&gt;
+Source: Self-created.&lt;/p&gt;
+
+&lt;p&gt;Purpose of RGR cycle is to write clean code subject to constraints. As you write unit tests, you specify the behaviour of the software. And then you write production code which is constrained by the unit tests, so you can structure your production code while maintaining the behaviour of the software. Refactoring is done after each cycle, it is not to be left after the end of the project. It is this cycle that makes it easy to make changes in the code at any stage a lot easier while still maintaining the behaviour required.&lt;/p&gt;
+
+&lt;h2 id=&quot;specificgeneric-cycle&quot;&gt;Specific/Generic Cycle&lt;/h2&gt;
+
+&lt;p&gt;This cycle is observed after every 10-15 minutes. It tells you that&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;As the tests get more specific, the production code gets more generic.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;We’ll understand soon what this means with the help of an example. But in a nutshell, when you add even finer granularity to the unit tests, you should write more generalised production code to make the test pass.&lt;/p&gt;
+
+&lt;h4 id=&quot;now-lets-take-the-example-of-building-a-stack-class-using-tdd&quot;&gt;Now let’s take the example of building a stack class using TDD.&lt;/h4&gt;
+
+&lt;p&gt;I’ll use python in this example. Under a directory, I created two files viz. &lt;code class=&quot;highlighter-rouge&quot;&gt;stack.py&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;test_stack.py&lt;/code&gt; :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stack.py&lt;/code&gt; contains the production code and the class &lt;code class=&quot;highlighter-rouge&quot;&gt;Stack&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;test_stack.py&lt;/code&gt; contains unit tests and the class &lt;code class=&quot;highlighter-rouge&quot;&gt;TestStack&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So let’s say the very first test is that the size of a new stack should be zero. Note that tests in python should be prefixed with &lt;code class=&quot;highlighter-rouge&quot;&gt;test_&lt;/code&gt;&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=base-test-stack.py&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;Create an interface method like this.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=base-stack.py&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;Now, run the automated tests provided by &lt;code class=&quot;highlighter-rouge&quot;&gt;unittest&lt;/code&gt; module in python by command &lt;code class=&quot;highlighter-rouge&quot;&gt;python -m unittest&lt;/code&gt;. Let me make the test fail by returning a value -1&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=stack-size-fail.py&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;I can make this test pass simply by returning the desired value 0, recall point 2 of RGR cycle.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=stack-size-pass.py&quot;&gt; &lt;/script&gt;
+
+&lt;h4 id=&quot;stack-size-after-push-is-one&quot;&gt;Stack size after push is one&lt;/h4&gt;
+
+&lt;p&gt;Let me write another test which checks if the size of the stack is 1 or not after one push.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=test-one-push-stack.py&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;Let’s make the test pass by simply incrementing the value of &lt;code class=&quot;highlighter-rouge&quot;&gt;_size&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;.push()&lt;/code&gt; method and return that variable in &lt;code class=&quot;highlighter-rouge&quot;&gt;.size()&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=one-push-stack.py&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;Take a moment and notice that I replaced a constant value with a more generic variable. Also, I need to &lt;strong&gt;refactor&lt;/strong&gt; the code now as I’ve duplicated code in both the tests. I can do this by moving the stack initialisation part in &lt;code class=&quot;highlighter-rouge&quot;&gt;setUp&lt;/code&gt; method of the class &lt;code class=&quot;highlighter-rouge&quot;&gt;TestStack&lt;/code&gt;, this method is called before running every test in the class.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=refactor-duplicate-code.py&quot;&gt; &lt;/script&gt;
+
+&lt;h4 id=&quot;stack-size-is-zero-after-a-push-and-a-pop&quot;&gt;Stack size is zero after a push and a pop&lt;/h4&gt;
+
+&lt;p&gt;If I push an element and then pop it, the size should be zero after that.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=stack-size-fail.py&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;Make this test pass by simply decrementing the value of &lt;code class=&quot;highlighter-rouge&quot;&gt;_size&lt;/code&gt;.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=push-pop-stack.py&quot;&gt; &lt;/script&gt;
+
+&lt;h4 id=&quot;stack-raises-underflow-error&quot;&gt;Stack raises underflow error&lt;/h4&gt;
+
+&lt;p&gt;What if the stack is empty and I try to pop a non-existing element? Yes, it should raise an error.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=test-underflow-pop-stack.py&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;I write the following production code to make this pass by checking for the size equal to zero.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=underflow-stack.py&quot;&gt; &lt;/script&gt;
+
+&lt;h4 id=&quot;stack-raises-overflow-error&quot;&gt;Stack raises overflow error&lt;/h4&gt;
+
+&lt;p&gt;Great going till now, but what if the stack has a specific capacity and I can’t exceed its maximum capacity? I write another test just to check that and it should raise &lt;code class=&quot;highlighter-rouge&quot;&gt;OverFlowError&lt;/code&gt; if pushed on a full stack.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=test-overflow-stack.py&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;Again, I’m introducing a variable &lt;code class=&quot;highlighter-rouge&quot;&gt;_capacity&lt;/code&gt; in the constructor and I’ll check for it when I push on the stack.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=overflow-stack.py&quot;&gt; &lt;/script&gt;
+
+&lt;h4 id=&quot;pop-last-element-pushed-into-stack&quot;&gt;Pop last element pushed into stack&lt;/h4&gt;
+
+&lt;p&gt;Okay, till now every test is passing. But this stack is nowhere close to the actual definition of a stack. So, let me test if zero is popped when I had pushed it before.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=test-pop-zero-when-pushed-zero.py&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;This test will pass by simply returning 0. Note the point 3 of TDD laws here.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=stack-pop-zero-when-pushed-zero.py&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;But what if a more general number, say 1 is pushed? It should return it when popped. I’ll write a test just for that now.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=test-pop-one-when-pushed-one.py&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;I’ll create a private variable &lt;code class=&quot;highlighter-rouge&quot;&gt;_element&lt;/code&gt; and update it in &lt;code class=&quot;highlighter-rouge&quot;&gt;.push()&lt;/code&gt; method and return it when popped.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=stack-pop-one-when-pushed-one.py&quot;&gt; &lt;/script&gt;
+
+&lt;h4 id=&quot;true-lifo-operation&quot;&gt;True LIFO operation&lt;/h4&gt;
+
+&lt;p&gt;Once again notice that I replaced the constant 0 with a more generic variable &lt;code class=&quot;highlighter-rouge&quot;&gt;_element&lt;/code&gt;. But now, let’s make this Stack class really perform the Last-In-First-Out operations.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=test-lifo-operation.py&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;I will now modify the production code in the following way to make the test pass.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=lifo-stack.py&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;Did you notice what happened? I modified &lt;code class=&quot;highlighter-rouge&quot;&gt;_element&lt;/code&gt; variable into a more general data type, an array. Now recall Specific/Generic cycle, as the unit tests become more specific, the production code gets more generic. I hope you understand now what was meant before. Also, the three laws were followed at every step of the cycles, recall that I returned a constant 0 to make the test &lt;code class=&quot;highlighter-rouge&quot;&gt;test_size_is_zero_ after_push_and_pop&lt;/code&gt; pass. I didn’t generalise it by returning a variable right away. I just somehow made the test pass, that’s it. Finally, I can again &lt;strong&gt;refactor&lt;/strong&gt; the code and since python provides some shortcuts with arrays, I can get rid of &lt;code class=&quot;highlighter-rouge&quot;&gt;_size&lt;/code&gt; variable and all the unit tests still pass.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=refactor-lifo-stack.py&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;In other languages like C++, you’ll not get rid of &lt;code class=&quot;highlighter-rouge&quot;&gt;_size&lt;/code&gt; and instead, can use it as an array index. In this way, even the initial code that I wrote is not a waste of time. I’m simply modifying the existing at every cycle and making sure the tests pass. None of the code that we write to pass the early tests is wasted code. It’s just incomplete and not generalised enough. After every cycle, the code evolves and becomes more general.&lt;/p&gt;
+
+&lt;h4 id=&quot;references&quot;&gt;References:&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://blog.cleancoder.com/uncle-bob/2014/12/17/TheCyclesOfTDD.html&quot;&gt;The Clean Code Blog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Book: &lt;a href=&quot;https://books.google.co.in/books?isbn=0132350882&quot;&gt;Clean Code&lt;/a&gt; by Robert C. Martin&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>ajatprabha</name></author><category term="tdd" /><summary type="html">Recently I came to know about TDD (Test Driven Development), a development methodology in Agile Software Craftsmanship. At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.</summary></entry><entry><title type="html">Getting to know SDLC | Waterfall vs Agile Development</title><link href="/2017/12/12/sdlc-waterfall-vs-agile" rel="alternate" type="text/html" title="Getting to know SDLC | Waterfall vs Agile Development" /><published>2017-12-12T17:49:00+00:00</published><updated>2017-12-12T17:49:00+00:00</updated><id>/2017/12/12/sdlc-waterfall-vs-agile</id><content type="html" xml:base="/2017/12/12/sdlc-waterfall-vs-agile">&lt;p&gt;I was always curious to know, how a professional business software is developed from start to finish. Unlike what we do during our study of software designing or developing a hobby project, we don’t take the steps involved in making a professional software that seriously! But when you’re out there in the real world you can’t afford to mess things up due to the lack of a streamlined workflow. So while searching for a tested methodology for software development, I came across something called SDLC aka ‘Software Development Life Cycle’. It essentially used to describe the various processes involved in the development of a software viz.&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;Requirement Analysis&lt;/li&gt;

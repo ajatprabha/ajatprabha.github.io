@@ -8,6 +8,21 @@
     
       
       <item>
+        <title>TDD (Test Driven Development), why bother?</title>
+        
+          <description>&lt;p&gt;Recently I came to know about TDD (Test Driven Development), a development methodology in &lt;a href=&quot;http://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile/&quot;&gt;Agile Software Craftsmanship&lt;/a&gt;. At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Wed, 20 Dec 2017 17:24:00 +0000</pubDate>
+        <link>
+        /2017/12/20/tdd-why-bother</link>
+        <guid isPermaLink="true">/2017/12/20/tdd-why-bother</guid>
+      </item>
+      
+    
+      
+      <item>
         <title>Getting to know SDLC | Waterfall vs Agile Development</title>
         
           <description>&lt;p&gt;I was always curious to know, how a professional business software is developed from start to finish. Unlike what we do during our study of software designing or developing a hobby project, we don’t take the steps involved in making a professional software that seriously! But when you’re out there in the real world you can’t afford to mess things up due to the lack of a streamlined workflow. So while searching for a tested methodology for software development, I came across something called SDLC aka ‘Software Development Life Cycle’. It essentially used to describe the various processes involved in the development of a software viz.&lt;/p&gt;
@@ -16,8 +31,8 @@
         
         <pubDate>Tue, 12 Dec 2017 17:49:00 +0000</pubDate>
         <link>
-        /2017/12/12/getting-to-know-sdlc</link>
-        <guid isPermaLink="true">/2017/12/12/getting-to-know-sdlc</guid>
+        /2017/12/12/sdlc-waterfall-vs-agile</link>
+        <guid isPermaLink="true">/2017/12/12/sdlc-waterfall-vs-agile</guid>
       </item>
       
     
