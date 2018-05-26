@@ -8,22 +8,22 @@ language: 'en-us'
 baseurl: /
 
 # Website info
-title: Ghost
-description: The professional publishing platform
+title: Ajat Prabha
+description: Blog
 cover: assets/images/blog-cover.jpg
 logo: assets/images/blog-icon.png
 logo_dark: assets/images/favicon.png
 favicon: assets/images/favicon.png
-production_url: https://jekyller.github.io/jasper2/
-source_url: https://github.com/jekyller/jasper2/
+production_url: http://ajatprabha.in/
+source_url: https://github.com/ajatprabha/ajatprabha.github.io/
 
 # Social info
 navigation: True # show the navbar links
 subscribers: True # you need to connect an external service for this to work,
 # if 'True' the submit button is disabled for now, but you can change that
 # by editing `_includes/subscribe-form.html`
-twitter: tryghost # replace by your username
-facebook: ghost # replace by your username
+twitter: ajatprabha # replace by your username
+facebook: iAmAjat # replace by your username
 
 # Disqus
 disqus: False
@@ -66,13 +66,13 @@ feed:
 # or "master" otherwise
 safe: False
 lsi: False
-username: jekyller
-repo: jasper2
+username: ajatprabha
+repo: ajatprabha.github.io
 branch: master
-relative_source: ../jasper2/
-destination: ../jasper2-pages/
-production_url:  https://jekyller.github.io/jasper2/
-source_url:  https://github.com/jekyller/jasper2/
+relative_source: ../ajatprabha.github.io/
+destination: ../ajatprabha.github.io-pages/
+production_url:  http://ajatprabha.github.io/
+source_url:  https://github.com/ajatprabha/ajatprabha.github.io/
 
 exclude:
   - assets/css
