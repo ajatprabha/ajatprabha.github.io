@@ -20,7 +20,7 @@ I was always curious to know, how a professional business software is developed 
 5.  Deployment
 6.  Maintainance
 
-<img src="http://ajatprabha.in/assets/images/SDLC-932x1024.png" alt="SDLC flow model" style="max-width: 400px;" />  
+<img src="/assets/images/SDLC-932x1024.png" alt="SDLC flow model" style="max-width: 400px;" />  
 Source: Self-created
 
 #### Requirement Analysis
@@ -49,7 +49,7 @@ This is one of the most important steps of SDLC. During the past 2-3 decades, te
 
 > No Tests, No Deployment
 
-Once the code is developed, then various types of tests are written and run on the code to find bugs and reassure the functioning of the software. It also helps in future quality assurance when refactoring is done, or a new feature is added, or an old one is removed. Tests will make sure that you don’t violate the contract that a function is bound to fulfil. There are [unit tests](http://ajatprabha.in/2017/12/20/tdd-why-bother), integration tests, automation tests, and performance tests, to name a few.
+Once the code is developed, then various types of tests are written and run on the code to find bugs and reassure the functioning of the software. It also helps in future quality assurance when refactoring is done, or a new feature is added, or an old one is removed. Tests will make sure that you don’t violate the contract that a function is bound to fulfil. There are [unit tests]({% post_url 2017-12-20-tdd-why-bother %}), integration tests, automation tests, and performance tests, to name a few.
 
 #### Deployment
 
@@ -66,7 +66,7 @@ An SDLC model is used to describe the various steps involved based on the requir
 ## 1\. Waterfall
 
 This model is basically a linear sequential approach to all the steps involved in SDLC. It’s very easy to understand and implement. It’s done in ‘stages’ from start to finish before a next stage can be started. It is preferred when all the requirements are already known and quality of the end product is required. There’s no short-term time frame to complete the task at hand, the software is usually created in one single go.  
-<img src="http://ajatprabha.in/assets/images/waterfall-768x820.png" alt="Waterfall model" style="max-width: 512px;" />  
+<img src="/assets/images/waterfall-768x820.png" alt="Waterfall model" style="max-width: 512px;" />  
 Source: Self-created
 
 ## 2\. Agile methodology

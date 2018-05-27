@@ -11,7 +11,7 @@ subclass: 'post tag-tdd'
 author: ajatprabha
 ---
 
-Recently I came to know about TDD (Test Driven Development), a development methodology in [Agile Software Craftsmanship](http://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile). At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.
+Recently I came to know about TDD (Test Driven Development), a development methodology in [Agile Software Craftsmanship]({% post_url 2017-12-12-sdlc-waterfall-vs-agile %}). At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.
 
 ## What is TDD?
 
@@ -37,7 +37,7 @@ Red-Green-Refactor cycle is repeated after every complete unit test or after a 
 
 ![RGR
 Cycle
-Infographic](http://ajatprabha.in/assets/images/RGR-cycle-300x300.png)  
+Infographic](/assets/images/RGR-cycle-300x300.png)  
 Source: Self-created.
 
 Purpose of RGR cycle is to write clean code subject to constraints. As you write unit tests, you specify the behaviour of the software. And then you write production code which is constrained by the unit tests, so you can structure your production code while maintaining the behaviour of the software. Refactoring is done after each cycle, it is not to be left after the end of the project. It is this cycle that makes it easy to make changes in the code at any stage a lot easier while still maintaining the behaviour required.
