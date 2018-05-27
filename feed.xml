@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2018-05-26T20:33:53+00:00</updated><id>/</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">TDD (Test Driven Development), why bother?</title><link href="/2017/12/20/tdd-why-bother" rel="alternate" type="text/html" title="TDD (Test Driven Development), why bother?" /><published>2017-12-20T17:24:00+00:00</published><updated>2017-12-20T17:24:00+00:00</updated><id>/2017/12/20/tdd-why-bother</id><content type="html" xml:base="/2017/12/20/tdd-why-bother">&lt;p&gt;Recently I came to know about TDD (Test Driven Development), a development methodology in &lt;a href=&quot;http://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile&quot;&gt;Agile Software Craftsmanship&lt;/a&gt;. At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2018-05-27T12:20:30+00:00</updated><id>/</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">TDD (Test Driven Development), why bother?</title><link href="/2017/12/20/tdd-why-bother" rel="alternate" type="text/html" title="TDD (Test Driven Development), why bother?" /><published>2017-12-20T17:24:00+00:00</published><updated>2017-12-20T17:24:00+00:00</updated><id>/2017/12/20/tdd-why-bother</id><content type="html" xml:base="/2017/12/20/tdd-why-bother">&lt;p&gt;Recently I came to know about TDD (Test Driven Development), a development methodology in &lt;a href=&quot;/2017/12/12/sdlc-waterfall-vs-agile&quot;&gt;Agile Software Craftsmanship&lt;/a&gt;. At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.&lt;/p&gt;
 
 &lt;h2 id=&quot;what-is-tdd&quot;&gt;What is TDD?&lt;/h2&gt;
 
@@ -30,7 +30,7 @@
   &lt;/ol&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://ajatprabha.in/assets/images/RGR-cycle-300x300.png&quot; alt=&quot;RGR
+&lt;p&gt;&lt;img src=&quot;/assets/images/RGR-cycle-300x300.png&quot; alt=&quot;RGR
 Cycle
 Infographic&quot; /&gt;&lt;br /&gt;
 Source: Self-created.&lt;/p&gt;
@@ -166,7 +166,7 @@ Source: Self-created.&lt;/p&gt;
   &lt;li&gt;Maintainance&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://ajatprabha.in/assets/images/SDLC-932x1024.png&quot; alt=&quot;SDLC flow model&quot; style=&quot;max-width: 400px;&quot; /&gt;&lt;br /&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/SDLC-932x1024.png&quot; alt=&quot;SDLC flow model&quot; style=&quot;max-width: 400px;&quot; /&gt;&lt;br /&gt;
 Source: Self-created&lt;/p&gt;
 
 &lt;h4 id=&quot;requirement-analysis&quot;&gt;Requirement Analysis&lt;/h4&gt;
@@ -199,7 +199,7 @@ Source: Self-created&lt;/p&gt;
   &lt;p&gt;No Tests, No Deployment&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;Once the code is developed, then various types of tests are written and run on the code to find bugs and reassure the functioning of the software. It also helps in future quality assurance when refactoring is done, or a new feature is added, or an old one is removed. Tests will make sure that you don’t violate the contract that a function is bound to fulfil. There are &lt;a href=&quot;http://ajatprabha.in/2017/12/20/tdd-why-bother&quot;&gt;unit tests&lt;/a&gt;, integration tests, automation tests, and performance tests, to name a few.&lt;/p&gt;
+&lt;p&gt;Once the code is developed, then various types of tests are written and run on the code to find bugs and reassure the functioning of the software. It also helps in future quality assurance when refactoring is done, or a new feature is added, or an old one is removed. Tests will make sure that you don’t violate the contract that a function is bound to fulfil. There are &lt;a href=&quot;/2017/12/20/tdd-why-bother&quot;&gt;unit tests&lt;/a&gt;, integration tests, automation tests, and performance tests, to name a few.&lt;/p&gt;
 
 &lt;h4 id=&quot;deployment&quot;&gt;Deployment&lt;/h4&gt;
 
@@ -216,7 +216,7 @@ Source: Self-created&lt;/p&gt;
 &lt;h2 id=&quot;1-waterfall&quot;&gt;1. Waterfall&lt;/h2&gt;
 
 &lt;p&gt;This model is basically a linear sequential approach to all the steps involved in SDLC. It’s very easy to understand and implement. It’s done in ‘stages’ from start to finish before a next stage can be started. It is preferred when all the requirements are already known and quality of the end product is required. There’s no short-term time frame to complete the task at hand, the software is usually created in one single go.&lt;br /&gt;
-&lt;img src=&quot;http://ajatprabha.in/assets/images/waterfall-768x820.png&quot; alt=&quot;Waterfall model&quot; style=&quot;max-width: 512px;&quot; /&gt;&lt;br /&gt;
+&lt;img src=&quot;/assets/images/waterfall-768x820.png&quot; alt=&quot;Waterfall model&quot; style=&quot;max-width: 512px;&quot; /&gt;&lt;br /&gt;
 Source: Self-created&lt;/p&gt;
 
 &lt;h2 id=&quot;2-agile-methodology&quot;&gt;2. Agile methodology&lt;/h2&gt;
