@@ -1,7 +1,7 @@
 ---
 layout: post
 current: post
-cover:  assets/images/tdd-why-bother.jpg
+cover:  assets/images/IMG_20171015_170057.jpg
 navigation: True
 title: How I got the internship at GoJek
 date: 2018-05-27 16:00:00
