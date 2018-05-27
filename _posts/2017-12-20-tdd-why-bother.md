@@ -7,7 +7,7 @@ title: TDD (Test Driven Development), why bother?
 date: 2017-12-20 17:24:00
 tags: [tdd]
 class: post-template
-subclass: 'post tag-getting-started'
+subclass: 'post tag-tdd'
 author: ajatprabha
 ---
 

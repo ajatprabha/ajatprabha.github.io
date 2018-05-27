@@ -7,7 +7,7 @@ title: Getting to know SDLC | Waterfall vs Agile Development
 date: 2017-12-12 17:49:00
 tags: [sdlc,agile development,waterfall]
 class: post-template
-subclass: 'post tag-getting-started'
+subclass: 'post tag-sdlc'
 author: ajatprabha
 ---
 
