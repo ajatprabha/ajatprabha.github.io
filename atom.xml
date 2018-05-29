@@ -8,6 +8,38 @@
     
       
       <item>
+        <title>Week 1 - Experience as an intern at GoJek</title>
+        
+          <description>&lt;blockquote&gt;
+  &lt;p&gt;It began, the week I’ve been waiting for since months! I was finally interning with GoJek in Bangalore.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+</description>
+        
+        <pubDate>Sun, 27 May 2018 18:00:00 +0000</pubDate>
+        <link>
+        /2018/05/27/first-week-at-gojek-bangalore</link>
+        <guid isPermaLink="true">/2018/05/27/first-week-at-gojek-bangalore</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>How I got the internship at GoJek</title>
+        
+          <description>&lt;p&gt;It was October of 2017 I guess and campus interviews for internships were going on and I could easily spot my seniors wearing formals inside the campus. And believe me, I couldn’t even recognize one of the seniors whom I already knew 😛. One morning I asked my batch-mate that I wanna see the interview process! He was a volunteer in Student Placement Cell. He said, no problem, come with me tonight.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Sun, 27 May 2018 16:00:00 +0000</pubDate>
+        <link>
+        /2018/05/27/how-i-got-the-internship-at-gojek</link>
+        <guid isPermaLink="true">/2018/05/27/how-i-got-the-internship-at-gojek</guid>
+      </item>
+      
+    
+      
+      <item>
         <title>TDD (Test Driven Development), why bother?</title>
         
           <description>&lt;p&gt;Recently I came to know about TDD (Test Driven Development), a development methodology in &lt;a href=&quot;/2017/12/12/sdlc-waterfall-vs-agile&quot;&gt;Agile Software Craftsmanship&lt;/a&gt;. At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.&lt;/p&gt;
