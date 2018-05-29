@@ -30,7 +30,7 @@ disqus: True
 disqus_shortname: ajat-prabha # replace with your disqus username
 
 # Google Analytics
-google_analytics: UA-69281367-1 # replace with your GA tracking identifier
+google_analytics: UA-111176207-1 # replace with your GA tracking identifier
 
 # Permalinks
 permalink: /:year/:month/:day/:title
