@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2018-05-29T11:32:51+00:00</updated><id>/</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Week 1 - Experience as an intern at GoJek</title><link href="/2018/05/27/first-week-at-gojek-bangalore" rel="alternate" type="text/html" title="Week 1 - Experience as an intern at GoJek" /><published>2018-05-27T18:00:00+00:00</published><updated>2018-05-27T18:00:00+00:00</updated><id>/2018/05/27/first-week-at-gojek-bangalore</id><content type="html" xml:base="/2018/05/27/first-week-at-gojek-bangalore">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2018-05-29T14:28:45+00:00</updated><id>/</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Week 1 - Experience as an intern at GoJek</title><link href="/2018/05/27/first-week-at-gojek-bangalore" rel="alternate" type="text/html" title="Week 1 - Experience as an intern at GoJek" /><published>2018-05-27T18:00:00+00:00</published><updated>2018-05-27T18:00:00+00:00</updated><id>/2018/05/27/first-week-at-gojek-bangalore</id><content type="html" xml:base="/2018/05/27/first-week-at-gojek-bangalore">&lt;blockquote&gt;
   &lt;p&gt;It began, the week I’ve been waiting for since months! I was finally interning with GoJek in Bangalore.&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -8,11 +8,7 @@
 
 &lt;p&gt;&lt;img src=&quot;/assets/images/IMG_20180520_061439.jpg&quot; alt=&quot;Car&quot; style=&quot;max-width: 400px&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;I reached the airport at around 0800 hours and my flight landed in Bangalore at around 1400 hours. “Remember the movie Interstellar?”, Sainath said pointing me at the view outside. The A320 almost rolled somewhere between 60-75° 🤪&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/Screenshot_2018-05-28-09-45-04-573.jpg&quot; alt=&quot;Plane&quot; style=&quot;max-width: 512px&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I arrived at accommodation provided by GoJek and it was far better than my expectations. It was a fully furnished 3 BHK apartment. And the view outside the balcony was jaw-dropping. Just look at the image below!&lt;/p&gt;
+&lt;p&gt;I reached the airport at around 0800 hours and my flight landed in Bangalore at around 1400 hours. I arrived at accommodation provided by GoJek and it was far better than my expectations. It was a fully furnished 3 BHK apartment. And the view outside the balcony was jaw-dropping. Just look at the image below!&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/images/IMG_20180520_154815.jpg&quot; alt=&quot;Diamond district balcony&quot; style=&quot;max-width: 512px&quot; /&gt;&lt;/p&gt;
 
@@ -28,15 +24,15 @@
 
 &lt;p&gt;I went ahead and got the initial setup done. I had used my friends MacBook Air before so I knew about &lt;code class=&quot;highlighter-rouge&quot;&gt;brew&lt;/code&gt; and installed it. But then I came to know that there is something called &lt;code class=&quot;highlighter-rouge&quot;&gt;brew cask&lt;/code&gt; also. And then I was assigned to a team along with Rajat Mangla and Venkata Sainath Thota. Deepesh Naini is our team leader, he briefed us about GoJek and answered our doubts.&lt;/p&gt;
 
-&lt;p&gt;We then met Aayush, he showed us our desk and we continued the process of setting up our machines. I finished the setup and asked Aayush what to do next? He gave the three of us access to one of the repositories which are a part of the Go-Food platform. I had to go through it and understand the project structure, it was built on top of &lt;code class=&quot;highlighter-rouge&quot;&gt;Ruby On Rails&lt;/code&gt;. The syntax was new to me but since I had worked previously on &lt;code class=&quot;highlighter-rouge&quot;&gt;Django&lt;/code&gt; so I was aware of MVC architecture and my blog is built using &lt;code class=&quot;highlighter-rouge&quot;&gt;Jekyll&lt;/code&gt; so I knew a little about Ruby’s project structure and bundler, etc.&lt;/p&gt;
-
-&lt;p&gt;But obviously, the project wasn’t completely clear to me. The next step was to question everything! What is this? Why is this so? etc. Aayush asked us every possible question. I could answer only a few, in others, I was confused or simply didn’t have the answer.&lt;/p&gt;
-
 &lt;blockquote&gt;
   &lt;p&gt;One thing different from most other offices is the culture here at GoJek. One can be comfortable in their own clothing style. And anyone can go grab snacks, coffee, soft drinks, etc. anytime they want. And there is a recreation room too with pool table, PS4, table-tennis table, etc.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;div style=&quot;margin-bottom: 3rem;&quot;&gt;&lt;img src=&quot;/assets/images/IMG_20180521_184842.jpg&quot; alt=&quot;Dining area&quot; style=&quot;width: 50%; display: inline-block; padding: 0.8rem;&quot; /&gt;&lt;img src=&quot;/assets/images/IMG_20180521_182624.jpg&quot; alt=&quot;Dining area&quot; style=&quot;width: 50%; display: inline-block; padding: 0.8rem;&quot; /&gt;&lt;img src=&quot;/assets/images/IMG_20180528_084051.jpg&quot; alt=&quot;Recreation room&quot; style=&quot;max-width: 98%; margin: 0.5em auto;&quot; /&gt;&lt;/div&gt;
+
+&lt;p&gt;We then met Aayush, he showed us our desk and we continued the process of setting up our machines. I finished the setup and asked Aayush what to do next? He gave the three of us access to one of the repositories which are a part of the Go-Food platform. I had to go through it and understand the project structure, it was built on top of &lt;code class=&quot;highlighter-rouge&quot;&gt;Ruby On Rails&lt;/code&gt;. The syntax was new to me but since I had worked previously on &lt;code class=&quot;highlighter-rouge&quot;&gt;Django&lt;/code&gt; so I was aware of MVC architecture and my blog is built using &lt;code class=&quot;highlighter-rouge&quot;&gt;Jekyll&lt;/code&gt; so I knew a little about Ruby’s project structure and bundler, etc.&lt;/p&gt;
+
+&lt;p&gt;But obviously, the project wasn’t completely clear to me. The next step was to question everything! What is this? Why is this so? etc. Aayush asked us every possible question. I could answer only a few, in others, I was confused or simply didn’t have the answer.&lt;/p&gt;
 
 &lt;p&gt;I learned quite a lot during the next three days. &lt;code class=&quot;highlighter-rouge&quot;&gt;RSpec&lt;/code&gt; was completely new to me, I was aware of &lt;a href=&quot;/2017/12/20/tdd-why-bother&quot;&gt;TDD&lt;/a&gt; but RSpec introduced me to BDD. After the initial three days of learning &lt;code class=&quot;highlighter-rouge&quot;&gt;Ruby&lt;/code&gt;, we were given a project which was to be done in &lt;code class=&quot;highlighter-rouge&quot;&gt;Go&lt;/code&gt; and will involve creating an API for image manipulation. I again looked at the repository for the new project and tried to build it. I went through the code and then paired with Rajat and Sainath to write our first piece of code as an intern. We pushed the code to the remote server and created a merge request. And yes, having an external monitor while coding is a bliss. 🙃&lt;/p&gt;
 
