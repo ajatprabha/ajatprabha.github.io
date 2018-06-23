@@ -8,6 +8,23 @@
     
       
       <item>
+        <title>Week 3 - Lots of code and learning</title>
+        
+          <description>&lt;blockquote&gt;
+  &lt;p&gt;Week 3 was filled with more of coding and learning new things down the line. I learned how dependency injection in Golang is done, writing mocks and stubs for the test cases, etc. to name a few. How an application is deployed to tens of servers with the push of a button.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+</description>
+        
+        <pubDate>Sun, 10 Jun 2018 12:00:00 +0000</pubDate>
+        <link>
+        /2018/06/10/third-week-code-all-you-want</link>
+        <guid isPermaLink="true">/2018/06/10/third-week-code-all-you-want</guid>
+      </item>
+      
+    
+      
+      <item>
         <title>Week 2 - Exploring Golang and the trip to Coorg</title>
         
           <description>&lt;blockquote&gt;
@@ -16,10 +33,10 @@
 
 </description>
         
-        <pubDate>Sun, 10 Jun 2018 12:00:00 +0000</pubDate>
+        <pubDate>Sun, 03 Jun 2018 12:00:00 +0000</pubDate>
         <link>
-        /2018/06/10/second-week-at-gojek</link>
-        <guid isPermaLink="true">/2018/06/10/second-week-at-gojek</guid>
+        /2018/06/03/second-week-at-gojek</link>
+        <guid isPermaLink="true">/2018/06/03/second-week-at-gojek</guid>
       </item>
       
     
