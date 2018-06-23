@@ -4,7 +4,7 @@ current: post
 cover:  assets/images/IMG_20180603_095731.jpg
 navigation: True
 title: Week 2 - Exploring Golang and the trip to Coorg
-date: 2018-06-10 12:00:00
+date: 2018-06-03 12:00:00
 tags: [gojek,internship,travel]
 class: post-template
 subclass: 'post tag-intern'
@@ -13,7 +13,7 @@ author: ajatprabha
 
 > It's been great till now and our mentor came back from Jakarta. It's time to start building the service that will handle 50K+ image requests per minute. I also went on a road trip to Coorg at the weekend, the scenes were jaw-dropping, one of the best trips I went on.  
 
-### Week 2 - Day 1  
+### Day 1  
 
 I reached the office at around 1000 hours and joined Puneet and Deepesh a few moments later. Puneet briefed us about the project that we are assigned to and how it should be able to serve at 50K+ rpm(requests/minute) at normal load and up to 80K rpm during peak times.  
 
