@@ -6,6 +6,7 @@
     {% if page.content and page.current == 'post' or page.current == 'about' %}
         {% assign excerpt = page.content | strip_html | truncatewords: 50, "" %}
      {% endif %} <!--title below is coming from _includes/dynamic_title-->
+    {% feed_meta %}
     <meta property="og:site_name" content="{{ site.title }}" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="{% if title %}{{ title }}{% elsif page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}" />
