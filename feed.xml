@@ -1,4 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2018-08-04T08:51:14+00:00</updated><id>/</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Week 3 - Lots of code and learning</title><link href="/2018/06/10/third-week-code-all-you-want" rel="alternate" type="text/html" title="Week 3 - Lots of code and learning" /><published>2018-06-10T12:00:00+00:00</published><updated>2018-06-10T12:00:00+00:00</updated><id>/2018/06/10/third-week-code-all-you-want</id><content type="html" xml:base="/2018/06/10/third-week-code-all-you-want">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2018-08-11T00:33:39+00:00</updated><id>/</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Week 4 - Load testing with Vegeta and trip to Puducherry</title><link href="/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry" rel="alternate" type="text/html" title="Week 4 - Load testing with Vegeta and trip to Puducherry" /><published>2018-06-17T12:00:00+00:00</published><updated>2018-06-17T12:00:00+00:00</updated><id>/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry</id><content type="html" xml:base="/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry">&lt;blockquote&gt;
+  &lt;p&gt;This week, I acknowledged the importance of load testing before deploying a service into production which has to serve 50K images per minute.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;To know what service I’m testing head over to week 2’s post &lt;a href=&quot;/2018/06/03/second-week-at-gojek&quot;&gt;here&lt;/a&gt; if you haven’t already.&lt;/p&gt;
+
+&lt;h2 id=&quot;day-1&quot;&gt;Day 1&lt;/h2&gt;
+&lt;p&gt;We had to load test the image manipulation service that we built until now. My mentor asked us to get our hands dirty with a Golang based HTTP load testing tool called &lt;a href=&quot;https://github.com/tsenart/vegeta&quot; target=&quot;blank&quot;&gt;Vegeta&lt;/a&gt;, yes the grumpy character from Dragon Ball obsessed with surpassing Goku. &lt;img src=&quot;/assets/images/vegeta-blue.png&quot; style=&quot;max-width: 225px;&quot; /&gt; It is quite a good load testing tool that I’ve come across. I also tried a python tool called Locust. While it provides a nice UI and other options, I liked Vegeta more because it’s more reliable. We now had to validate our service’s performance and make sure that it can survive the load. The day went mostly around getting to know Vegeta and doing a few load tests locally.&lt;/p&gt;
+
+&lt;h2 id=&quot;day-2-3&quot;&gt;Day 2-3&lt;/h2&gt;
+&lt;p&gt;Initial load tests were not very good, we could hardly hit 60 rpm! After looking at the code we realized that there was a memory leak, which was constantly increasing our heap size. We optimized the memory allocation/de-allocation for each request and the heap size was then under control. This optimization increased the rpm a little bit but not significantly.&lt;/p&gt;
+
+&lt;p&gt;We got a lot of server timeout errors because the service was not able to respond within 30 seconds and the response time used to increase linearly. For some strange reason, the disk read-writes were taking time. We got to the root of this in the coming days.&lt;/p&gt;
+
+&lt;p&gt;On Wednesday evening, I went out to an office meeting at Hotel Royal Orchid, a very nice place. I had blue cheese there for the first time, and as expected by the smell of it, it did not taste very good to me.😂&lt;/p&gt;
+
+&lt;h2 id=&quot;day-4-5&quot;&gt;Day 4-5&lt;/h2&gt;
+&lt;p&gt;We were supposed to take the service live by the weekend but due to performance issues, it got delayed. It sounds easy to build such a thing but believe me it’s not!&lt;/p&gt;
+
+&lt;p&gt;So all of us looked deeper into the code flow, we set up logs and found that downloading the image from S3 bucket was taking time. We tried to overcome this by setting up a download job worker and sending the results to a channel. But it didn’t help much. Apparently, the result of Golang’s &lt;code class=&quot;highlighter-rouge&quot;&gt;ioutil.ReadAll(response.Body)&lt;/code&gt; was taking up too much time which was blocking the service, read more &lt;a href=&quot;https://haisum.github.io/2017/09/11/golang-ioutil-readall/&quot; target=&quot;blank&quot;&gt;here&lt;/a&gt;. We got around this by saving the image temporarily to the disk.&lt;/p&gt;
+
+&lt;p&gt;The service was now able to handle 2K rpm of traffic and with 4 application VMs we predicted 8K rpm as the threshold, but it turned out later that it was incorrect!&lt;/p&gt;
+
+&lt;h2 id=&quot;weekend&quot;&gt;Weekend&lt;/h2&gt;
+&lt;p&gt;For the weekend, I went to Puducherry along with my seniors from college. We were 13 people in two cars. The trip started with a car that had no central locking remote and the electronics were behaving weird because of that. After wasting an hour in getting the correct key, the journey began. Our first stop was McDonald’s for the breakfast. I was driving one of the cars and the other car missed the service road, so we took there order too and later met alongside the highway and had our meal.&lt;/p&gt;
+&lt;div style=&quot;display: flex&quot;&gt;
+    &lt;div style=&quot;margin: 1rem; width: 50%; display: inline-block&quot;&gt;
+        &lt;img src=&quot;/assets/images/IMG_20180616_110649.jpg&quot; style=&quot;width: 100%&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;margin: 1rem; width: 50%; display: inline-block&quot;&gt;
+        &lt;img src=&quot;/assets/images/IMG_20180616_114501.jpg&quot; style=&quot;width: 100%&quot; /&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We refueled, put on some music and headed straight towards Puducherry. The road was better to Coorg because of the greenery as compared with the road to Puducherry. Also, we got to see more and more people wearing Lungi in Tamil Nadu.&lt;/p&gt;
+
+&lt;p&gt;There is this one incident that took place, we were crossing a town and a person out of nowhere came in the middle of the road with his hands wide open, said something, all of us were shocked and then he just went away.🤣 After crossing the town, we stopped near a lake to take a group photo!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/IMG_20180616_135555469.jpg&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It took us roughly 6 hours to reach Puducherry and as soon as we reached, we went to the beach. To be honest, it was not what I expected! I’ve not been to Goa yet but every other beach is just okay, not anything like what is shown in movies/videos.&lt;/p&gt;
+
+&lt;p&gt;Late in the evening, we went to Promenade Beach and the White Town, it was a good place. We had our dinner and me and Krishna went on to hunt a place to crash during the night.&lt;/p&gt;
+
+&lt;p&gt;Next morning, we went to Serenity beach, it was good but not as good as what it is shown in images. I spent an hour or two there. Next stop was again the Puducherry city. After visiting the city in daylight, we thought to visit Paradise beach but seeing the waiting line we decided to not go there and head back to Bangalore.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/IMG_20180617_080512_1.jpg&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Around late evening we reached the suburbs of Bangalore. This was a good road trip but I liked the &lt;a href=&quot;/2018/06/03/second-week-at-gojek#weekend&quot;&gt;Coorg trip&lt;/a&gt; more! Pro tip: Always travel with fewer people!😜&lt;/p&gt;</content><author><name>Ajat Prabha</name></author><category term="gojek" /><category term="internship" /><category term="travel" /><summary type="html">This week, I acknowledged the importance of load testing before deploying a service into production which has to serve 50K images per minute.</summary></entry><entry><title type="html">Week 3 - Lots of code and learning</title><link href="/2018/06/10/third-week-code-all-you-want" rel="alternate" type="text/html" title="Week 3 - Lots of code and learning" /><published>2018-06-10T12:00:00+00:00</published><updated>2018-06-10T12:00:00+00:00</updated><id>/2018/06/10/third-week-code-all-you-want</id><content type="html" xml:base="/2018/06/10/third-week-code-all-you-want">&lt;blockquote&gt;
   &lt;p&gt;Week 3 was filled with more of coding and learning new things down the line. I learned how dependency injection in Golang is done, writing mocks and stubs for the test cases, etc. to name a few. How an application is deployed to tens of servers with the push of a button.&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -104,10 +152,10 @@ Now the Go wrapper stretches the image while resizing, so we wrote some logic to
   &lt;p&gt;That’s all for the work part, wanna know how the weekend went?&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h3 id=&quot;saturday&quot;&gt;Saturday&lt;/h3&gt;
+&lt;h3 id=&quot;weekend&quot;&gt;Weekend&lt;/h3&gt;
 &lt;p&gt;It was 0400 hours in the morning, I woke to pick the car we booked for our trip to Coorg. Krishna took the car, picked up Riya and Anugrah, we were next in line, and then we were off to Coorg probably around 0600 hours. The weather was awesome, there was music playing in the car and we were enjoying the drive. Around 0930 hours we pulled over the car to have breakfast and it was great to find such south Indian food on the highway in the middle of nowhere.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/IMG_20180602_082543.jpg&quot; style=&quot;max-height: 400px&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/IMG_20180602_082543.jpg&quot; style=&quot;max-width: 300px&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We continued the trip and it would take us 4 more hours to reach our destination. The road was great, people were awesome. You can’t get bored when you’ve Anugrah with you. Stories from college, previous road trip experiences, etc everything was talked about. Our playlist included songs from the year as old as 1970s to 2018, from &lt;em&gt;Mere mehboob qayamat hogi&lt;/em&gt; to the latest &lt;em&gt;Tareefan&lt;/em&gt;, from &lt;em&gt;Aao milo chalein&lt;/em&gt; to &lt;em&gt;Mi Gente&lt;/em&gt;. It was already the best trip ever.&lt;/p&gt;
 
