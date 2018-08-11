@@ -60,10 +60,10 @@ It's not as easy as it seems to write code along with TDD while you've to unders
 
 > That's all for the work part, wanna know how the weekend went?
 
-### Saturday  
+### Weekend  
 It was 0400 hours in the morning, I woke to pick the car we booked for our trip to Coorg. Krishna took the car, picked up Riya and Anugrah, we were next in line, and then we were off to Coorg probably around 0600 hours. The weather was awesome, there was music playing in the car and we were enjoying the drive. Around 0930 hours we pulled over the car to have breakfast and it was great to find such south Indian food on the highway in the middle of nowhere.  
 
-<img src="/assets/images/IMG_20180602_082543.jpg" style="max-height: 400px">  
+<img src="/assets/images/IMG_20180602_082543.jpg" style="max-width: 300px">  
 
 We continued the trip and it would take us 4 more hours to reach our destination. The road was great, people were awesome. You can't get bored when you've Anugrah with you. Stories from college, previous road trip experiences, etc everything was talked about. Our playlist included songs from the year as old as 1970s to 2018, from _Mere mehboob qayamat hogi_ to the latest _Tareefan_, from _Aao milo chalein_ to _Mi Gente_. It was already the best trip ever.  
 
