@@ -5,6 +5,7 @@ paginate: 10 # it will paginate after this number
 language: 'en-us'
 
 # edit baseurl to simply '/' if using as your personal page (instead of a project page)
+url:  https://ajatprabha.in
 baseurl: /
 
 # Website info
@@ -14,7 +15,7 @@ cover: assets/images/blog-cover.jpg
 logo: assets/images/blog-icon.png
 logo_dark: assets/images/favicon.png
 favicon: assets/images/favicon.png
-production_url: http://ajatprabha.in/
+production_url: https://ajatprabha.in/
 source_url: https://github.com/ajatprabha/ajatprabha.github.io/
 
 # Social info
@@ -72,7 +73,7 @@ repo: ajatprabha.github.io
 branch: blog
 relative_source: ../ajatprabha.github.io/
 destination: ../ajatprabha.github.io-pages/
-production_url:  http://ajatprabha.in/
+production_url:  https://ajatprabha.in/
 source_url:  https://github.com/ajatprabha/ajatprabha.github.io/
 
 exclude:
