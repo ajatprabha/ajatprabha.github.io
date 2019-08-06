@@ -26,6 +26,7 @@ subscribers: False # you need to connect an external service for this to work,
 twitter: ajatprabha # replace by your username
 facebook: iAmAjat # replace by your username
 github: ajatprabha # replace by your username
+linkedin: ajatprabha
 
 # Disqus
 disqus: True
