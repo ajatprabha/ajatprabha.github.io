@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 
 // gulp plugins and utils
-var gutil = require('gulp-util');
+var logger = require('fancy-log');
 var livereload = require('gulp-livereload');
 var nodemon = require('gulp-nodemon');
 var postcss = require('gulp-postcss');
@@ -16,18 +16,13 @@ var customProperties = require('postcss-custom-properties');
 var easyimport = require('postcss-easy-import');
 
 var swallowError = function swallowError(error) {
-    gutil.log(error.toString());
-    gutil.beep();
+    logger.error(error.toString());
     this.emit('end');
 };
 
 var nodemonServerInit = function () {
     livereload.listen(1234);
 };
-
-gulp.task('build', ['css'], function (/* cb */) {
-    return nodemonServerInit();
-});
 
 gulp.task('css', function () {
     var processors = [
@@ -47,11 +42,15 @@ gulp.task('css', function () {
         .pipe(livereload());
 });
 
+gulp.task('build', gulp.series('css', function (/* cb */) {
+    return nodemonServerInit();
+}));
+
 gulp.task('watch', function () {
-    gulp.watch('assets/css/**', ['css']);
+    gulp.watch('assets/css/**', gulp.series('css'));
 });
 
-gulp.task('zip', ['css'], function() {
+gulp.task('zip', gulp.series('css', function() {
     var targetDir = 'dist/';
     var themeName = require('./package.json').name;
     var filename = themeName + '.zip';
@@ -63,8 +62,8 @@ gulp.task('zip', ['css'], function() {
     ])
         .pipe(zip(filename))
         .pipe(gulp.dest(targetDir));
-});
+}));
 
-gulp.task('default', ['build'], function () {
+gulp.task('default', gulp.series('build', function () {
     gulp.start('watch');
-});
+}));

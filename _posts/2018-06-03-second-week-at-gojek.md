@@ -5,7 +5,7 @@ cover:  assets/images/IMG_20180603_095731.jpg
 navigation: True
 title: Week 2 - Exploring Golang and the trip to Coorg
 date: 2018-06-03 12:00:00
-tags: [gojek,internship,travel]
+tags: [gojek,internship,travel,golang]
 class: post-template
 subclass: 'post tag-intern'
 author: ajatprabha
