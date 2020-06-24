@@ -81,6 +81,7 @@ exclude:
   - assets/css
   - node_modules
   - vendor
+  - Makefile
   - .travis.yml
   - Gemfile
   - Gemfile.lock
