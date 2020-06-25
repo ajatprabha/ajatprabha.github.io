@@ -535,7 +535,7 @@ We will first tell the controller manager that what objects this controller inte
 </code></pre></div></div>
 
 <p>The above code might feel repitive since we want to achieve idempotency. However, it can be refactored better but that is out of scope for this demo.<br />
-The actual implementation of <code class="highlighter-rouge">desiredConfigMap</code>, <code class="highlighter-rouge">desiredDeployment</code>, <code class="highlighter-rouge">desiredService</code> and <code class="highlighter-rouge">desiredIngress</code> can be found in <a href="">helpers.go</a><br />
+The actual implementation of <code class="highlighter-rouge">desiredConfigMap</code>, <code class="highlighter-rouge">desiredDeployment</code>, <code class="highlighter-rouge">desiredService</code> and <code class="highlighter-rouge">desiredIngress</code> can be found in <a href="https://github.com/ajatprabha/operator-example/blob/master/controllers/helpers.go" target="blank">helpers.go</a><br />
 We can now run the controller and it will work as expected.</p>
 
 <video width="720" controls="">
