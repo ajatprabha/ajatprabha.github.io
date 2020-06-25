@@ -364,7 +364,7 @@ func (r *DarkroomReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 ```  
 
 The above code might feel repitive since we want to achieve idempotency. However, it can be refactored better but that is out of scope for this demo.  
-The actual implementation of `desiredConfigMap`, `desiredDeployment`, `desiredService` and `desiredIngress` can be found in [helpers.go]()  
+The actual implementation of `desiredConfigMap`, `desiredDeployment`, `desiredService` and `desiredIngress` can be found in [helpers.go](https://github.com/ajatprabha/operator-example/blob/master/controllers/helpers.go){:target="blank"}  
 We can now run the controller and it will work as expected.  
 
 <video width="720" controls>
