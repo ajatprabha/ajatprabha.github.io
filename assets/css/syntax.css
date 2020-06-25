@@ -3,8 +3,8 @@
 @media only screen and (max-width: 1366px ){
     .highlighter-rouge { width: 100% }
 }
-.highlight pre { background: var(--darkgrey); }
-.highlight .hll { background: var(--darkgrey); }
+.highlight pre { background: color(var(--darkgrey) l(-3%)) }
+.highlight .hll { background: color(var(--darkgrey) l(-3%)) }
 .highlight .c { color: #75715e } /* Comment */
 .highlight .err { color: #960050; background-color: #1e0010 } /* Error */
 .highlight .k { color: #66d9ef } /* Keyword */

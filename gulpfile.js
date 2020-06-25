@@ -11,6 +11,7 @@ var zip = require('gulp-zip');
 // postcss plugins
 var autoprefixer = require('autoprefixer');
 var colorFunction = require('postcss-color-function');
+var deleteLines = require('gulp-delete-lines');
 var cssnano = require('cssnano');
 var customProperties = require('postcss-custom-properties');
 var easyimport = require('postcss-easy-import');
@@ -30,13 +31,18 @@ gulp.task('css', function () {
         customProperties,
         colorFunction(),
         autoprefixer({browsers: ['last 2 versions']}),
-        cssnano()
     ];
 
     return gulp.src('assets/css/*.css')
         .on('error', swallowError)
-        .pipe(sourcemaps.init())
         .pipe(postcss(processors))
+        .pipe(deleteLines({
+            'filters': [
+                /var\(/i
+            ]
+          }))
+        .pipe(sourcemaps.init())
+        .pipe(postcss([cssnano()]))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('assets/built/'))
         .pipe(livereload());
