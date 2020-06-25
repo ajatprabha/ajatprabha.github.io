@@ -58,7 +58,7 @@ Use port-forwarding now to access the application
 ```shell
 kubectl port-forward $(kubectl get pods -l app=darkroom -o=jsonpath='{.items[0].metadata.name}') 3000:3000
 ```
-You should be able to see this image `http://localhost:3000/images/IMG_20180604_125819.jpg?w=512` now, and change its width, height, etc by changing the query parameters.
+You should be able to see this image [http://localhost:3000/images/ IMG_20180604_125819.jpg?w=512](http://localhost:3000/images/IMG_20180604_125819.jpg?w=512) now, and change its width, height, etc by changing the query parameters.
 ##### Say Hello to Operators (CRD + Controller)  
 With the help of `CustomResourceDefinition` aka CRD, we can create our own custom APIs and extend the funcitonality of Kubernetes.
 We can then create a controller which will work on this CRD! An overview of this is shown in this diagram:  
