@@ -230,7 +230,7 @@ spec:
 <p>Use port-forwarding now to access the application</p>
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl port-forward <span class="si">$(</span>kubectl get pods <span class="nt">-l</span> <span class="nv">app</span><span class="o">=</span>darkroom <span class="nt">-o</span><span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="si">)</span> 3000:3000
 </code></pre></div></div>
-<p>You should be able to see this image <code class="highlighter-rouge">http://localhost:3000/images/IMG_20180604_125819.jpg?w=512</code> now, and change its width, height, etc by changing the query parameters.</p>
+<p>You should be able to see this image <a href="http://localhost:3000/images/IMG_20180604_125819.jpg?w=512">http://localhost:3000/images/ IMG_20180604_125819.jpg?w=512</a> now, and change its width, height, etc by changing the query parameters.</p>
 <h5 id="say-hello-to-operators-crd--controller">Say Hello to Operators (CRD + Controller)</h5>
 <p>With the help of <code class="highlighter-rouge">CustomResourceDefinition</code> aka CRD, we can create our own custom APIs and extend the funcitonality of Kubernetes.
 We can then create a controller which will work on this CRD! An overview of this is shown in this diagram:</p>
