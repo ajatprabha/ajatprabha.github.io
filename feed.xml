@@ -1,4 +1,71 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://ajatprabha.in/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ajatprabha.in/" rel="alternate" type="text/html" /><updated>2020-07-06T12:47:04+00:00</updated><id>https://ajatprabha.in/feed.xml</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Writing Kubernetes Operator with an API Server for Custom GUI</title><link href="https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui" rel="alternate" type="text/html" title="Writing Kubernetes Operator with an API Server for Custom GUI" /><published>2020-06-24T12:00:00+00:00</published><updated>2020-06-24T12:00:00+00:00</updated><id>https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui</id><content type="html" xml:base="https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui">&lt;p&gt;If you have read my previous blog posts, I worked on an image proxy called &lt;a href=&quot;https://github.com/gojek/darkroom&quot; target=&quot;blank&quot;&gt;Darkroom&lt;/a&gt; which manipulates the images on the fly. I also started learning more about &lt;a href=&quot;http://kubernetes.io/&quot; target=&quot;blank&quot;&gt;Kubernetes&lt;/a&gt; and then I thought I should build something to get a deeper understanding of K8S. So the task that I took up is to create a GUI that is simple to use and it deploys &lt;code class=&quot;highlighter-rouge&quot;&gt;Darkroom&lt;/code&gt; on-demand and everything else should happen without manually running &lt;code class=&quot;highlighter-rouge&quot;&gt;kubectl&lt;/code&gt; commands.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://ajatprabha.in/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ajatprabha.in/" rel="alternate" type="text/html" /><updated>2020-10-07T19:31:29+00:00</updated><id>https://ajatprabha.in/feed.xml</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Making a DIY Sound System that looks minimalistic</title><link href="https://ajatprabha.in/2020/10/06/diy-sound-system-minimalistic" rel="alternate" type="text/html" title="Making a DIY Sound System that looks minimalistic" /><published>2020-10-06T12:00:00+00:00</published><updated>2020-10-06T12:00:00+00:00</updated><id>https://ajatprabha.in/2020/10/06/diy-sound-system-minimalistic</id><content type="html" xml:base="https://ajatprabha.in/2020/10/06/diy-sound-system-minimalistic">&lt;p&gt;I’m a huge music enthusiast and I listen to music almost half the day while working. Good quality speakers are a must for me. Recently I was changing the furniture in my house and I wanted to add a new sound system in the living room. I had two options:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Either I could go to the market and get one off-the-shelf&lt;/li&gt;
+  &lt;li&gt;Or I could create one myself&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I really liked the second idea because I wanted the speaker system to be as minimalistic as possible and it should be hidden in the room so that no one would even notice that it is there. I also wanted to have really punchy bass while having crisp and crystal clear mids and highs.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;The arm rest thing in the sofa above is the sound system!😜&lt;br /&gt;
+Serving dual purpose, and is also hidden and minimalistic.&lt;/p&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;Demo at the end!&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;studying-about-sound-systems&quot;&gt;Studying about sound systems&lt;/h3&gt;
+&lt;p&gt;Now the problem was that I have never done it before! So how do I go about it? As anyone would do, I Googled &lt;code class=&quot;highlighter-rouge&quot;&gt;how to make DIY sound system&lt;/code&gt; and it flooded me with lots of DIY videos and information around how to decide the characteristics of the sound that the system will produce or how to design the closure for the subwoofer.&lt;br /&gt;
+But this was overkill for me! After lots and lots of study around this topic, I came to know that there are many decisions that I have to take like:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;If I want to use 4 ohm speakers or 8 ohm speakers?&lt;/li&gt;
+  &lt;li&gt;What type of amplifier should I use? Should it be a class A, B, AB, C or D amplifier?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I decided that I will go with 2x 50 watt Pioneer TS-1601IN speakers and a 150 watt subwoofer, all of the components are 4 ohms.&lt;br /&gt;
+Digging in a little deeper I found an IC, TPA3116D2, which is a dual channel class D amplifier and is also configurable, it was perfect for my use case. The were only two problems:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;It can only supply 100 watts to the subwoofer(I was okay with this)&lt;/li&gt;
+  &lt;li&gt;It had to be supplied with exactly 21 volts to drive the 4 ohm speakers&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In order to supply it with exactly 21 volts of voltage and around 7.5 amperes of maximum current, I tried to find a few power supplies with that exact description but wasn’t able to find any. So the last resort that I had was to build that power supply myself and I did exactly that.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-diy-power-supply&quot;&gt;The DIY Power Supply&lt;/h3&gt;
+&lt;p&gt;I again went back to Google and started looking for &lt;code class=&quot;highlighter-rouge&quot;&gt;how can I make a power supply myself&lt;/code&gt;. I had a few requirements that the voltage should be constant at 21 volts and the maximum current that can flow through the circuit should be up to 7.5 ampere, because 200W/21V ~ 9.5 Amps and 7.5 Amps should be enough to produce good quality sound without the amplified being shut-off.&lt;br /&gt;
+At last I found an IC named LM317 whose output voltage can be configured with the help of a resistance or a potentiometer. But the problem with this IC is that, it can only support upto 1.5 Amps of current.&lt;br /&gt;
+In basic electronics, we have learnt that if you connect these ICs in parallel, the current would divide across them but the voltage drop across them would remain the same. So I thought that I would connect five of these ICs in parallel and I created a circuit for that. Finally, I added a transformer and bridge rectifier with some capacitors to get a decent 35-36V DC input for the power supply I created.&lt;/p&gt;
+
+&lt;div style=&quot;display: flex&quot;&gt;
+    &lt;div style=&quot;margin: 1rem; width: 75%; display: inline-block&quot;&gt;
+        &lt;img src=&quot;/assets/images/IMG_20200828_110823.jpg&quot; style=&quot;width: 100%&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;margin: 1rem; width: 25%; display: inline-block&quot;&gt;
+		&lt;img src=&quot;/assets/images/IMG_20200925_104125.jpg&quot; style=&quot;width: 100%&quot; /&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;I can go into more details about how exactly I did this but I think that would make this post a bit long. Let’s keep that for another post, if required, and here’s a video of how the speaker sound and look.&lt;/p&gt;
+
+&lt;div style=&quot;display: flex&quot;&gt;
+    &lt;div style=&quot;margin: 0.5rem; width: 50%; display: inline-block&quot;&gt;
+		&lt;video style=&quot;width: 100%&quot; width=&quot;360&quot; height=&quot;736&quot; controls=&quot;&quot;&gt;
+			&lt;source src=&quot;/assets/videos/Snapchat-1775669112.mp4&quot; type=&quot;video/mp4&quot; /&gt;
+			Your browser does not support the video tag.
+		&lt;/video&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;margin: 0.5rem; width: 50%; display: inline-block&quot;&gt;
+		&lt;video style=&quot;width: 100%&quot; width=&quot;360&quot; height=&quot;736&quot; controls=&quot;&quot;&gt;
+			&lt;source src=&quot;/assets/videos/Snapchat-1169001711.mp4&quot; type=&quot;video/mp4&quot; /&gt;
+			Your browser does not support the video tag.
+		&lt;/video&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;This is the bass response at &amp;lt;50% volume though! 😛&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Until next DIY 👋🏻&lt;/p&gt;</content><author><name>Ajat Prabha</name></author><category term="DIY" /><category term="sound" /><summary type="html">I’m a huge music enthusiast and I listen to music almost half the day while working. Good quality speakers are a must for me. Recently I was changing the furniture in my house and I wanted to add a new sound system in the living room. I had two options: Either I could go to the market and get one off-the-shelf Or I could create one myself</summary></entry><entry><title type="html">Writing Kubernetes Operator with an API Server for Custom GUI</title><link href="https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui" rel="alternate" type="text/html" title="Writing Kubernetes Operator with an API Server for Custom GUI" /><published>2020-06-24T12:00:00+00:00</published><updated>2020-06-24T12:00:00+00:00</updated><id>https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui</id><content type="html" xml:base="https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui">&lt;p&gt;If you have read my previous blog posts, I worked on an image proxy called &lt;a href=&quot;https://github.com/gojek/darkroom&quot; target=&quot;blank&quot;&gt;Darkroom&lt;/a&gt; which manipulates the images on the fly. I also started learning more about &lt;a href=&quot;http://kubernetes.io/&quot; target=&quot;blank&quot;&gt;Kubernetes&lt;/a&gt; and then I thought I should build something to get a deeper understanding of K8S. So the task that I took up is to create a GUI that is simple to use and it deploys &lt;code class=&quot;highlighter-rouge&quot;&gt;Darkroom&lt;/code&gt; on-demand and everything else should happen without manually running &lt;code class=&quot;highlighter-rouge&quot;&gt;kubectl&lt;/code&gt; commands.&lt;/p&gt;
 
 &lt;h3 id=&quot;background&quot;&gt;Background&lt;/h3&gt;
 &lt;p&gt;Before starting off, let me tell you about the current state of &lt;code class=&quot;highlighter-rouge&quot;&gt;Darkroom&lt;/code&gt;. It is a stateless application, configurable via environment variables and it has first-class support for containerization and the image size is less than 20MB. These are some of the reasons that I decided to pick this for the hands-on as the complexity to deploy is quite less. However, any application that follows the &lt;a href=&quot;https://12factor.net/&quot; target=&quot;blank&quot;&gt;Twelve Factor App&lt;/a&gt; principles should be a good candidate.&lt;/p&gt;
