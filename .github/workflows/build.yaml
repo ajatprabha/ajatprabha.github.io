@@ -1,0 +1,36 @@
+name: Build and Deploy Jekyll Site
+
+on:
+  push:
+    branches:
+      - blog
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Ruby 2.7
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.7
+
+      - name: Install Dependencies
+        run: bundle install
+
+      - name: Build the site
+        run: bundle exec jekyll build
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./.build
+          publish_branch: gh-pages
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: "Update from blog branch"

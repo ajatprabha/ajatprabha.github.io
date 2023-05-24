@@ -72,8 +72,8 @@ lsi: False
 username: ajatprabha
 repo: ajatprabha.github.io
 branch: blog
-relative_source: ../ajatprabha.github.io/
-destination: ../ajatprabha.github.io-pages/
+relative_source: ./
+destination: ./.build
 production_url:  https://ajatprabha.in/
 source_url:  https://github.com/ajatprabha/ajatprabha.github.io/
 
