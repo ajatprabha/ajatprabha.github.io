@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Base Meta -->
+    <!-- dynamically fixing the title for tag/author pages -->
+
+
+
+    <title>Writing Kubernetes Operator with an API Server for Custom GUI</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!-- This tag outputs SEO meta+structured data and other important settings -->
+    <meta name="description" content="Blog" />
+    <link rel="shortcut icon" href="https://ajatprabha.in/assets/images/favicon.png" type="image/png" />
+    <link rel="canonical" href="https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+
+     <!--title below is coming from _includes/dynamic_title-->
+    <meta property="og:site_name" content="Ajat Prabha" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Writing Kubernetes Operator with an API Server for Custom GUI" />
+    <meta property="og:description" content="If you have read my previous blog posts, I worked on an image proxy called Darkroom which manipulates the images on the fly. I also started learning more about Kubernetes and then I thought I should build something to get a deeper understanding of K8S. So the task that I" />
+    <meta property="og:url" content="https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui" />
+    <meta property="og:image" content="https://ajatprabha.in/assets/images/k8s-banner.jpg" />
+    <meta property="article:publisher" content="https://www.facebook.com/iAmAjat" />
+    <meta property="article:author" content="https://www.facebook.com/iAmAjat" />
+    <meta property="article:published_time" content="2020-06-24T12:00:00+00:00" />
+    <meta property="article:modified_time" content="2020-06-24T12:00:00+00:00" />
+    <meta property="article:tag" content="Kubernetes" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Writing Kubernetes Operator with an API Server for Custom GUI" />
+    <meta name="twitter:description" content="If you have read my previous blog posts, I worked on an image proxy called Darkroom which manipulates the images on the fly. I also started learning more about Kubernetes and then I thought I should build something to get a deeper understanding of K8S. So the task that I" />
+    <meta name="twitter:url" content="https://ajatprabha.in/" />
+    <meta name="twitter:image" content="https://ajatprabha.in/assets/images/k8s-banner.jpg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Ajat Prabha" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Kubernetes" />
+    <meta name="twitter:site" content="@ajatprabha" />
+    <meta name="twitter:creator" content="@ajatprabha" />
+    <meta property="og:image:width" content="1400" />
+    <meta property="og:image:height" content="933" />
+
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Ajat Prabha",
+        "logo": "https://ajatprabha.in/assets/images/blog-icon.png"
+    },
+    "url": "https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://ajatprabha.in/assets/images/k8s-banner.jpg",
+        "width": 2000,
+        "height": 666
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui"
+    },
+    "description": "If you have read my previous blog posts, I worked on an image proxy called Darkroom which manipulates the images on the fly. I also started learning more about Kubernetes and then I thought I should build something to get a deeper understanding of K8S. So the task that I"
+}
+    </script>
+
+    <!-- <script type="text/javascript" src="https://demo.ghost.io/public/ghost-sdk.min.js?v=724281a32e"></script>
+    <script type="text/javascript">
+    ghost.init({
+    	clientId: "ghost-frontend",
+    	clientSecret: "f84a07a72b17"
+    });
+    </script> -->
+
+    <meta name="generator" content="Jekyll 3.6.2" />
+    <link type="application/atom+xml" rel="alternate" href="https://ajatprabha.in/feed.xml" title="Ajat Prabha" />
+
+
+</head>
+<body class="post-template">
+
+    <div class="site-wrapper">
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template -->
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+        
+            
+                <a class="site-nav-logo" href="https://ajatprabha.in/"><img src="/assets/images/blog-icon.png" alt="Ajat Prabha" /></a>
+            
+        
+        
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="/">Home</a></li>
+    <li class="nav-about" role="menuitem"><a href="/about/">About</a></li>
+    <li class="nav-gsoc" role="menuitem"><a href="/gsoc-meta-k8s/">GSoC'19</a></li>
+</ul>
+
+        
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+            
+                <a class="social-link" href="/feed.xml" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>
+</a>
+            
+            
+                <a class="social-link social-link-gh" href="https://github.com/ajatprabha" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+            
+            
+                <a class="social-link social-link-li" href="https://www.linkedin.com/in/ajatprabha/" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+            
+            
+                <a class="social-link social-link-tw" href="https://twitter.com/ajatprabha" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+            
+            
+                <a class="social-link social-link-fb" href="https://facebook.com/iAmAjat" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+</a>
+            
+        </div>
+        
+    </div>
+</nav>
+
+    </div>
+</header>
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+
+        <article class="post-full post tag-k8s ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime="24 June 2020">24 June 2020</time>
+                    
+                        <span class="date-divider">/</span>
+                        
+                            
+                               <a href='/tag/kubernetes/'>KUBERNETES</a>,
+                            
+                        
+                            
+                               <a href='/tag/golang/'>GOLANG</a>
+                            
+                        
+                    
+                </section>
+                <h1 class="post-full-title">Writing Kubernetes Operator with an API Server for Custom GUI</h1>
+            </header>
+
+            
+            <figure class="post-full-image" style="background-image: url(/assets/images/k8s-banner.jpg)">
+            </figure>
+            
+
+            <section class="post-full-content">
+                <div class="kg-card-markdown">
+                    <p>If you have read my previous blog posts, I worked on an image proxy called <a href="https://github.com/gojek/darkroom" target="blank">Darkroom</a> which manipulates the images on the fly. I also started learning more about <a href="http://kubernetes.io/" target="blank">Kubernetes</a> and then I thought I should build something to get a deeper understanding of K8S. So the task that I took up is to create a GUI that is simple to use and it deploys <code class="highlighter-rouge">Darkroom</code> on-demand and everything else should happen without manually running <code class="highlighter-rouge">kubectl</code> commands.</p>
+
+<h3 id="background">Background</h3>
+<p>Before starting off, let me tell you about the current state of <code class="highlighter-rouge">Darkroom</code>. It is a stateless application, configurable via environment variables and it has first-class support for containerization and the image size is less than 20MB. These are some of the reasons that I decided to pick this for the hands-on as the complexity to deploy is quite less. However, any application that follows the <a href="https://12factor.net/" target="blank">Twelve Factor App</a> principles should be a good candidate.</p>
+
+<h3 id="why-make-an-operator">Why make an operator?</h3>
+<p>There can be many ways on how you manage your workloads on K8S viz.</p>
+<ol>
+  <li>Applying manifests via <code class="highlighter-rouge">kubectl</code> or <code class="highlighter-rouge">kustomize</code></li>
+  <li>Using <code class="highlighter-rouge">helm</code> as a package manager to install and upgrade apps</li>
+  <li>Use custom <code class="highlighter-rouge">operator</code> to make the system smart enough work on its own
+    <ul>
+      <li>Operators can install, upgrade, maintain lifecycle, provide insights of workloads, they can essentially put your workload on auto-pilot</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Now moving back to Darkroom, in order to deploy this on Kubernetes, a simple deployment is enough. We can apply a <code class="highlighter-rouge">Deployment</code> manifest with the following command.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: darkroom-deployment
+  labels:
+    app: darkroom
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: darkroom
+  template:
+    metadata:
+      labels:
+        app: darkroom
+    spec:
+      containers:
+      - name: darkroom
+        image: gojektech/darkroom
+        ports:
+        - containerPort: 3000
+        env:
+        - name: SOURCE_KIND
+          value: WebFolder
+        - name: SOURCE_BASEURL
+          value: https://ajatprabha.in/assets
+</span><span class="no">EOF
+</span></code></pre></div></div>
+<p>Use port-forwarding now to access the application</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl port-forward <span class="si">$(</span>kubectl get pods <span class="nt">-l</span> <span class="nv">app</span><span class="o">=</span>darkroom <span class="nt">-o</span><span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="si">)</span> 3000:3000
+</code></pre></div></div>
+<p>You should be able to see this image <a href="http://localhost:3000/images/IMG_20180604_125819.jpg?w=512">http://localhost:3000/images/ IMG_20180604_125819.jpg?w=512</a> now, and change its width, height, etc by changing the query parameters.</p>
+<h5 id="say-hello-to-operators-crd--controller">Say Hello to Operators (CRD + Controller)</h5>
+<p>With the help of <code class="highlighter-rouge">CustomResourceDefinition</code> aka CRD, we can create our own custom APIs and extend the funcitonality of Kubernetes.
+We can then create a controller which will work on this CRD! An overview of this is shown in this diagram:</p>
+
+<p><img src="/assets/images/operator-diagram.svg" alt="Operator Darkroom" style="max-width: 1100px" /></p>
+
+<p>Since operator runs in background we can create these CRDs from anywhere via the kube-api-server, we will create our own api-server to talk to the <code class="highlighter-rouge">kube-api-server</code> later in this post and add a nice GUI to expose it.</p>
+
+<blockquote>
+  <p>Note: All the code for this example can be found at <a href="https://github.com/ajatprabha/operator-example">github.com/ajatprabha/operator-example</a></p>
+</blockquote>
+
+<h2 id="prepare-environment">Prepare Environment</h2>
+<p>First off, we need to have a working kubernetes development cluster running locally, <a href="https://minikube.sigs.k8s.io/" target="blank">minikube</a> is a really good option for that. Install it(<code class="highlighter-rouge">brew install minikube</code>) and start a local cluster with <code class="highlighter-rouge">minikube start --driver=kvm2</code>(I prefer to use KVM, but you may use –driver=none).</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>😄  minikube v1.11.0 on Ubuntu 20.04
+✨  Using the kvm2 driver based on user configuration
+💾  Downloading driver docker-machine-driver-kvm2:
+    <span class="o">&gt;</span> docker-machine-driver-kvm2.sha256: 65 B / 65 B <span class="o">[</span><span class="nt">-------</span><span class="o">]</span> 100.00% ? p/s 0s
+    <span class="o">&gt;</span> docker-machine-driver-kvm2: 13.88 MiB / 13.88 MiB  100.00% 739.31 KiB p/s
+💿  Downloading VM boot image ...
+    <span class="o">&gt;</span> minikube-v1.11.0.iso.sha256: 65 B / 65 B <span class="o">[</span><span class="nt">-------------</span><span class="o">]</span> 100.00% ? p/s 0s
+    <span class="o">&gt;</span> minikube-v1.11.0.iso: 174.99 MiB / 174.99 MiB  100.00% 743.99 KiB p/s 4m1
+👍  Starting control plane node minikube <span class="k">in </span>cluster minikube
+💾  Downloading Kubernetes v1.18.3 preload ...
+    <span class="o">&gt;</span> preloaded-images-k8s-v3-v1.18.3-docker-overlay2-amd64.tar.lz4: 526.01 MiB
+🔥  Creating kvm2 VM <span class="o">(</span><span class="nv">CPUs</span><span class="o">=</span>2, <span class="nv">Memory</span><span class="o">=</span>3900MB, <span class="nv">Disk</span><span class="o">=</span>20000MB<span class="o">)</span> ...
+🐳  Preparing Kubernetes v1.18.3 on Docker 19.03.8 ...
+🔎  Verifying Kubernetes components...
+🌟  Enabled addons: default-storageclass, storage-provisioner
+🏄  Done! kubectl is now configured to use <span class="s2">"minikube"</span>
+</code></pre></div></div>
+
+<p>Next, we need to install <a href="https://book.kubebuilder.io/" target="blank">kubebuilder</a> which will help us in scaffolding operator for K8S. To test your installation, run <code class="highlighter-rouge">kubebuilder version</code> which should exit without errors.</p>
+
+<h2 id="setup">Setup</h2>
+<p>Now we can inititialize a blank repository to start working on.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>operator-example
+<span class="nb">cd </span>operator-example
+git init <span class="o">&amp;&amp;</span> git add <span class="nt">--all</span> <span class="o">&amp;&amp;</span> git commit <span class="nt">-m</span> <span class="s2">"init"</span>
+</code></pre></div></div>
+
+<p>Use kubebuider to initialize a new operator project</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>go mod init github.com/ajatprabha/operator-example
+kubebuilder init <span class="nt">--domain</span> example.com
+git add <span class="nt">--all</span> <span class="o">&amp;&amp;</span> git commit <span class="nt">-m</span> <span class="s2">"kubebuilder init"</span>
+</code></pre></div></div>
+<blockquote>
+  <p>You should change the module name from <code class="highlighter-rouge">github.com/ajatprabha/operator-example</code> to something else. The domain should also be unique to your organisation.</p>
+</blockquote>
+
+<h3 id="api-definition">API Definition</h3>
+<p>Once the initial scaffolding is done, we can start defining our APIs. Kubernetes has a set of internal APIs for different kinds viz. <code class="highlighter-rouge">Pod</code>, <code class="highlighter-rouge">Service</code>, <code class="highlighter-rouge">ConfigMap</code>, etc. We will create a new CRD called <code class="highlighter-rouge">Darkroom</code> which will be responsible for this automation that we want to achieve.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubebuilder create api <span class="nt">--group</span> deployments <span class="nt">--version</span> v1alpha1 <span class="nt">--kind</span> Darkroom
+    Create Resource <span class="o">[</span>y/n] y
+    Create Controller <span class="o">[</span>y/n] y
+    Writing scaffold <span class="k">for </span>you to edit...
+    api/v1alpha1/darkroom_types.go
+    controllers/darkroom_controller.go
+git add <span class="nt">--all</span> <span class="o">&amp;&amp;</span> git commit <span class="nt">-m</span> <span class="s2">"scaffold resource and controller"</span>
+</code></pre></div></div>
+
+<h4 id="modifying-resource">Modifying Resource</h4>
+<p>Once the resources is generated, fire up your favourite IDE and take a look at the <code class="highlighter-rouge">api/v1alpha1/darkroom_types.go</code> file. Here you can see a typed definitions for the resource <code class="highlighter-rouge">Darkroom</code>.</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// DarkroomSpec defines the desired state of Darkroom</span>
+<span class="k">type</span> <span class="n">DarkroomSpec</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="c">// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster</span>
+	<span class="c">// Important: Run "make" to regenerate code after modifying this file</span>
+
+	<span class="c">// Foo is an example field of Darkroom. Edit Darkroom_types.go to remove/update</span>
+	<span class="n">Foo</span> <span class="kt">string</span> <span class="s">`json:"foo,omitempty"`</span>
+<span class="p">}</span>
+
+<span class="c">// DarkroomStatus defines the observed state of Darkroom</span>
+<span class="k">type</span> <span class="n">DarkroomStatus</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="c">// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster</span>
+	<span class="c">// Important: Run "make" to regenerate code after modifying this file</span>
+<span class="p">}</span>
+
+<span class="c">// +kubebuilder:object:root=true</span>
+
+<span class="c">// Darkroom is the Schema for the darkrooms API</span>
+<span class="k">type</span> <span class="n">Darkroom</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">metav1</span><span class="o">.</span><span class="n">TypeMeta</span>   <span class="s">`json:",inline"`</span>
+	<span class="n">metav1</span><span class="o">.</span><span class="n">ObjectMeta</span> <span class="s">`json:"metadata,omitempty"`</span>
+
+	<span class="n">Spec</span>   <span class="n">DarkroomSpec</span>   <span class="s">`json:"spec,omitempty"`</span>
+	<span class="n">Status</span> <span class="n">DarkroomStatus</span> <span class="s">`json:"status,omitempty"`</span>
+<span class="p">}</span>
+
+<span class="c">// +kubebuilder:object:root=true</span>
+
+<span class="c">// DarkroomList contains a list of Darkroom</span>
+<span class="k">type</span> <span class="n">DarkroomList</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">metav1</span><span class="o">.</span><span class="n">TypeMeta</span> <span class="s">`json:",inline"`</span>
+	<span class="n">metav1</span><span class="o">.</span><span class="n">ListMeta</span> <span class="s">`json:"metadata,omitempty"`</span>
+	<span class="n">Items</span>           <span class="p">[]</span><span class="n">Darkroom</span> <span class="s">`json:"items"`</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<blockquote>
+  <p>Notice the comments such as <code class="highlighter-rouge">+kubebuilder:object:root=true</code>, KubeBuilder makes use of a tool called controller-gen for generating utility code and Kubernetes YAML. This code and config generation is controlled by the presence of special “marker comments” in Go code.</p>
+</blockquote>
+
+<p>Now let’s modify these Go structs to hold information that we care about.</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// +kubebuilder:validation:Enum=WebFolder;S3</span>
+<span class="k">type</span> <span class="n">Type</span> <span class="kt">string</span>
+
+<span class="k">const</span> <span class="p">(</span>
+	<span class="n">WebFolder</span> <span class="n">Type</span> <span class="o">=</span> <span class="s">"WebFolder"</span>
+	<span class="n">S3</span>        <span class="n">Type</span> <span class="o">=</span> <span class="s">"S3"</span>
+<span class="p">)</span>
+
+<span class="k">type</span> <span class="n">WebFolderMeta</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">BaseURL</span> <span class="kt">string</span> <span class="s">`json:"baseUrl,omitempty"`</span>
+<span class="p">}</span>
+
+<span class="k">type</span> <span class="n">S3Meta</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">AccessKey</span>  <span class="kt">string</span> <span class="s">`json:"accessKey,omitempty"`</span>
+	<span class="n">SecretKey</span>  <span class="kt">string</span> <span class="s">`json:"secretKey,omitempty"`</span>
+	<span class="n">Region</span>     <span class="kt">string</span> <span class="s">`json:"region,omitempty"`</span>
+	<span class="n">PathPrefix</span> <span class="kt">string</span> <span class="s">`json:"pathPrefix,omitempty"`</span>
+<span class="p">}</span>
+
+<span class="k">type</span> <span class="n">Source</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="c">// Specifies storage backend to use with darkroom.</span>
+	<span class="c">// Valid values are:</span>
+	<span class="c">// - "WebFolder" (default): simple storage backend to serve images from a hosted image source;</span>
+	<span class="c">// - "S3": storage backend to serve images from an S3 bucket;</span>
+	<span class="n">Type</span> <span class="n">Type</span> <span class="s">`json:"type"`</span>
+	<span class="c">// +optional</span>
+	<span class="n">WebFolderMeta</span> <span class="s">`json:",inline"`</span>
+	<span class="c">// +optional</span>
+	<span class="n">S3Meta</span> <span class="s">`json:",inline"`</span>
+<span class="p">}</span>
+
+<span class="c">// DarkroomSpec defines the desired state of Darkroom</span>
+<span class="k">type</span> <span class="n">DarkroomSpec</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="c">// +optional</span>
+	<span class="n">Version</span> <span class="kt">string</span> <span class="s">`json:"version"`</span>
+	<span class="n">Source</span> <span class="n">Source</span> <span class="s">`json:"source"`</span>
+	<span class="c">// +kubebuilder:validation:MinItems=1</span>
+	<span class="n">SubDomains</span> <span class="p">[]</span><span class="kt">string</span> <span class="s">`json:"subDomains"`</span>
+<span class="p">}</span>
+
+<span class="c">// DarkroomStatus defines the observed state of Darkroom</span>
+<span class="k">type</span> <span class="n">DarkroomStatus</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="c">// +optional</span>
+	<span class="n">Domains</span> <span class="p">[]</span><span class="kt">string</span> <span class="s">`json:"domains,omitempty"`</span>
+<span class="p">}</span>
+
+<span class="c">// +kubebuilder:object:root=true</span>
+<span class="c">// +kubebuilder:subresource:status</span>
+<span class="c">// +kubebuilder:printcolumn:JSONPath=".spec.version",name=VERSION,type=string</span>
+<span class="c">// +kubebuilder:printcolumn:JSONPath=".spec.source.type",name=TYPE,type=string</span>
+<span class="c">// +kubebuilder:resource:shortName=dr</span>
+
+<span class="c">// Darkroom is the Schema for the darkrooms API</span>
+<span class="k">type</span> <span class="n">Darkroom</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="c">/* ... */</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>Run <code class="highlighter-rouge">make manifests</code> to generate YAMLs for this CRD, kubebuilder will use the marker comments to add utilities, validation, etc. <code class="highlighter-rouge">printcolumn</code> will specify what fields to show when we do <code class="highlighter-rouge">kubectl get darkrooms</code>, yes now we can use kubectl to interact with this new Kind.</p>
+
+<p>Now update the sample manifest to define a <code class="highlighter-rouge">Darkroom</code> object, just as you would define a <code class="highlighter-rouge">Pod</code> or <code class="highlighter-rouge">Service</code></p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">deployments.example.com/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Darkroom</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">darkroom-sample</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">source</span><span class="pi">:</span>
+    <span class="na">baseUrl</span><span class="pi">:</span> <span class="s">https://ajatprabha.in/assets</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">WebFolder</span>
+  <span class="na">subDomains</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">ajatprabha</span>
+  <span class="na">version</span><span class="pi">:</span> <span class="s">0.1.0</span>
+</code></pre></div></div>
+<blockquote>
+  <p>Note: I’ve used my blog’s address, you can modify it according to your usecase.</p>
+</blockquote>
+
+<p>Install the CRD manifest in the cluster and then apply this new Darkroom manifest with <code class="highlighter-rouge">kubectl apply -f config/samples/deployments_v1alpha1_darkroom.yaml</code></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add <span class="nt">--all</span> <span class="o">&amp;&amp;</span> git commit <span class="nt">-m</span> <span class="s2">"update CRD definition and manifests"</span>
+
+make <span class="nb">install</span>
+/usr/local/go/bin/controller-gen <span class="s2">"crd:trivialVersions=true"</span> rbac:roleName<span class="o">=</span>manager-role webhook <span class="nv">paths</span><span class="o">=</span><span class="s2">"./..."</span> output:crd:artifacts:config<span class="o">=</span>config/crd/bases
+kustomize build config/crd | kubectl apply <span class="nt">-f</span> -
+customresourcedefinition.apiextensions.k8s.io/darkrooms.deployments.example.com created
+
+kubectl apply <span class="nt">-f</span> config/samples/deployments_v1alpha1_darkroom.yaml
+darkroom.deployments.example.com/darkroom-sample created
+
+kubectl get darkrooms                                             
+NAME              VERSION   TYPE
+darkroom-sample   0.1.0     WebFolder
+</code></pre></div></div>
+
+<p>Okay, great! We can now persist our new Darkroom objects in Kubernetes’ object store.</p>
+
+<h2 id="implementing-controller">Implementing Controller</h2>
+<p>Now, we will look at how we can implement the controller to act upon these Darkroom objects and work towards matching the current state with the desired state in a reconciliation loop.<br />
+We’ve already seen in the starting of this blog post that how we can use the K8S internal APIs to accomplish a simple Darkroom deployment using <code class="highlighter-rouge">kubectl</code>.<br />
+Any deployment inside K8S requires an image for the <code class="highlighter-rouge">Pod</code>, since our application reads configuration from environment variables, we can inject these values in the <code class="highlighter-rouge">Pod</code> from a <code class="highlighter-rouge">ConfigMap</code>, finally we expose this <code class="highlighter-rouge">Pod</code> via a <code class="highlighter-rouge">Service</code> within the cluster and update the <code class="highlighter-rouge">Ingress</code> to allow external traffic to this Service.</p>
+
+<p>Take a look at the controller code in the <code class="highlighter-rouge">controllers/darkroom_controller.go</code> file.</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="p">(</span><span class="n">r</span> <span class="o">*</span><span class="n">DarkroomReconciler</span><span class="p">)</span> <span class="n">Reconcile</span><span class="p">(</span><span class="n">req</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="p">(</span><span class="n">ctrl</span><span class="o">.</span><span class="n">Result</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">_</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+	<span class="n">_</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">WithValues</span><span class="p">(</span><span class="s">"darkroom"</span><span class="p">,</span> <span class="n">req</span><span class="o">.</span><span class="n">NamespacedName</span><span class="p">)</span>
+
+	<span class="c">// your logic here</span>
+
+	<span class="k">return</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">Result</span><span class="p">{},</span> <span class="no">nil</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="p">(</span><span class="n">r</span> <span class="o">*</span><span class="n">DarkroomReconciler</span><span class="p">)</span> <span class="n">SetupWithManager</span><span class="p">(</span><span class="n">mgr</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">Manager</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">NewControllerManagedBy</span><span class="p">(</span><span class="n">mgr</span><span class="p">)</span><span class="o">.</span>
+		<span class="n">For</span><span class="p">(</span><span class="o">&amp;</span><span class="n">deploymentsv1alpha1</span><span class="o">.</span><span class="n">Darkroom</span><span class="p">{})</span><span class="o">.</span>
+		<span class="n">Complete</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>We will write our reconciliation logic here, but before we do that, let’s run the controller once and see what happens.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make run
+/usr/local/go/bin/controller-gen object:headerFile<span class="o">=</span><span class="s2">"hack/boilerplate.go.txt"</span> <span class="nv">paths</span><span class="o">=</span><span class="s2">"./..."</span>
+go <span class="nb">fmt</span> ./...
+go vet ./...
+/usr/local/go/bin/controller-gen <span class="s2">"crd:trivialVersions=true"</span> rbac:roleName<span class="o">=</span>manager-role webhook <span class="nv">paths</span><span class="o">=</span><span class="s2">"./..."</span> output:crd:artifacts:config<span class="o">=</span>config/crd/bases
+go run ./main.go
+2020-06-24T22:58:27.059+0530	INFO	controller-runtime.metrics	metrics server is starting to listen	<span class="o">{</span><span class="s2">"addr"</span>: <span class="s2">":8080"</span><span class="o">}</span>
+2020-06-24T22:58:27.059+0530	INFO	setup	starting manager
+2020-06-24T22:58:27.060+0530	INFO	controller-runtime.manager	starting metrics server	<span class="o">{</span><span class="s2">"path"</span>: <span class="s2">"/metrics"</span><span class="o">}</span>
+2020-06-24T22:58:27.060+0530	INFO	controller-runtime.controller	Starting EventSource	<span class="o">{</span><span class="s2">"controller"</span>: <span class="s2">"darkroom"</span>, <span class="s2">"source"</span>: <span class="s2">"kind source: /, Kind="</span><span class="o">}</span>
+2020-06-24T22:58:27.161+0530	INFO	controller-runtime.controller	Starting Controller	<span class="o">{</span><span class="s2">"controller"</span>: <span class="s2">"darkroom"</span><span class="o">}</span>
+2020-06-24T22:58:27.161+0530	INFO	controller-runtime.controller	Starting workers	<span class="o">{</span><span class="s2">"controller"</span>: <span class="s2">"darkroom"</span>, <span class="s2">"worker count"</span>: 1<span class="o">}</span>
+2020-06-24T22:58:27.161+0530	DEBUG	controller-runtime.controller	Successfully Reconciled	<span class="o">{</span><span class="s2">"controller"</span>: <span class="s2">"darkroom"</span>, <span class="s2">"request"</span>: <span class="s2">"default/darkroom-sample"</span><span class="o">}</span>
+</code></pre></div></div>
+
+<p>As you can see, it picked up our created Darkroom object named <code class="highlighter-rouge">darkroom-sample</code>, nothing actually happened since their is no logic in the controller yet.<br />
+We will first tell the controller manager that what objects this controller interacts with and what is the type of interaction.</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="p">(</span><span class="n">r</span> <span class="o">*</span><span class="n">DarkroomReconciler</span><span class="p">)</span> <span class="n">SetupWithManager</span><span class="p">(</span><span class="n">mgr</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">Manager</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">NewControllerManagedBy</span><span class="p">(</span><span class="n">mgr</span><span class="p">)</span><span class="o">.</span>
+		<span class="n">For</span><span class="p">(</span><span class="o">&amp;</span><span class="n">v1alpha1</span><span class="o">.</span><span class="n">Darkroom</span><span class="p">{})</span><span class="o">.</span>
+		<span class="n">Owns</span><span class="p">(</span><span class="o">&amp;</span><span class="n">corev1</span><span class="o">.</span><span class="n">ConfigMap</span><span class="p">{})</span><span class="o">.</span>
+		<span class="n">Owns</span><span class="p">(</span><span class="o">&amp;</span><span class="n">corev1</span><span class="o">.</span><span class="n">Service</span><span class="p">{})</span><span class="o">.</span>
+		<span class="n">Owns</span><span class="p">(</span><span class="o">&amp;</span><span class="n">appsv1</span><span class="o">.</span><span class="n">Deployment</span><span class="p">{})</span><span class="o">.</span>
+		<span class="n">Owns</span><span class="p">(</span><span class="o">&amp;</span><span class="n">v1beta12</span><span class="o">.</span><span class="n">Ingress</span><span class="p">{})</span><span class="o">.</span>
+		<span class="n">Complete</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<blockquote>
+  <p>Here we have specified that this controller is for <code class="highlighter-rouge">v1alpha1.Darkroom</code>, and it owns <code class="highlighter-rouge">Deployment</code>, <code class="highlighter-rouge">ConfigMap</code>, <code class="highlighter-rouge">Service</code> and <code class="highlighter-rouge">Ingress</code>.</p>
+</blockquote>
+
+<p>Now for the actual reconciliation logic, we have to keep in mind that the loop should be <code class="highlighter-rouge">idempotent</code>. This is very important. The logic invloves 4 simple steps for now:</p>
+<ol>
+  <li>Create spec for desired <code class="highlighter-rouge">ConfigMap</code></li>
+  <li>Create spec for desired <code class="highlighter-rouge">Deployment</code> which takes environment variables from the above ConfigMap</li>
+  <li>Create spec for desired <code class="highlighter-rouge">Service</code> for above Deployment</li>
+  <li>Create spec for desired <code class="highlighter-rouge">Ingress</code> for routing external traffic to above Service</li>
+</ol>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="p">(</span><span class="n">r</span> <span class="o">*</span><span class="n">DarkroomReconciler</span><span class="p">)</span> <span class="n">Reconcile</span><span class="p">(</span><span class="n">req</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="p">(</span><span class="n">ctrl</span><span class="o">.</span><span class="n">Result</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">WithValues</span><span class="p">(</span><span class="s">"darkroom"</span><span class="p">,</span> <span class="n">req</span><span class="o">.</span><span class="n">NamespacedName</span><span class="p">)</span>
+
+    <span class="k">var</span> <span class="n">darkroom</span> <span class="n">deploymentsv1alpha1</span><span class="o">.</span><span class="n">Darkroom</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">r</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">req</span><span class="o">.</span><span class="n">NamespacedName</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">darkroom</span><span class="p">);</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">Result</span><span class="p">{},</span> <span class="n">client</span><span class="o">.</span><span class="n">IgnoreNotFound</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">cfg</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">r</span><span class="o">.</span><span class="n">desiredConfigMap</span><span class="p">(</span><span class="n">darkroom</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">Result</span><span class="p">{},</span> <span class="n">err</span>
+    <span class="p">}</span>
+
+    <span class="n">deployment</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">r</span><span class="o">.</span><span class="n">desiredDeployment</span><span class="p">(</span><span class="n">darkroom</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
+    <span class="c">// purposely hide repeating error return code</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+    <span class="n">svc</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">r</span><span class="o">.</span><span class="n">desiredService</span><span class="p">(</span><span class="n">darkroom</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+    <span class="n">ingr</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">r</span><span class="o">.</span><span class="n">desiredIngress</span><span class="p">(</span><span class="n">darkroom</span><span class="p">,</span> <span class="n">svc</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+
+    <span class="n">applyOpts</span> <span class="o">:=</span> <span class="p">[]</span><span class="n">client</span><span class="o">.</span><span class="n">PatchOption</span><span class="p">{</span><span class="n">client</span><span class="o">.</span><span class="n">ForceOwnership</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">FieldOwner</span><span class="p">(</span><span class="s">"darkroom-controller"</span><span class="p">)}</span>
+
+    <span class="n">err</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cfg</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">Apply</span><span class="p">,</span> <span class="n">applyOpts</span><span class="o">...</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">deployment</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">Apply</span><span class="p">,</span> <span class="n">applyOpts</span><span class="o">...</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">svc</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">Apply</span><span class="p">,</span> <span class="n">applyOpts</span><span class="o">...</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ingr</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">Apply</span><span class="p">,</span> <span class="n">applyOpts</span><span class="o">...</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+
+    <span class="n">darkroom</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">Domains</span> <span class="o">=</span> <span class="n">domainsForService</span><span class="p">(</span><span class="n">ingr</span><span class="p">)</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">Status</span><span class="p">()</span><span class="o">.</span><span class="n">Update</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">darkroom</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">Result</span><span class="p">{},</span> <span class="no">nil</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The above code might feel repitive since we want to achieve idempotency. However, it can be refactored better but that is out of scope for this demo.<br />
+The actual implementation of <code class="highlighter-rouge">desiredConfigMap</code>, <code class="highlighter-rouge">desiredDeployment</code>, <code class="highlighter-rouge">desiredService</code> and <code class="highlighter-rouge">desiredIngress</code> can be found in <a href="https://github.com/ajatprabha/operator-example/blob/master/controllers/helpers.go" target="blank">helpers.go</a><br />
+We can now run the controller and it will work as expected.</p>
+
+<video width="720" controls="">
+    <source src="/assets/videos/operator-ex-01.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+
+<p>At this point, we can build and push the controller to an image registry with <code class="highlighter-rouge">make docker-build &amp;&amp; make docker-push</code> and then deploy the controller to the K8S cluster with <code class="highlighter-rouge">make deploy</code></p>
+
+<h2 id="api-server-and-gui">API Server and GUI</h2>
+<p>Now we can finally create a custom api-server with a GUI to perform CRUD on <code class="highlighter-rouge">Darkroom</code> CRD, we do not need to use <code class="highlighter-rouge">kubectl</code> after this. Some of the trivial code is not explained and commented out, it can be found in the package <code class="highlighter-rouge">api_server</code></p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// main.go</span>
+
+<span class="k">func</span> <span class="n">init</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c">// Initialize the scheme so that kubernetes dynamic client knows</span>
+  <span class="c">// how to work with new CRD and native kubernetes types</span>
+	<span class="n">_</span> <span class="o">=</span> <span class="n">clientgoscheme</span><span class="o">.</span><span class="n">AddToScheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
+	<span class="n">_</span> <span class="o">=</span> <span class="n">deploymentsv1alpha1</span><span class="o">.</span><span class="n">AddToScheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c">/* ... */</span>
+
+	<span class="n">mgr</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">apiserver</span><span class="o">.</span><span class="n">NewManager</span><span class="p">(</span><span class="n">ctrl</span><span class="o">.</span><span class="n">GetConfigOrDie</span><span class="p">(),</span> <span class="n">apiserver</span><span class="o">.</span><span class="n">Options</span><span class="p">{</span>
+		<span class="n">Scheme</span><span class="o">:</span>         <span class="n">scheme</span><span class="p">,</span>
+		<span class="n">Port</span><span class="o">:</span>           <span class="m">5000</span><span class="p">,</span>
+		<span class="n">AllowedDomains</span><span class="o">:</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{},</span>
+	<span class="p">})</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+
+	<span class="n">runLog</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="s">"starting api-server manager"</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">Start</span><span class="p">(</span><span class="n">signals</span><span class="o">.</span><span class="n">SetupSignalHandler</span><span class="p">());</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<blockquote>
+  <p>Note: Registering the types with scheme in <code class="highlighter-rouge">init</code> function is the key here. Without this, the K8S dynamic client cannot work.</p>
+</blockquote>
+
+<p>Now we will create an API Server <code class="highlighter-rouge">Manager</code> that will create the K8S client and keep a reference to it. It will also create a cache that will be used to create a cached K8S client, initialize the cache properly and in the end handle the termination signals.</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// manager.go</span>
+
+<span class="c">// Options to customize Manager behaviour and pass information</span>
+<span class="k">type</span> <span class="n">Options</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">Scheme</span>         <span class="o">*</span><span class="n">runtime</span><span class="o">.</span><span class="n">Scheme</span>
+	<span class="n">Namespace</span>      <span class="kt">string</span>
+	<span class="n">Port</span>           <span class="kt">int</span>
+	<span class="n">AllowedDomains</span> <span class="p">[]</span><span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="k">type</span> <span class="n">Manager</span> <span class="k">interface</span> <span class="p">{</span>
+	<span class="n">Start</span><span class="p">(</span><span class="n">stop</span> <span class="o">&lt;-</span><span class="k">chan</span> <span class="k">struct</span><span class="p">{})</span> <span class="kt">error</span>
+<span class="p">}</span>
+
+<span class="k">type</span> <span class="n">manager</span> <span class="k">struct</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+
+<span class="k">func</span> <span class="n">NewManager</span><span class="p">(</span><span class="n">config</span> <span class="o">*</span><span class="n">rest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">options</span> <span class="n">Options</span><span class="p">)</span> <span class="p">(</span><span class="n">Manager</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">mapper</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">apiutil</span><span class="o">.</span><span class="n">NewDynamicRESTMapper</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+  
+	<span class="c">// we use cache to optimize fetch from the kube-api-server</span>
+	<span class="n">cc</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">cache</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">cache</span><span class="o">.</span><span class="n">Options</span><span class="p">{</span>
+		<span class="n">Scheme</span><span class="o">:</span>    <span class="n">options</span><span class="o">.</span><span class="n">Scheme</span><span class="p">,</span>
+		<span class="n">Mapper</span><span class="o">:</span>    <span class="n">mapper</span><span class="p">,</span>
+		<span class="n">Resync</span><span class="o">:</span>    <span class="o">&amp;</span><span class="n">defaultRetryPeriod</span><span class="p">,</span>
+		<span class="n">Namespace</span><span class="o">:</span> <span class="n">options</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span>
+	<span class="p">})</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+
+	<span class="n">c</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">client</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">Options</span><span class="p">{</span><span class="n">Scheme</span><span class="o">:</span> <span class="n">options</span><span class="o">.</span><span class="n">Scheme</span><span class="p">,</span> <span class="n">Mapper</span><span class="o">:</span> <span class="n">mapper</span><span class="p">})</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+
+	<span class="n">stop</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="k">chan</span> <span class="k">struct</span><span class="p">{})</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="n">manager</span><span class="p">{</span>
+		<span class="n">config</span><span class="o">:</span> <span class="n">config</span><span class="p">,</span>
+		<span class="n">cache</span><span class="o">:</span>  <span class="n">cc</span><span class="p">,</span>
+		<span class="n">client</span><span class="o">:</span> <span class="o">&amp;</span><span class="n">client</span><span class="o">.</span><span class="n">DelegatingClient</span><span class="p">{</span>
+			<span class="n">Reader</span><span class="o">:</span> <span class="o">&amp;</span><span class="n">client</span><span class="o">.</span><span class="n">DelegatingReader</span><span class="p">{</span>
+				<span class="n">CacheReader</span><span class="o">:</span>  <span class="n">cc</span><span class="p">,</span>
+				<span class="n">ClientReader</span><span class="o">:</span> <span class="n">c</span><span class="p">,</span>
+			<span class="p">},</span>
+			<span class="n">Writer</span><span class="o">:</span>       <span class="n">c</span><span class="p">,</span>
+			<span class="n">StatusClient</span><span class="o">:</span> <span class="n">c</span><span class="p">,</span>
+		<span class="p">},</span>
+		<span class="n">internalStop</span><span class="o">:</span>    <span class="n">stop</span><span class="p">,</span>
+		<span class="n">internalStopper</span><span class="o">:</span> <span class="n">stop</span><span class="p">,</span>
+		<span class="n">port</span><span class="o">:</span>            <span class="n">options</span><span class="o">.</span><span class="n">Port</span><span class="p">,</span>
+		<span class="n">allowedDomains</span><span class="o">:</span>  <span class="n">options</span><span class="o">.</span><span class="n">AllowedDomains</span><span class="p">,</span>
+	<span class="p">},</span> <span class="no">nil</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="p">(</span><span class="n">m</span> <span class="o">*</span><span class="n">manager</span><span class="p">)</span> <span class="n">Start</span><span class="p">(</span><span class="n">stop</span> <span class="o">&lt;-</span><span class="k">chan</span> <span class="k">struct</span><span class="p">{})</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="k">defer</span> <span class="nb">close</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">internalStopper</span><span class="p">)</span>
+	<span class="c">// initialize this here so that we reset the signal channel state on every start</span>
+	<span class="n">m</span><span class="o">.</span><span class="n">errSignal</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">errSignaler</span><span class="p">{</span><span class="n">errSignal</span><span class="o">:</span> <span class="nb">make</span><span class="p">(</span><span class="k">chan</span> <span class="k">struct</span><span class="p">{})}</span>
+	<span class="n">m</span><span class="o">.</span><span class="n">waitForCache</span><span class="p">()</span>
+
+	<span class="n">srv</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">newApiServer</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">allowedDomains</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">client</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+
+	<span class="k">go</span> <span class="k">func</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">srv</span><span class="o">.</span><span class="n">Start</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">internalStop</span><span class="p">);</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+			<span class="n">m</span><span class="o">.</span><span class="n">errSignal</span><span class="o">.</span><span class="n">SignalError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}()</span>
+	<span class="k">select</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="o">&lt;-</span><span class="n">stop</span><span class="o">:</span>
+		<span class="k">return</span> <span class="no">nil</span>
+	<span class="k">case</span> <span class="o">&lt;-</span><span class="n">m</span><span class="o">.</span><span class="n">errSignal</span><span class="o">.</span><span class="n">GotError</span><span class="p">()</span><span class="o">:</span>
+		<span class="c">// Error starting the cache</span>
+		<span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">errSignal</span><span class="o">.</span><span class="n">Error</span><span class="p">()</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c">// start cache in separate goroutine</span>
+<span class="k">func</span> <span class="p">(</span><span class="n">m</span> <span class="o">*</span><span class="n">manager</span><span class="p">)</span> <span class="n">waitForCache</span><span class="p">()</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">started</span> <span class="p">{</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="k">go</span> <span class="k">func</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">m</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">Start</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">internalStop</span><span class="p">);</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+			<span class="n">m</span><span class="o">.</span><span class="n">errSignal</span><span class="o">.</span><span class="n">SignalError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}()</span>
+
+	<span class="c">// Wait for the caches to sync.</span>
+	<span class="n">m</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">WaitForCacheSync</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">internalStop</span><span class="p">)</span>
+	<span class="n">m</span><span class="o">.</span><span class="n">started</span> <span class="o">=</span> <span class="no">true</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The server uses <code class="highlighter-rouge">go-restful</code> to provide RESTful endpoints to a JavaScript based GUI.</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// server.go</span>
+<span class="k">type</span> <span class="n">apiServer</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">server</span> <span class="o">*</span><span class="n">http</span><span class="o">.</span><span class="n">Server</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="p">(</span><span class="n">as</span> <span class="o">*</span><span class="n">apiServer</span><span class="p">)</span> <span class="n">Address</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">as</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">Addr</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">init</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">restful</span><span class="o">.</span><span class="n">MarshalIndent</span> <span class="o">=</span> <span class="k">func</span><span class="p">(</span><span class="n">v</span> <span class="k">interface</span><span class="p">{},</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">indent</span> <span class="kt">string</span><span class="p">)</span> <span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">var</span> <span class="n">buf</span> <span class="n">bytes</span><span class="o">.</span><span class="n">Buffer</span>
+		<span class="n">encoder</span> <span class="o">:=</span> <span class="n">restful</span><span class="o">.</span><span class="n">NewEncoder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">buf</span><span class="p">)</span>
+		<span class="n">encoder</span><span class="o">.</span><span class="n">SetIndent</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">indent</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">Encode</span><span class="p">(</span><span class="n">v</span><span class="p">);</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+		<span class="k">return</span> <span class="n">buf</span><span class="o">.</span><span class="n">Bytes</span><span class="p">(),</span> <span class="no">nil</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">newApiServer</span><span class="p">(</span><span class="n">port</span> <span class="kt">int</span><span class="p">,</span> <span class="n">allowedDomains</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="n">client</span> <span class="n">client</span><span class="o">.</span><span class="n">Client</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="n">apiServer</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">container</span> <span class="o">:=</span> <span class="n">restful</span><span class="o">.</span><span class="n">NewContainer</span><span class="p">()</span>
+	<span class="n">srv</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="n">http</span><span class="o">.</span><span class="n">Server</span><span class="p">{</span>
+		<span class="n">Addr</span><span class="o">:</span>    <span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">":%d"</span><span class="p">,</span> <span class="n">port</span><span class="p">),</span>
+		<span class="n">Handler</span><span class="o">:</span> <span class="n">container</span><span class="o">.</span><span class="n">ServeMux</span><span class="p">,</span>
+	<span class="p">}</span>
+
+	<span class="n">cors</span> <span class="o">:=</span> <span class="n">restful</span><span class="o">.</span><span class="n">CrossOriginResourceSharing</span><span class="p">{</span>
+		<span class="n">ExposeHeaders</span><span class="o">:</span>  <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="n">restful</span><span class="o">.</span><span class="n">HEADER_AccessControlAllowOrigin</span><span class="p">},</span>
+		<span class="n">AllowedDomains</span><span class="o">:</span> <span class="n">allowedDomains</span><span class="p">,</span>
+		<span class="n">Container</span><span class="o">:</span>      <span class="n">container</span><span class="p">,</span>
+	<span class="p">}</span>
+
+	<span class="n">ws</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="n">restful</span><span class="o">.</span><span class="n">WebService</span><span class="p">)</span>
+	<span class="n">ws</span><span class="o">.</span>
+		<span class="n">Path</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span><span class="o">.</span>
+		<span class="n">Consumes</span><span class="p">(</span><span class="n">restful</span><span class="o">.</span><span class="n">MIME_JSON</span><span class="p">)</span><span class="o">.</span>
+		<span class="n">Produces</span><span class="p">(</span><span class="n">restful</span><span class="o">.</span><span class="n">MIME_JSON</span><span class="p">)</span>
+
+	<span class="n">addEndpoints</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">client</span><span class="p">)</span>
+	<span class="n">container</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>
+	<span class="n">container</span><span class="o">.</span><span class="n">Filter</span><span class="p">(</span><span class="n">cors</span><span class="o">.</span><span class="n">Filter</span><span class="p">)</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="n">apiServer</span><span class="p">{</span>
+		<span class="n">server</span><span class="o">:</span> <span class="n">srv</span><span class="p">,</span>
+	<span class="p">},</span> <span class="no">nil</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">addEndpoints</span><span class="p">(</span><span class="n">ws</span> <span class="o">*</span><span class="n">restful</span><span class="o">.</span><span class="n">WebService</span><span class="p">,</span> <span class="n">client</span> <span class="n">client</span><span class="o">.</span><span class="n">Client</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">resources</span> <span class="o">:=</span> <span class="p">[]</span><span class="n">endpoints</span><span class="o">.</span><span class="n">Endpoint</span><span class="p">{</span>
+		<span class="n">endpoints</span><span class="o">.</span><span class="n">NewDarkroomEndpoint</span><span class="p">(</span><span class="n">client</span><span class="p">),</span>
+	<span class="p">}</span>
+	<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">ep</span> <span class="o">:=</span> <span class="k">range</span> <span class="n">resources</span> <span class="p">{</span>
+		<span class="n">ep</span><span class="o">.</span><span class="n">SetupWithWS</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="p">(</span><span class="n">as</span> <span class="o">*</span><span class="n">apiServer</span><span class="p">)</span> <span class="n">Start</span><span class="p">(</span><span class="n">stop</span> <span class="o">&lt;-</span><span class="k">chan</span> <span class="k">struct</span><span class="p">{})</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="n">errChan</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="k">chan</span> <span class="kt">error</span><span class="p">)</span>
+	<span class="k">go</span> <span class="k">func</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">err</span> <span class="o">:=</span> <span class="n">as</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">ListenAndServe</span><span class="p">()</span>
+		<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+	<span class="p">}()</span>
+	<span class="n">log</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="s">"Starting api-server"</span><span class="p">,</span> <span class="s">"interface"</span><span class="p">,</span> <span class="s">"0.0.0.0"</span><span class="p">,</span> <span class="s">"port"</span><span class="p">,</span> <span class="n">as</span><span class="o">.</span><span class="n">Address</span><span class="p">())</span>
+	<span class="k">select</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="o">&lt;-</span><span class="n">stop</span><span class="o">:</span>
+		<span class="n">log</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="s">"Shutting down api-server"</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">as</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">Shutdown</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">())</span>
+	<span class="k">case</span> <span class="n">err</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="n">errChan</span><span class="o">:</span>
+		<span class="k">return</span> <span class="n">err</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Finally, in the <code class="highlighter-rouge">DarkroomEndpoint</code> we have the reference to the K8S client and we can use it perform operations on the Darkroom CRD.
+For example, list, create, edit and delete Darkrooms!</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// endpoints/darkroom.go</span>
+
+<span class="k">type</span> <span class="n">DarkroomEndpoint</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">client</span> <span class="n">client</span><span class="o">.</span><span class="n">Client</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">NewDarkroomEndpoint</span><span class="p">(</span><span class="n">client</span> <span class="n">client</span><span class="o">.</span><span class="n">Client</span><span class="p">)</span> <span class="o">*</span><span class="n">DarkroomEndpoint</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="n">DarkroomEndpoint</span><span class="p">{</span><span class="n">client</span><span class="o">:</span> <span class="n">client</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="p">(</span><span class="n">de</span> <span class="o">*</span><span class="n">DarkroomEndpoint</span><span class="p">)</span> <span class="n">SetupWithWS</span><span class="p">(</span><span class="n">ws</span> <span class="o">*</span><span class="n">restful</span><span class="o">.</span><span class="n">WebService</span><span class="p">)</span> <span class="p">{</span> <span class="c">/* route paths to handler funcions */</span> <span class="p">}</span>
+
+<span class="k">func</span> <span class="p">(</span><span class="n">de</span> <span class="o">*</span><span class="n">DarkroomEndpoint</span><span class="p">)</span> <span class="n">list</span><span class="p">(</span><span class="n">request</span> <span class="o">*</span><span class="n">restful</span><span class="o">.</span><span class="n">Request</span><span class="p">,</span> <span class="n">response</span> <span class="o">*</span><span class="n">restful</span><span class="o">.</span><span class="n">Response</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">dl</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="n">v1alpha1</span><span class="o">.</span><span class="n">DarkroomList</span><span class="p">)</span>
+	<span class="n">err</span> <span class="o">:=</span> <span class="n">de</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">Context</span><span class="p">(),</span> <span class="n">dl</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">client</span><span class="o">.</span><span class="n">ListOptions</span><span class="p">{})</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">l</span> <span class="o">:=</span> <span class="n">From</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">dl</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">response</span><span class="o">.</span><span class="n">WriteAsJson</span><span class="p">(</span><span class="n">l</span><span class="p">);</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="p">(</span><span class="n">de</span> <span class="o">*</span><span class="n">DarkroomEndpoint</span><span class="p">)</span> <span class="n">create</span><span class="p">(</span><span class="n">request</span> <span class="o">*</span><span class="n">restful</span><span class="o">.</span><span class="n">Request</span><span class="p">,</span> <span class="n">response</span> <span class="o">*</span><span class="n">restful</span><span class="o">.</span><span class="n">Response</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">d</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="n">Darkroom</span><span class="p">)</span>
+	<span class="n">err</span> <span class="o">:=</span> <span class="n">request</span><span class="o">.</span><span class="n">ReadEntity</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* return error */</span> <span class="p">}</span>
+
+	<span class="k">if</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">d</span><span class="o">.</span><span class="n">Validate</span><span class="p">();</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* ... */</span> <span class="p">}</span>
+	<span class="n">obj</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="n">v1alpha1</span><span class="o">.</span><span class="n">Darkroom</span><span class="p">{</span> <span class="c">/* fill all common values */</span> <span class="p">}</span>
+
+	<span class="c">// Use obj.Spec.Source.Type to populate other values like </span>
+
+	<span class="n">err</span> <span class="o">=</span> <span class="n">de</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">Context</span><span class="p">(),</span> <span class="n">obj</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">client</span><span class="o">.</span><span class="n">CreateOptions</span><span class="p">{})</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* return error */</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">d</span> <span class="o">:=</span> <span class="n">From</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">response</span><span class="o">.</span><span class="n">WriteAsJson</span><span class="p">(</span><span class="n">d</span><span class="p">);</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span> <span class="c">/* return error */</span> <span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Fire up the server now with <code class="highlighter-rouge">go run ./api-server/cmd/main.go</code> or with make target(if defined) <code class="highlighter-rouge">make api</code></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make api
+/use/local/go/bin/controller-gen object:headerFile<span class="o">=</span><span class="s2">"hack/boilerplate.go.txt"</span> <span class="nv">paths</span><span class="o">=</span><span class="s2">"./..."</span>
+go <span class="nb">fmt</span> ./...
+go vet ./...
+go run ./api-server/cmd/main.go
+2020-06-25T00:37:44.391+0530	INFO	darkroom-cp.run	starting api-server manager
+2020-06-25T00:37:44.392+0530	INFO	api-server	Starting api-server	<span class="o">{</span><span class="s2">"interface"</span>: <span class="s2">"0.0.0.0"</span>, <span class="s2">"port"</span>: <span class="s2">":5000"</span><span class="o">}</span>
+</code></pre></div></div>
+
+<p>And then test it with curl to list the current Darkroom CRD instances</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl localhost:5000/darkrooms
+<span class="o">{</span>
+ <span class="s2">"items"</span>: <span class="o">[</span>
+  <span class="o">{</span>
+   <span class="s2">"name"</span>: <span class="s2">"darkroom-sample"</span>,
+   <span class="s2">"version"</span>: <span class="s2">"0.1.0"</span>,
+   <span class="s2">"source"</span>: <span class="o">{</span>
+    <span class="s2">"type"</span>: <span class="s2">"WebFolder"</span>,
+    <span class="s2">"baseUrl"</span>: <span class="s2">"https://ajatprabha.in/assets"</span>
+   <span class="o">}</span>,
+   <span class="s2">"status"</span>: <span class="o">{</span>
+    <span class="s2">"domains"</span>: <span class="o">[</span>
+     <span class="s2">"ajatprabha.darkroom.example.com"</span>
+    <span class="o">]</span>
+   <span class="o">}</span>
+  <span class="o">}</span>
+ <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The new API server can also be used to create new Darkroom instances.</p>
+
+<video width="720" controls="">
+    <source src="/assets/videos/operator-ex-02.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+
+<p>Now you can connect this to a GUI, I will include the <a href="https://github.com/ajatprabha/operator-example/tree/master/gui" target="blank">GUI code in the repo</a> but won’t go through it as it’s out of scope of this blog post.</p>
+
+<p><img src="/assets/images/Screenshot-2020-06-25 01-31-09.png" alt="Darkroom list" style="max-width: 1400px" /><br />
+<img src="/assets/images/Screenshot-2020-06-25 01-31-37.png" alt="Add new Darkroom" style="max-width: 1100px" /></p>
+
+<p>And this concept of leveraging K8S using operators and a custom GUI can be used to create many solutions. If you can do it manually, you can automate it with operators!</p>
+
+<p>I hope this was an helpful post, feel free to drop your comments and queries.</p>
+
+                </div>
+            </section>
+
+            <!-- Email subscribe form at the bottom of the page -->
+            
+
+            <footer class="post-full-footer">
+                <!-- Everything inside the #author tags pulls data from the author -->
+                <!-- #author-->
+                
+                    
+                        <section class="author-card">
+                            
+                                <img class="author-profile-image" src="/assets/images/ajat.jpg" alt="ajatprabha" />
+                            
+                            <section class="author-card-content">
+                                <h4 class="author-card-name"><a href="/author/ajatprabha">Ajat Prabha</a></h4>
+                                
+                                    <p>Code | Music | Travel</p>
+                                
+                            </section>
+                        </section>
+                        <div class="post-full-footer-right">
+                            <a class="author-card-button" href="/author/ajatprabha">Read More</a>
+                        </div>
+                    
+                
+                <!-- /author  -->
+            </footer>
+
+            <!-- If you use Disqus comments, just uncomment this block.
+            The only thing you need to change is "test-apkdzgmqhj" - which
+            should be replaced with your own Disqus site-id. -->
+            
+                <section class="post-full-comments">
+                    <div id="disqus_thread"></div>
+                    <script>
+                        var disqus_config = function () {
+                            this.page.url = 'https://ajatprabha.in/';
+                            this.page.identifier = 'Ajat Prabha';
+                        };
+                        (function() {
+                            var d = document, s = d.createElement('script');
+                            s.src = 'https://ajat-prabha.disqus.com/embed.js';
+                            s.setAttribute('data-timestamp', +new Date());
+                            (d.head || d.body).appendChild(s);
+                        })();
+                    </script>
+                </section>
+            
+
+        </article>
+
+    </div>
+</main>
+
+<!-- Links to Previous/Next posts -->
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+                
+                
+                
+                
+            
+
+            <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/2020/10/06/diy-sound-system-minimalistic">
+                <div class="post-card-image" style="background-image: url(/assets/images/IMG_20201007_235240.jpg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/2020/10/06/diy-sound-system-minimalistic">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Diy</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">Sound</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Making a DIY Sound System that looks minimalistic</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    <p>I'm a huge music enthusiast and I listen to music almost half the day while working. Good quality speakers are a must for me. Recently I was changing the furniture in my house</p>
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                        
+                        <img class="author-profile-image" src="/assets/images/ajat.jpg" alt="Ajat Prabha" />
+                        
+                        <span class="post-card-author">
+                            <a href="/author/ajatprabha/">Ajat Prabha</a>
+                        </span>
+                    
+                
+            </footer>
+        </div>
+    </article>
+
+            
+
+            <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry">
+                <div class="post-card-image" style="background-image: url(/assets/images/IMG_20180617_083757.jpg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Gojek</span>
+                            
+                        
+                            
+                               <span class="post-card-tags">Internship</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">Travel</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Week 4 - Load testing with Vegeta and trip to Puducherry</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    <p>This week, I acknowledged the importance of load testing before deploying a service into production which has to serve 50K images per minute. To know what service I’m testing head over to week</p>
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                        
+                        <img class="author-profile-image" src="/assets/images/ajat.jpg" alt="Ajat Prabha" />
+                        
+                        <span class="post-card-author">
+                            <a href="/author/ajatprabha/">Ajat Prabha</a>
+                        </span>
+                    
+                
+            </footer>
+        </div>
+    </article>
+
+            
+
+        </div>
+    </div>
+</aside>
+
+<!-- Floating header which appears on-scroll, included from includes/floating-header.hbs -->
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="https://ajatprabha.in/">
+            
+                <img src="/assets/images/favicon.png" alt="Ajat Prabha icon" />
+            
+            <span>Ajat Prabha</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Writing Kubernetes Operator with an API Server for Custom GUI</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=Writing+Kubernetes+Operator+with+an+API+Server+for+Custom+GUI&amp;url=https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+
+        </a>
+    </div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+<!-- /post -->
+
+<!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs -->
+
+
+        <!-- Previous/next page links - displayed on every page -->
+        
+
+        <!-- The footer at the very bottom of the screen -->
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="https://ajatprabha.in/">Ajat Prabha</a> &copy; 2023</section>
+                <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> &
+                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> using
+                    <a href="https://github.com/jekyller/jasper2" target="_blank" rel="noopener">Jasper2</a></section>
+                <nav class="site-footer-nav">
+                    <a href="/">Latest Posts</a>
+                    <a href="https://github.com/ajatprabha" target="_blank" rel="noopener">Github</a>
+                    <a href="https://www.linkedin.com/in/ajatprabha/" target="_blank" rel="noopener">LinkedIn</a>
+                    <a href="https://twitter.com/ajatprabha" target="_blank" rel="noopener">Twitter</a>
+                    <a href="https://facebook.com/iAmAjat" target="_blank" rel="noopener">Facebook</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- The big email subscribe modal content -->
+    
+
+    <!-- highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-abap.min.js"></script>
+    <script>$(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });</script>
+
+    <!-- jQuery + Fitvids, which makes all video embeds responsive -->
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://demo.ghost.io/assets/js/jquery.fitvids.js?v=724281a32e"></script>
+
+
+    <!-- Paginator increased to "infinit" in _config.yml -->
+    <!-- if paginator.posts  -->
+    <!-- <script>
+        var maxPages = parseInt('');
+    </script>
+    <script src="/assets/js/infinitescroll.js"></script> -->
+    <!-- /endif -->
+
+    
+
+
+    <!-- Add Google Analytics  -->
+    <!-- Google Analytics Tracking code -->
+ <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-111176207-1', 'auto');
+  ga('send', 'pageview');
+
+ </script>
+
+
+    <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. -->
+    
+        <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+
+    
+
+    <!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag -->
+    <!-- ghost_foot -->
+
+</body>
+</html>

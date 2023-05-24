@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Base Meta -->
+    <!-- dynamically fixing the title for tag/author pages -->
+
+
+
+    <title>Getting to know SDLC | Waterfall vs Agile Development</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!-- This tag outputs SEO meta+structured data and other important settings -->
+    <meta name="description" content="Blog" />
+    <link rel="shortcut icon" href="https://ajatprabha.in/assets/images/favicon.png" type="image/png" />
+    <link rel="canonical" href="https://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+
+     <!--title below is coming from _includes/dynamic_title-->
+    <meta property="og:site_name" content="Ajat Prabha" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Getting to know SDLC | Waterfall vs Agile Development" />
+    <meta property="og:description" content="I was always curious to know, how a professional business software is developed from start to finish. Unlike what we do during our study of software designing or developing a hobby project, we don’t take the steps involved in making a professional software that seriously! But when you’re out there" />
+    <meta property="og:url" content="https://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile" />
+    <meta property="og:image" content="https://ajatprabha.in/assets/images/getting-to-know.jpg" />
+    <meta property="article:publisher" content="https://www.facebook.com/iAmAjat" />
+    <meta property="article:author" content="https://www.facebook.com/iAmAjat" />
+    <meta property="article:published_time" content="2017-12-12T17:49:00+00:00" />
+    <meta property="article:modified_time" content="2017-12-12T17:49:00+00:00" />
+    <meta property="article:tag" content="Sdlc" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Getting to know SDLC | Waterfall vs Agile Development" />
+    <meta name="twitter:description" content="I was always curious to know, how a professional business software is developed from start to finish. Unlike what we do during our study of software designing or developing a hobby project, we don’t take the steps involved in making a professional software that seriously! But when you’re out there" />
+    <meta name="twitter:url" content="https://ajatprabha.in/" />
+    <meta name="twitter:image" content="https://ajatprabha.in/assets/images/getting-to-know.jpg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Ajat Prabha" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Sdlc" />
+    <meta name="twitter:site" content="@ajatprabha" />
+    <meta name="twitter:creator" content="@ajatprabha" />
+    <meta property="og:image:width" content="1400" />
+    <meta property="og:image:height" content="933" />
+
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Ajat Prabha",
+        "logo": "https://ajatprabha.in/assets/images/blog-icon.png"
+    },
+    "url": "https://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://ajatprabha.in/assets/images/getting-to-know.jpg",
+        "width": 2000,
+        "height": 666
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile"
+    },
+    "description": "I was always curious to know, how a professional business software is developed from start to finish. Unlike what we do during our study of software designing or developing a hobby project, we don’t take the steps involved in making a professional software that seriously! But when you’re out there"
+}
+    </script>
+
+    <!-- <script type="text/javascript" src="https://demo.ghost.io/public/ghost-sdk.min.js?v=724281a32e"></script>
+    <script type="text/javascript">
+    ghost.init({
+    	clientId: "ghost-frontend",
+    	clientSecret: "f84a07a72b17"
+    });
+    </script> -->
+
+    <meta name="generator" content="Jekyll 3.6.2" />
+    <link type="application/atom+xml" rel="alternate" href="https://ajatprabha.in/feed.xml" title="Ajat Prabha" />
+
+
+</head>
+<body class="post-template">
+
+    <div class="site-wrapper">
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template -->
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+        
+            
+                <a class="site-nav-logo" href="https://ajatprabha.in/"><img src="/assets/images/blog-icon.png" alt="Ajat Prabha" /></a>
+            
+        
+        
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="/">Home</a></li>
+    <li class="nav-about" role="menuitem"><a href="/about/">About</a></li>
+    <li class="nav-gsoc" role="menuitem"><a href="/gsoc-meta-k8s/">GSoC'19</a></li>
+</ul>
+
+        
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+            
+                <a class="social-link" href="/feed.xml" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>
+</a>
+            
+            
+                <a class="social-link social-link-gh" href="https://github.com/ajatprabha" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+            
+            
+                <a class="social-link social-link-li" href="https://www.linkedin.com/in/ajatprabha/" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+            
+            
+                <a class="social-link social-link-tw" href="https://twitter.com/ajatprabha" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+            
+            
+                <a class="social-link social-link-fb" href="https://facebook.com/iAmAjat" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+</a>
+            
+        </div>
+        
+    </div>
+</nav>
+
+    </div>
+</header>
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+
+        <article class="post-full post tag-sdlc ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime="12 December 2017">12 December 2017</time>
+                    
+                        <span class="date-divider">/</span>
+                        
+                            
+                               <a href='/tag/sdlc/'>SDLC</a>,
+                            
+                        
+                            
+                               <a href='/tag/agile-development/'>AGILE DEVELOPMENT</a>,
+                            
+                        
+                            
+                               <a href='/tag/waterfall/'>WATERFALL</a>
+                            
+                        
+                    
+                </section>
+                <h1 class="post-full-title">Getting to know SDLC | Waterfall vs Agile Development</h1>
+            </header>
+
+            
+            <figure class="post-full-image" style="background-image: url(/assets/images/getting-to-know.jpg)">
+            </figure>
+            
+
+            <section class="post-full-content">
+                <div class="kg-card-markdown">
+                    <p>I was always curious to know, how a professional business software is developed from start to finish. Unlike what we do during our study of software designing or developing a hobby project, we don’t take the steps involved in making a professional software that seriously! But when you’re out there in the real world you can’t afford to mess things up due to the lack of a streamlined workflow. So while searching for a tested methodology for software development, I came across something called SDLC aka ‘Software Development Life Cycle’. It essentially used to describe the various processes involved in the development of a software viz.</p>
+
+<ol>
+  <li>Requirement Analysis</li>
+  <li>Design</li>
+  <li>Development</li>
+  <li>Testing</li>
+  <li>Deployment</li>
+  <li>Maintainance</li>
+</ol>
+
+<p><img src="/assets/images/SDLC-932x1024.png" alt="SDLC flow model" style="max-width: 400px;" /><br />
+Source: Self-created</p>
+
+<h4 id="requirement-analysis">Requirement Analysis</h4>
+
+<p>This is the first step of SDLC in which the Product/Software owner analyses the problem at hand and the requirements needed to solve it, the features needed to be fulfilled by the end product. The analyst shall also look at the feasibility of the features in terms of Operational, Economical, Technical and Legal situations. The problem is then broken down into smaller requirements to simplify the goals that need to be achieved. Once this is done, the process moves to the next step.</p>
+
+<h4 id="design">Design</h4>
+
+<p>When all the features requirements and goals are documented, then a team of developers decides and describes various aspects of the software design viz.</p>
+
+<ol>
+  <li>Business requirements and rules</li>
+  <li>Functional and operational requirements</li>
+  <li>Various diagrams such as process diagrams, activity diagrams, class diagrams, use-case diagrams, etc. [See <a href="https://en.wikipedia.org/wiki/Unified_Modeling_Language">UML</a>]</li>
+  <li>Choosing the languages/tools on which the system should be built</li>
+  <li>UI/UX designing, etc</li>
+</ol>
+
+<p>The end result of this stage will result in a well-documented requirement of modules and/or subsystems upon which the next step will continue.</p>
+
+<h4 id="development">Development</h4>
+
+<p>This is the step where all the documented requirements are converted into actual code. Several developers work on their assigned features on their own development environments. Once they complete their work, it is merged using <a href="https://en.wikipedia.org/wiki/Version_control">VCS</a> and then it moves to the next step.</p>
+
+<h4 id="testing">Testing</h4>
+
+<p>This is one of the most important steps of SDLC. During the past 2-3 decades, testing has become very important in SDLC. To simply put it:</p>
+
+<blockquote>
+  <p>No Tests, No Deployment</p>
+</blockquote>
+
+<p>Once the code is developed, then various types of tests are written and run on the code to find bugs and reassure the functioning of the software. It also helps in future quality assurance when refactoring is done, or a new feature is added, or an old one is removed. Tests will make sure that you don’t violate the contract that a function is bound to fulfil. There are <a href="/2017/12/20/tdd-why-bother">unit tests</a>, integration tests, automation tests, and performance tests, to name a few.</p>
+
+<h4 id="deployment">Deployment</h4>
+
+<p>Once testing is done and the quality is assured, then the software/product is deployed on a physical machine. This machine can be either a dedicated enterprise machine, say a data-centre or a client’s own machine.</p>
+
+<h4 id="maintenance">Maintenance</h4>
+
+<p>Finally, the last step kicks in. In this, once deployed, the product is constantly reviewed for any bugs and other issues, if it can troubleshoot easily, then it’s okay otherwise it moves back again to Design step and the cycle is repeated. Now that we know what an SDLC is, let us discuss the SDLC models!</p>
+
+<h2 id="sdlc-models">SDLC Models</h2>
+
+<p>An SDLC model is used to describe the various steps involved based on the requirements of software, deadlines, quality, the speed of development, etc. While there are several models in SDLC viz. Waterfall, Spiral, Rapid-prototyping, etc. We’ll be looking only for Waterfall and Agile Development today.</p>
+
+<h2 id="1-waterfall">1. Waterfall</h2>
+
+<p>This model is basically a linear sequential approach to all the steps involved in SDLC. It’s very easy to understand and implement. It’s done in ‘stages’ from start to finish before a next stage can be started. It is preferred when all the requirements are already known and quality of the end product is required. There’s no short-term time frame to complete the task at hand, the software is usually created in one single go.<br />
+<img src="/assets/images/waterfall-768x820.png" alt="Waterfall model" style="max-width: 512px;" /><br />
+Source: Self-created</p>
+
+<h2 id="2-agile-methodology">2. Agile methodology</h2>
+
+<p>This model is an iterative approach to all the steps involved in SDLC. One of the most common types of agile craftsmanship is ‘SCRUM’. It’s done in ‘Sprints’. It is preferred when speed is required in developing the software/product. First, a story(one planned sprint) is pulled from the Product Backlog. A sprint usually lasts up to 2, 3 or 4 weeks. It first moves to Sprint Backlog where meetups are held, the sprint is here planned with the team and the scrum master. Also if there is any previous retrospection needed to be done then it also discussed beforehand. In the meetup, demos/reviews are done for each of the individual developers, they’ve to tell the team what they’ve done till now, what are the future plans and what hindrances they might be facing. During this whole sprint, the scrum master checks the flow in three phases viz. InDev, Ready for QA (Quality Assurance) and InQA, and if it passes all the phases then the scrum master marks the sprint as done or DOD (definition of done). During QA check, the steps involved in SDLC are verified, tests are run and should pass. There can also be certain specifications like a minimum percentage of tests, automation requirements, etc that might need to fulfil for getting DOD.</p>
+
+<h3 id="comparison">Comparison:</h3>
+
+<ol>
+  <li><strong>Flow:</strong> The waterfall is a linear sequential flow of steps in SDLC, whereas agile development goes through the steps iteratively in short cycles.</li>
+  <li><strong>Interaction:</strong> The waterfall has varied interaction with the client, i.e. High during requirement analysis and user acceptance, whereas agile development has constant Business interaction with clients as the cycles(sprints) are short.</li>
+  <li><strong>Head of operations:</strong> In waterfall, there is an overall Product Manager, whereas, in agile development (SCRUM), there is a scrum master.</li>
+  <li><strong>Falling back:</strong> In the waterfall model, one cannot fall back until a stage completed, whereas, in agile development, one can fall back at any instant of time because time span is usually short.</li>
+  <li><strong>Requirement changes:</strong> In waterfall, requirement changes are not possible without raising a change request which will re-initiate the whole process, whereas, in agile development, the new feature request can be shifted to next sprint, if it is not feasible in the current sprint.</li>
+  <li><strong>Speed:</strong> The pace of development is comparatively faster in agile development than to waterfall. Also due to lack of speed in the waterfall model, the technologies may go obsolete by the time the software is delivered.</li>
+</ol>
+
+<p>While the debate may go on forever that which model is better, I believe that it depends upon the requirements of the individual, both models have their pros and cons. One must choose wisely! I hope this was an informative article for you. This was all that I had to talk about today. Since I’m very new to the topic, I might have missed something or made mistakes. Do suggest/correct me if you found something.</p>
+
+                </div>
+            </section>
+
+            <!-- Email subscribe form at the bottom of the page -->
+            
+
+            <footer class="post-full-footer">
+                <!-- Everything inside the #author tags pulls data from the author -->
+                <!-- #author-->
+                
+                    
+                        <section class="author-card">
+                            
+                                <img class="author-profile-image" src="/assets/images/ajat.jpg" alt="ajatprabha" />
+                            
+                            <section class="author-card-content">
+                                <h4 class="author-card-name"><a href="/author/ajatprabha">Ajat Prabha</a></h4>
+                                
+                                    <p>Code | Music | Travel</p>
+                                
+                            </section>
+                        </section>
+                        <div class="post-full-footer-right">
+                            <a class="author-card-button" href="/author/ajatprabha">Read More</a>
+                        </div>
+                    
+                
+                <!-- /author  -->
+            </footer>
+
+            <!-- If you use Disqus comments, just uncomment this block.
+            The only thing you need to change is "test-apkdzgmqhj" - which
+            should be replaced with your own Disqus site-id. -->
+            
+                <section class="post-full-comments">
+                    <div id="disqus_thread"></div>
+                    <script>
+                        var disqus_config = function () {
+                            this.page.url = 'https://ajatprabha.in/';
+                            this.page.identifier = 'Ajat Prabha';
+                        };
+                        (function() {
+                            var d = document, s = d.createElement('script');
+                            s.src = 'https://ajat-prabha.disqus.com/embed.js';
+                            s.setAttribute('data-timestamp', +new Date());
+                            (d.head || d.body).appendChild(s);
+                        })();
+                    </script>
+                </section>
+            
+
+        </article>
+
+    </div>
+</main>
+
+<!-- Links to Previous/Next posts -->
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+                
+                
+                
+                
+            
+
+            <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/2017/12/20/tdd-why-bother">
+                <div class="post-card-image" style="background-image: url(/assets/images/tdd-why-bother.jpg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/2017/12/20/tdd-why-bother">
+                <header class="post-card-header">
+                    
+                        
+                            
+                                <span class="post-card-tags">Tdd</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">TDD (Test Driven Development), why bother?</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    <p>Recently I came to know about TDD (Test Driven Development), a development methodology in [Agile Software Craftsmanship]({% post_url 2017-12-12-sdlc-waterfall-vs-agile %}). At first, I was not even sure that how can we write tests</p>
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                        
+                        <img class="author-profile-image" src="/assets/images/ajat.jpg" alt="Ajat Prabha" />
+                        
+                        <span class="post-card-author">
+                            <a href="/author/ajatprabha/">Ajat Prabha</a>
+                        </span>
+                    
+                
+            </footer>
+        </div>
+    </article>
+
+            
+
+            <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
+            
+
+        </div>
+    </div>
+</aside>
+
+<!-- Floating header which appears on-scroll, included from includes/floating-header.hbs -->
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="https://ajatprabha.in/">
+            
+                <img src="/assets/images/favicon.png" alt="Ajat Prabha icon" />
+            
+            <span>Ajat Prabha</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Getting to know SDLC | Waterfall vs Agile Development</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=Getting+to+know+SDLC+%7C+Waterfall+vs+Agile+Development&amp;url=https://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+
+        </a>
+    </div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+<!-- /post -->
+
+<!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs -->
+
+
+        <!-- Previous/next page links - displayed on every page -->
+        
+
+        <!-- The footer at the very bottom of the screen -->
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="https://ajatprabha.in/">Ajat Prabha</a> &copy; 2023</section>
+                <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> &
+                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> using
+                    <a href="https://github.com/jekyller/jasper2" target="_blank" rel="noopener">Jasper2</a></section>
+                <nav class="site-footer-nav">
+                    <a href="/">Latest Posts</a>
+                    <a href="https://github.com/ajatprabha" target="_blank" rel="noopener">Github</a>
+                    <a href="https://www.linkedin.com/in/ajatprabha/" target="_blank" rel="noopener">LinkedIn</a>
+                    <a href="https://twitter.com/ajatprabha" target="_blank" rel="noopener">Twitter</a>
+                    <a href="https://facebook.com/iAmAjat" target="_blank" rel="noopener">Facebook</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- The big email subscribe modal content -->
+    
+
+    <!-- highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-abap.min.js"></script>
+    <script>$(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });</script>
+
+    <!-- jQuery + Fitvids, which makes all video embeds responsive -->
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://demo.ghost.io/assets/js/jquery.fitvids.js?v=724281a32e"></script>
+
+
+    <!-- Paginator increased to "infinit" in _config.yml -->
+    <!-- if paginator.posts  -->
+    <!-- <script>
+        var maxPages = parseInt('');
+    </script>
+    <script src="/assets/js/infinitescroll.js"></script> -->
+    <!-- /endif -->
+
+    
+
+
+    <!-- Add Google Analytics  -->
+    <!-- Google Analytics Tracking code -->
+ <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-111176207-1', 'auto');
+  ga('send', 'pageview');
+
+ </script>
+
+
+    <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. -->
+    
+        <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+
+    
+
+    <!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag -->
+    <!-- ghost_foot -->
+
+</body>
+</html>

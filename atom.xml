@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title> - Articles</title>
+    <description>Blog</description>
+    <link>
+    https://ajatprabha.in</link>
+    
+      
+      <item>
+        <title>Introduction to xrun: A Flexible Package for Managing Component Lifecycles in Go</title>
+        
+          <description>&lt;p&gt;Hello, Go community! Today, I am excited to announce a Golang package I have been working on named &lt;code class=&quot;highlighter-rouge&quot;&gt;xrun&lt;/code&gt;. This package provides a streamlined way of running multiple components, specifically long-running components like an HTTP server or background worker. In this blog post, I will walk you through the basic functionality of &lt;code class=&quot;highlighter-rouge&quot;&gt;xrun&lt;/code&gt; and how it can help you manage your long-running components more efficiently.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Wed, 24 May 2023 01:00:00 +0000</pubDate>
+        <link>
+        https://ajatprabha.in/2023/05/24/intro-xrun-package-managing-component-lifecycle-go</link>
+        <guid isPermaLink="true">https://ajatprabha.in/2023/05/24/intro-xrun-package-managing-component-lifecycle-go</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Making a DIY Sound System that looks minimalistic</title>
+        
+          <description>&lt;p&gt;I’m a huge music enthusiast and I listen to music almost half the day while working. Good quality speakers are a must for me. Recently I was changing the furniture in my house and I wanted to add a new sound system in the living room. I had two options:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Either I could go to the market and get one off-the-shelf&lt;/li&gt;
+  &lt;li&gt;Or I could create one myself&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        
+        <pubDate>Tue, 06 Oct 2020 12:00:00 +0000</pubDate>
+        <link>
+        https://ajatprabha.in/2020/10/06/diy-sound-system-minimalistic</link>
+        <guid isPermaLink="true">https://ajatprabha.in/2020/10/06/diy-sound-system-minimalistic</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Writing Kubernetes Operator with an API Server for Custom GUI</title>
+        
+          <description>&lt;p&gt;If you have read my previous blog posts, I worked on an image proxy called &lt;a href=&quot;https://github.com/gojek/darkroom&quot; target=&quot;blank&quot;&gt;Darkroom&lt;/a&gt; which manipulates the images on the fly. I also started learning more about &lt;a href=&quot;http://kubernetes.io/&quot; target=&quot;blank&quot;&gt;Kubernetes&lt;/a&gt; and then I thought I should build something to get a deeper understanding of K8S. So the task that I took up is to create a GUI that is simple to use and it deploys &lt;code class=&quot;highlighter-rouge&quot;&gt;Darkroom&lt;/code&gt; on-demand and everything else should happen without manually running &lt;code class=&quot;highlighter-rouge&quot;&gt;kubectl&lt;/code&gt; commands.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Wed, 24 Jun 2020 12:00:00 +0000</pubDate>
+        <link>
+        https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui</link>
+        <guid isPermaLink="true">https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Week 4 - Load testing with Vegeta and trip to Puducherry</title>
+        
+          <description>&lt;blockquote&gt;
+  &lt;p&gt;This week, I acknowledged the importance of load testing before deploying a service into production which has to serve 50K images per minute.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+</description>
+        
+        <pubDate>Sun, 17 Jun 2018 12:00:00 +0000</pubDate>
+        <link>
+        https://ajatprabha.in/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry</link>
+        <guid isPermaLink="true">https://ajatprabha.in/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Week 3 - Lots of code and learning</title>
+        
+          <description>&lt;blockquote&gt;
+  &lt;p&gt;Week 3 was filled with more of coding and learning new things down the line. I learned how dependency injection in Golang is done, writing mocks and stubs for the test cases, etc. to name a few. How an application is deployed to tens of servers with the push of a button.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+</description>
+        
+        <pubDate>Sun, 10 Jun 2018 12:00:00 +0000</pubDate>
+        <link>
+        https://ajatprabha.in/2018/06/10/third-week-code-all-you-want</link>
+        <guid isPermaLink="true">https://ajatprabha.in/2018/06/10/third-week-code-all-you-want</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Week 2 - Exploring Golang and the trip to Coorg</title>
+        
+          <description>&lt;blockquote&gt;
+  &lt;p&gt;It’s been great till now and our mentor came back from Jakarta. It’s time to start building the service that will handle 50K+ image requests per minute. I also went on a road trip to Coorg at the weekend, the scenes were jaw-dropping, one of the best trips I went on.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+</description>
+        
+        <pubDate>Sun, 03 Jun 2018 12:00:00 +0000</pubDate>
+        <link>
+        https://ajatprabha.in/2018/06/03/second-week-at-gojek</link>
+        <guid isPermaLink="true">https://ajatprabha.in/2018/06/03/second-week-at-gojek</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Week 1 - Experience as an intern at GoJek</title>
+        
+          <description>&lt;blockquote&gt;
+  &lt;p&gt;It began, the week I’ve been waiting for since months! I was finally interning with GoJek in Bangalore.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+</description>
+        
+        <pubDate>Sun, 27 May 2018 18:00:00 +0000</pubDate>
+        <link>
+        https://ajatprabha.in/2018/05/27/first-week-at-gojek-bangalore</link>
+        <guid isPermaLink="true">https://ajatprabha.in/2018/05/27/first-week-at-gojek-bangalore</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>How I got the internship at GoJek</title>
+        
+          <description>&lt;p&gt;It was October of 2017 I guess and campus interviews for internships were going on and I could easily spot my seniors wearing formals inside the campus. And believe me, I couldn’t even recognize one of the seniors whom I already knew 😛. One morning I asked my batch-mate that I wanna see the interview process! He was a volunteer in Student Placement Cell. He said, no problem, come with me tonight.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Sun, 27 May 2018 16:00:00 +0000</pubDate>
+        <link>
+        https://ajatprabha.in/2018/05/27/how-i-got-the-internship-at-gojek</link>
+        <guid isPermaLink="true">https://ajatprabha.in/2018/05/27/how-i-got-the-internship-at-gojek</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>TDD (Test Driven Development), why bother?</title>
+        
+          <description>&lt;p&gt;Recently I came to know about TDD (Test Driven Development), a development methodology in &lt;a href=&quot;/2017/12/12/sdlc-waterfall-vs-agile&quot;&gt;Agile Software Craftsmanship&lt;/a&gt;. At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Wed, 20 Dec 2017 17:24:00 +0000</pubDate>
+        <link>
+        https://ajatprabha.in/2017/12/20/tdd-why-bother</link>
+        <guid isPermaLink="true">https://ajatprabha.in/2017/12/20/tdd-why-bother</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Getting to know SDLC | Waterfall vs Agile Development</title>
+        
+          <description>&lt;p&gt;I was always curious to know, how a professional business software is developed from start to finish. Unlike what we do during our study of software designing or developing a hobby project, we don’t take the steps involved in making a professional software that seriously! But when you’re out there in the real world you can’t afford to mess things up due to the lack of a streamlined workflow. So while searching for a tested methodology for software development, I came across something called SDLC aka ‘Software Development Life Cycle’. It essentially used to describe the various processes involved in the development of a software viz.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Tue, 12 Dec 2017 17:49:00 +0000</pubDate>
+        <link>
+        https://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile</link>
+        <guid isPermaLink="true">https://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile</guid>
+      </item>
+      
+    
+  </channel>
+</rss>
