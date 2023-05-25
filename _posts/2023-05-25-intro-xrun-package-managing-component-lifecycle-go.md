@@ -151,6 +151,29 @@ if err := m.Run(ctx); err != nil {
 }
 ```
 
+#### Combining Components with `xrun.All`
+
+Components can also be combined together using the `xrun.All` function. This function creates a new `Component` that starts all of the provided components in the order they were given and stops them in the reverse order.
+
+Here is an example of its usage:
+
+```go
+tick1 := time.NewTicker(1 * time.Second)
+task1 := func() { fmt.Println("Task1 executed") }
+s1 := &ScheduledTask{Ticker: tick1, Task: task1}
+
+tick2 := time.NewTicker(2 * time.Second)
+task2 := func() { fmt.Println("Task2 executed") }
+s2 := &ScheduledTask{Ticker: tick2, Task: task2}
+
+ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
+defer stop()
+
+if err := xrun.All(xrun.NoTimeout, s1, s2).Run(ctx); err != nil {
+    log.Fatal(err)
+}
+```
+
 ## Extending xrun: Custom Component Examples
 
 While `xrun` provides some built-in components, you can create your own to suit your specific needs.
