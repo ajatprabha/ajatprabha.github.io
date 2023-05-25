@@ -265,7 +265,7 @@ func main() {
 
 The `xrun` package makes it easier to manage component lifecycles in your Go applications. By allowing you to define and control how each component starts and stops, you can make your application more maintainable and robust.
 
-Finally, I'd like to give credits to the authors at the Kubernetes community. The manager source of `xrun` has been heavily influenced by the `sigs.k8s.io/controller-runtime` package.
+Finally, I'd like to give credits to the authors at the Kubernetes community. The manager source of `xrun` has been heavily influenced by the [sigs.k8s.io/controller-runtime](https://github.com/kubernetes-sigs/controller-runtime/tree/a1e2ea2/pkg/manager) package.
 
 Thanks for reading, and I hope you find `xrun` as useful as I do!
 
