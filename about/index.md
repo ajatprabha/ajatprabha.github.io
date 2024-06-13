@@ -8,9 +8,12 @@ class: page-template
 subclass: 'post page'
 ---
 
-Hi there! I'm Ajat Prabha, a Computer Science and Engineering undergrad at Indian Institute of Technology, Jodhpur. I love doing development coding and you can go check out my [GitHub](https://github.com/ajatprabha) account for my projects.
+Hey there!
 
-> I'm currently a final year student and a [GSoC student]() with Cloud Native Computing Foundation working on Kubernetes. I also worked as a software engineering intern with [GO-JEK Tech](http://www.gojek.io/), Indonesia's first unicorn in summer 2018.
+I'm Ajat, and I recently took the plunge into entrepreneurship after spending a little over four years at Gojek. I graduated in Computer Science and Engineering from the Indian Institute of Technology, Jodhpur, and coding is my jam. If you're curious, you can check out some of my projects on [GitHub](https://github.com/ajatprabha).
 
-I'm a dancer too. Not that great but yeah, I know how to move my legs and arms! 😜  
-Also a founding member of the student development community at IIT Jodhpur called [Devlup Labs](https://github.com/devlup-labs). 😉
+Right now, I'm in this exciting phase of exploring and experimenting with a new idea in the SaaS space. It's all about creating a real-time communication platform.
+
+On a more personal note, I've recently become a fan of F1 and really enjoy karting. I'm also a travel enthusiast, and one of the top things on my bucket list is to catch live F1 races around the world.
+
+Catch you later!
