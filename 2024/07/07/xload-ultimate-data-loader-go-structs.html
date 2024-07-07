@@ -242,6 +242,35 @@ into the {body} of the default.hbs template -->
 <span class="p">}</span>
 </code></pre></div></div>
 
+<p>Or implement your own by defining one of the following methods for xload:</p>
+<ol>
+  <li><code class="highlighter-rouge">interface{ Decode(string) error }</code></li>
+  <li><code class="highlighter-rouge">encoding.TextUnmarshaler</code></li>
+  <li><code class="highlighter-rouge">json.Unmarshaler</code></li>
+  <li><code class="highlighter-rouge">encoding.BinaryUnmarshaler</code></li>
+  <li><code class="highlighter-rouge">encoding.GobDecoder</code></li>
+</ol>
+
+<p>Example:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// URL is a type alias for url.URL.</span>
+<span class="c">// The general form represented is: [scheme:][//[userinfo@]host][/]path[?query][#fragment]</span>
+<span class="k">type</span> <span class="n">URL</span> <span class="n">url</span><span class="o">.</span><span class="n">URL</span>
+
+<span class="k">func</span> <span class="p">(</span><span class="n">u</span> <span class="o">*</span><span class="n">URL</span><span class="p">)</span> <span class="n">String</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span> <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">url</span><span class="o">.</span><span class="n">URL</span><span class="p">)(</span><span class="n">u</span><span class="p">)</span><span class="o">.</span><span class="n">String</span><span class="p">()</span> <span class="p">}</span>
+
+<span class="k">func</span> <span class="p">(</span><span class="n">u</span> <span class="o">*</span><span class="n">URL</span><span class="p">)</span> <span class="n">Decode</span><span class="p">(</span><span class="n">v</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="n">parsed</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">url</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="n">err</span>
+	<span class="p">}</span>
+
+	<span class="o">*</span><span class="n">u</span> <span class="o">=</span> <span class="n">URL</span><span class="p">(</span><span class="o">*</span><span class="n">parsed</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="no">nil</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
 <h3 id="-3-nested-structs">🪄 <strong>3. Nested Structs</strong></h3>
 
 <p>For complex applications, configurations can get intricate. With xload, you can nest structs,  making it easier to group, reuse, and maintain configurations.</p>
