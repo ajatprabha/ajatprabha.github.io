@@ -1,4 +1,193 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://ajatprabha.in/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ajatprabha.in/" rel="alternate" type="text/html" /><updated>2024-06-13T15:39:52+00:00</updated><id>https://ajatprabha.in/feed.xml</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Introduction to xrun: A Flexible Package for Managing Component Lifecycles in Go</title><link href="https://ajatprabha.in/2023/05/24/intro-xrun-package-managing-component-lifecycle-go" rel="alternate" type="text/html" title="Introduction to xrun: A Flexible Package for Managing Component Lifecycles in Go" /><published>2023-05-24T01:00:00+00:00</published><updated>2023-05-24T01:00:00+00:00</updated><id>https://ajatprabha.in/2023/05/24/intro-xrun-package-managing-component-lifecycle-go</id><content type="html" xml:base="https://ajatprabha.in/2023/05/24/intro-xrun-package-managing-component-lifecycle-go">&lt;p&gt;Hello, Go community! Today, I am excited to announce a Golang package I have been working on named &lt;code class=&quot;highlighter-rouge&quot;&gt;xrun&lt;/code&gt;. This package provides a streamlined way of running multiple components, specifically long-running components like an HTTP server or background worker. In this blog post, I will walk you through the basic functionality of &lt;code class=&quot;highlighter-rouge&quot;&gt;xrun&lt;/code&gt; and how it can help you manage your long-running components more efficiently.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://ajatprabha.in/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ajatprabha.in/" rel="alternate" type="text/html" /><updated>2024-07-07T17:00:45+00:00</updated><id>https://ajatprabha.in/feed.xml</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Unleashing xLoad: Your Ultimate Data Loader for Go Structs!</title><link href="https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs" rel="alternate" type="text/html" title="Unleashing xLoad: Your Ultimate Data Loader for Go Structs!" /><published>2024-07-07T01:00:00+00:00</published><updated>2024-07-07T01:00:00+00:00</updated><id>https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs</id><content type="html" xml:base="https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs">&lt;p&gt;Meet xLoad, your data-loading superhero 🦸‍♂️! It effortlessly brings data from various corners of the universe straight into Go structs. Whether you’re juggling configurations, internationalization labels, or experiments, xload is your trusty sidekick.&lt;/p&gt;
+
+&lt;h2 id=&quot;️-why-xload&quot;&gt;🤷‍♂️ &lt;strong&gt;Why xload?&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Diverse Data Sources&lt;/strong&gt;: Load data from environment variables, http requests, command-line arguments, files, or even remote sources like apis.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Avoid Boilerplate&lt;/strong&gt;: Say goodbye 👋 to repetitive code and hello to a cleaner, more maintainable and readable codebase.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Flexibility&lt;/strong&gt;: Inspired by &lt;a href=&quot;https://github.com/sethvargo/go-envconfig&quot;&gt;go-envconfig&lt;/a&gt; but with more muscle 💪! Customize struct tags and use custom data loaders.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;getting-started-️&quot;&gt;Getting Started 🛠️&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go get github.com/gojekfarm/xtools/xload
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;how-does-xload-work-its-magic-&quot;&gt;How does xload work its magic? 🎩✨&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Feed xload a Go struct with annotations
+    &lt;ol&gt;
+      &lt;li&gt;Example:
+        &lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Config&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`env:&quot;KEY&quot;`&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Let xload populate it with data from any source you want.
+    &lt;ol&gt;
+      &lt;li&gt;A source simply has to implement &lt;a href=&quot;https://pkg.go.dev/github.com/gojekfarm/xtools/xload#Loader&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Loader&lt;/code&gt;&lt;/a&gt; interface, or use one of existing ones! Here’s an example of the inbuilt &lt;code class=&quot;highlighter-rouge&quot;&gt;OSLoader&lt;/code&gt;:
+        &lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Config&lt;/span&gt;
+ &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xload&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TODO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Enjoy the separation of data loading from its usage.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;-dive-into-examples--tutorials&quot;&gt;&lt;strong&gt;📝 Dive into Examples &amp;amp; Tutorials&lt;/strong&gt;&lt;/h1&gt;
+
+&lt;h3 id=&quot;-1-loading-from-environment-variables&quot;&gt;🌍 &lt;strong&gt;1. Loading from Environment Variables&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Imagine you have an application that needs to fetch configurations from the environment it’s running in. Instead of manually fetching each variable, xload lets you define a struct and populates it for you.&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AppConfig&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;LogLevel&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`env:&quot;LOG_LEVEL&quot;`&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;// ...&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;// your application config here&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DefaultAppConfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xload&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xload&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OSLoader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;// use cfg&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;-2-using-custom-types&quot;&gt;🎨 &lt;strong&gt;2. Using Custom Types&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;With xload, you can also use custom types, such as Timeouts can be tricky. But with xload, you can directly specify durations like 5s without ambiguity. No more guessing if a timeout value is in seconds or milliseconds, and say goodbye to naming conventions like TIMEOUT_SEC!&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AppConfig&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Timeout&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Duration&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`env:&quot;TIMEOUT&quot;`&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;// TIMEOUT=5s is 5 seconds&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;-3-nested-structs&quot;&gt;🪄 &lt;strong&gt;3. Nested Structs&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;For complex applications, configurations can get intricate. With xload, you can nest structs,  making it easier to group, reuse, and maintain configurations.&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HTTPConfig&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Port&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`env:&quot;PORT&quot;`&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Host&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`env:&quot;HOST&quot;`&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AppConfig&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Service1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HTTPConfig&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`env:&quot;,prefix=SERVICE1_&quot;`&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Service2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HTTPConfig&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`env:&quot;,prefix=SERVICE2_&quot;`&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;-4-inbuilt-loaders&quot;&gt;📦 &lt;strong&gt;4. Inbuilt Loaders&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;xload isn’t just a tool; it’s a toolkit. It comes with a set of inbuilt loaders to make your life easier:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;OSLoader&lt;/strong&gt;: Perfect for fetching data from environment variables.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;PrefixLoader&lt;/strong&gt;: Need to add prefixes to keys before loading? This is your go-to loader.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;SerialLoader&lt;/strong&gt;: When you need to load data from multiple sources, with the last non-empty value taking precedence.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;️-5-custom-loaders&quot;&gt;🛠️ &lt;strong&gt;5. Custom Loaders&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;For those special cases, xload allows you to craft custom loaders. As long as they implement the &lt;a href=&quot;https://pkg.go.dev/github.com/gojekfarm/xtools/xload#Loader&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Loader&lt;/code&gt;&lt;/a&gt; interface, you’re golden. Similar Loader can be implemented for - In-memory Cached, Vault, S3, etc.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;-spotlight-crud-based-list-api&quot;&gt;🔍 &lt;strong&gt;Spotlight: CRUD-based List API&lt;/strong&gt;&lt;/h1&gt;
+
+&lt;p&gt;Let’s dive into a real-world example to see the transformation xload brings:&lt;/p&gt;
+
+&lt;h3 id=&quot;before-xload&quot;&gt;&lt;strong&gt;Before xload&lt;/strong&gt;:&lt;/h3&gt;
+
+&lt;p&gt;Parsing request options was a multi-step process. The code was filled with multiple parsers and error handling, the code is verbose and a lot to read through.&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GetList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;w&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ResponseWriter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;qry&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;URL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+	&lt;span class=&quot;n&quot;&gt;search&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;qry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;search&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;strconv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ParseInt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;qry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;page&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;c&quot;&gt;// handle error&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;strconv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ParseInt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;qry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;size&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;c&quot;&gt;// handle error&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+	&lt;span class=&quot;n&quot;&gt;field&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;qry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sort&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;desc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;strings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HasPrefix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;field&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;-&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;field&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;strings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TrimPrefix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;field&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;-&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;desc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+	&lt;span class=&quot;c&quot;&gt;//&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;after-xload&quot;&gt;&lt;strong&gt;After xload&lt;/strong&gt;:&lt;/h3&gt;
+
+&lt;p&gt;The code is streamlined. Define a struct, let xload populate it, and you’re good to go! The result? Cleaner, more maintainable code that’s a breeze to read.&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RequestOptions&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Search&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`query:&quot;search&quot;`&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Page&lt;/span&gt;   &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;    &lt;span class=&quot;s&quot;&gt;`query:&quot;page&quot;`&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Size&lt;/span&gt;   &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;    &lt;span class=&quot;s&quot;&gt;`query:&quot;size&quot;`&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Sort&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;sort&lt;/span&gt;   &lt;span class=&quot;s&quot;&gt;`query:&quot;sort&quot;`&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sort&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Field&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Desc&lt;/span&gt;  &lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GetList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;w&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ResponseWriter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;opts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RequestOptions&lt;/span&gt;
+
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xload&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+		&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;opts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;xload&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FieldTagName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;query&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;xload&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WithLoader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;queryLoader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;URL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())),&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;c&quot;&gt;// handle error&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+	&lt;span class=&quot;c&quot;&gt;// opts contain typed requestOptions and&lt;/span&gt;
+	&lt;span class=&quot;c&quot;&gt;// any errors would also be caught here.&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The transformation is clear: xload simplifies the data-parsing process and error handling, making the codebase more readable and maintainable.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;-internationalization-with-lokalize-&quot;&gt;🌐 &lt;strong&gt;Internationalization with Lokalize&lt;/strong&gt; 🌐&lt;/h1&gt;
+
+&lt;p&gt;With xload, you can load internationalization labels from files and then tweak them for each request using a remote service. This ensures your application speaks the language of your users, wherever they are.&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;I18N&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Title&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`i18n:&quot;TITLE&quot;`&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;CTA&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;CTA&lt;/span&gt;    &lt;span class=&quot;s&quot;&gt;`i18n:&quot;,prefix=CTA_&quot;`&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CTA&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Submit&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`i18n:&quot;SUBMIT&quot;`&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Cancel&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`i18n:&quot;CANCEL&quot;`&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;-wrap-up&quot;&gt;🎉 &lt;strong&gt;Wrap Up&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;p&gt;That’s xload for you! A robust tool designed to simplify your data loading needs in Go. Dive in, explore, and let the magic unfold! 🌟&lt;/p&gt;
+
+&lt;p&gt;Check out the docs at &lt;a href=&quot;https://pkg.go.dev/github.com/gojekfarm/xtools/xload&quot;&gt;pkg.go.dev&lt;/a&gt; for more examples.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;xLoad is the brainchild of &lt;a href=&quot;https://raviatluri.in/&quot;&gt;Ravi&lt;/a&gt; and I help out in maintaining it.&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>Ajat Prabha</name></author><category term="golang" /><summary type="html">Meet xLoad, your data-loading superhero 🦸‍♂️! It effortlessly brings data from various corners of the universe straight into Go structs. Whether you’re juggling configurations, internationalization labels, or experiments, xload is your trusty sidekick.</summary></entry><entry><title type="html">Introduction to xrun: A Flexible Package for Managing Component Lifecycles in Go</title><link href="https://ajatprabha.in/2023/05/24/intro-xrun-package-managing-component-lifecycle-go" rel="alternate" type="text/html" title="Introduction to xrun: A Flexible Package for Managing Component Lifecycles in Go" /><published>2023-05-24T01:00:00+00:00</published><updated>2023-05-24T01:00:00+00:00</updated><id>https://ajatprabha.in/2023/05/24/intro-xrun-package-managing-component-lifecycle-go</id><content type="html" xml:base="https://ajatprabha.in/2023/05/24/intro-xrun-package-managing-component-lifecycle-go">&lt;p&gt;Hello, Go community! Today, I am excited to announce a Golang package I have been working on named &lt;code class=&quot;highlighter-rouge&quot;&gt;xrun&lt;/code&gt;. This package provides a streamlined way of running multiple components, specifically long-running components like an HTTP server or background worker. In this blog post, I will walk you through the basic functionality of &lt;code class=&quot;highlighter-rouge&quot;&gt;xrun&lt;/code&gt; and how it can help you manage your long-running components more efficiently.&lt;/p&gt;
 
 &lt;h1 id=&quot;introducing-xrun&quot;&gt;Introducing xrun&lt;/h1&gt;
 
@@ -1437,83 +1626,4 @@ Source: Self-created.&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;&lt;a href=&quot;http://blog.cleancoder.com/uncle-bob/2014/12/17/TheCyclesOfTDD.html&quot;&gt;The Clean Code Blog&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Book: &lt;a href=&quot;https://books.google.co.in/books?isbn=0132350882&quot;&gt;Clean Code&lt;/a&gt; by Robert C. Martin&lt;/li&gt;
-&lt;/ol&gt;</content><author><name>Ajat Prabha</name></author><category term="tdd" /><summary type="html">Recently I came to know about TDD (Test Driven Development), a development methodology in Agile Software Craftsmanship. At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.</summary></entry><entry><title type="html">Getting to know SDLC | Waterfall vs Agile Development</title><link href="https://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile" rel="alternate" type="text/html" title="Getting to know SDLC | Waterfall vs Agile Development" /><published>2017-12-12T17:49:00+00:00</published><updated>2017-12-12T17:49:00+00:00</updated><id>https://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile</id><content type="html" xml:base="https://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile">&lt;p&gt;I was always curious to know, how a professional business software is developed from start to finish. Unlike what we do during our study of software designing or developing a hobby project, we don’t take the steps involved in making a professional software that seriously! But when you’re out there in the real world you can’t afford to mess things up due to the lack of a streamlined workflow. So while searching for a tested methodology for software development, I came across something called SDLC aka ‘Software Development Life Cycle’. It essentially used to describe the various processes involved in the development of a software viz.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Requirement Analysis&lt;/li&gt;
-  &lt;li&gt;Design&lt;/li&gt;
-  &lt;li&gt;Development&lt;/li&gt;
-  &lt;li&gt;Testing&lt;/li&gt;
-  &lt;li&gt;Deployment&lt;/li&gt;
-  &lt;li&gt;Maintainance&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/SDLC-932x1024.png&quot; alt=&quot;SDLC flow model&quot; style=&quot;max-width: 400px;&quot; /&gt;&lt;br /&gt;
-Source: Self-created&lt;/p&gt;
-
-&lt;h4 id=&quot;requirement-analysis&quot;&gt;Requirement Analysis&lt;/h4&gt;
-
-&lt;p&gt;This is the first step of SDLC in which the Product/Software owner analyses the problem at hand and the requirements needed to solve it, the features needed to be fulfilled by the end product. The analyst shall also look at the feasibility of the features in terms of Operational, Economical, Technical and Legal situations. The problem is then broken down into smaller requirements to simplify the goals that need to be achieved. Once this is done, the process moves to the next step.&lt;/p&gt;
-
-&lt;h4 id=&quot;design&quot;&gt;Design&lt;/h4&gt;
-
-&lt;p&gt;When all the features requirements and goals are documented, then a team of developers decides and describes various aspects of the software design viz.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Business requirements and rules&lt;/li&gt;
-  &lt;li&gt;Functional and operational requirements&lt;/li&gt;
-  &lt;li&gt;Various diagrams such as process diagrams, activity diagrams, class diagrams, use-case diagrams, etc. [See &lt;a href=&quot;https://en.wikipedia.org/wiki/Unified_Modeling_Language&quot;&gt;UML&lt;/a&gt;]&lt;/li&gt;
-  &lt;li&gt;Choosing the languages/tools on which the system should be built&lt;/li&gt;
-  &lt;li&gt;UI/UX designing, etc&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The end result of this stage will result in a well-documented requirement of modules and/or subsystems upon which the next step will continue.&lt;/p&gt;
-
-&lt;h4 id=&quot;development&quot;&gt;Development&lt;/h4&gt;
-
-&lt;p&gt;This is the step where all the documented requirements are converted into actual code. Several developers work on their assigned features on their own development environments. Once they complete their work, it is merged using &lt;a href=&quot;https://en.wikipedia.org/wiki/Version_control&quot;&gt;VCS&lt;/a&gt; and then it moves to the next step.&lt;/p&gt;
-
-&lt;h4 id=&quot;testing&quot;&gt;Testing&lt;/h4&gt;
-
-&lt;p&gt;This is one of the most important steps of SDLC. During the past 2-3 decades, testing has become very important in SDLC. To simply put it:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;No Tests, No Deployment&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Once the code is developed, then various types of tests are written and run on the code to find bugs and reassure the functioning of the software. It also helps in future quality assurance when refactoring is done, or a new feature is added, or an old one is removed. Tests will make sure that you don’t violate the contract that a function is bound to fulfil. There are &lt;a href=&quot;/2017/12/20/tdd-why-bother&quot;&gt;unit tests&lt;/a&gt;, integration tests, automation tests, and performance tests, to name a few.&lt;/p&gt;
-
-&lt;h4 id=&quot;deployment&quot;&gt;Deployment&lt;/h4&gt;
-
-&lt;p&gt;Once testing is done and the quality is assured, then the software/product is deployed on a physical machine. This machine can be either a dedicated enterprise machine, say a data-centre or a client’s own machine.&lt;/p&gt;
-
-&lt;h4 id=&quot;maintenance&quot;&gt;Maintenance&lt;/h4&gt;
-
-&lt;p&gt;Finally, the last step kicks in. In this, once deployed, the product is constantly reviewed for any bugs and other issues, if it can troubleshoot easily, then it’s okay otherwise it moves back again to Design step and the cycle is repeated. Now that we know what an SDLC is, let us discuss the SDLC models!&lt;/p&gt;
-
-&lt;h2 id=&quot;sdlc-models&quot;&gt;SDLC Models&lt;/h2&gt;
-
-&lt;p&gt;An SDLC model is used to describe the various steps involved based on the requirements of software, deadlines, quality, the speed of development, etc. While there are several models in SDLC viz. Waterfall, Spiral, Rapid-prototyping, etc. We’ll be looking only for Waterfall and Agile Development today.&lt;/p&gt;
-
-&lt;h2 id=&quot;1-waterfall&quot;&gt;1. Waterfall&lt;/h2&gt;
-
-&lt;p&gt;This model is basically a linear sequential approach to all the steps involved in SDLC. It’s very easy to understand and implement. It’s done in ‘stages’ from start to finish before a next stage can be started. It is preferred when all the requirements are already known and quality of the end product is required. There’s no short-term time frame to complete the task at hand, the software is usually created in one single go.&lt;br /&gt;
-&lt;img src=&quot;/assets/images/waterfall-768x820.png&quot; alt=&quot;Waterfall model&quot; style=&quot;max-width: 512px;&quot; /&gt;&lt;br /&gt;
-Source: Self-created&lt;/p&gt;
-
-&lt;h2 id=&quot;2-agile-methodology&quot;&gt;2. Agile methodology&lt;/h2&gt;
-
-&lt;p&gt;This model is an iterative approach to all the steps involved in SDLC. One of the most common types of agile craftsmanship is ‘SCRUM’. It’s done in ‘Sprints’. It is preferred when speed is required in developing the software/product. First, a story(one planned sprint) is pulled from the Product Backlog. A sprint usually lasts up to 2, 3 or 4 weeks. It first moves to Sprint Backlog where meetups are held, the sprint is here planned with the team and the scrum master. Also if there is any previous retrospection needed to be done then it also discussed beforehand. In the meetup, demos/reviews are done for each of the individual developers, they’ve to tell the team what they’ve done till now, what are the future plans and what hindrances they might be facing. During this whole sprint, the scrum master checks the flow in three phases viz. InDev, Ready for QA (Quality Assurance) and InQA, and if it passes all the phases then the scrum master marks the sprint as done or DOD (definition of done). During QA check, the steps involved in SDLC are verified, tests are run and should pass. There can also be certain specifications like a minimum percentage of tests, automation requirements, etc that might need to fulfil for getting DOD.&lt;/p&gt;
-
-&lt;h3 id=&quot;comparison&quot;&gt;Comparison:&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;strong&gt;Flow:&lt;/strong&gt; The waterfall is a linear sequential flow of steps in SDLC, whereas agile development goes through the steps iteratively in short cycles.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Interaction:&lt;/strong&gt; The waterfall has varied interaction with the client, i.e. High during requirement analysis and user acceptance, whereas agile development has constant Business interaction with clients as the cycles(sprints) are short.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Head of operations:&lt;/strong&gt; In waterfall, there is an overall Product Manager, whereas, in agile development (SCRUM), there is a scrum master.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Falling back:&lt;/strong&gt; In the waterfall model, one cannot fall back until a stage completed, whereas, in agile development, one can fall back at any instant of time because time span is usually short.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Requirement changes:&lt;/strong&gt; In waterfall, requirement changes are not possible without raising a change request which will re-initiate the whole process, whereas, in agile development, the new feature request can be shifted to next sprint, if it is not feasible in the current sprint.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Speed:&lt;/strong&gt; The pace of development is comparatively faster in agile development than to waterfall. Also due to lack of speed in the waterfall model, the technologies may go obsolete by the time the software is delivered.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;While the debate may go on forever that which model is better, I believe that it depends upon the requirements of the individual, both models have their pros and cons. One must choose wisely! I hope this was an informative article for you. This was all that I had to talk about today. Since I’m very new to the topic, I might have missed something or made mistakes. Do suggest/correct me if you found something.&lt;/p&gt;</content><author><name>Ajat Prabha</name></author><category term="sdlc" /><category term="agile development" /><category term="waterfall" /><summary type="html">I was always curious to know, how a professional business software is developed from start to finish. Unlike what we do during our study of software designing or developing a hobby project, we don’t take the steps involved in making a professional software that seriously! But when you’re out there in the real world you can’t afford to mess things up due to the lack of a streamlined workflow. So while searching for a tested methodology for software development, I came across something called SDLC aka ‘Software Development Life Cycle’. It essentially used to describe the various processes involved in the development of a software viz.</summary></entry></feed>
+&lt;/ol&gt;</content><author><name>Ajat Prabha</name></author><category term="tdd" /><summary type="html">Recently I came to know about TDD (Test Driven Development), a development methodology in Agile Software Craftsmanship. At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.</summary></entry></feed>

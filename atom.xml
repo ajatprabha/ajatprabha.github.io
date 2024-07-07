@@ -8,6 +8,21 @@
     
       
       <item>
+        <title>Unleashing xLoad: Your Ultimate Data Loader for Go Structs!</title>
+        
+          <description>&lt;p&gt;Meet xLoad, your data-loading superhero 🦸‍♂️! It effortlessly brings data from various corners of the universe straight into Go structs. Whether you’re juggling configurations, internationalization labels, or experiments, xload is your trusty sidekick.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Sun, 07 Jul 2024 01:00:00 +0000</pubDate>
+        <link>
+        https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs</link>
+        <guid isPermaLink="true">https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs</guid>
+      </item>
+      
+    
+      
+      <item>
         <title>Introduction to xrun: A Flexible Package for Managing Component Lifecycles in Go</title>
         
           <description>&lt;p&gt;Hello, Go community! Today, I am excited to announce a Golang package I have been working on named &lt;code class=&quot;highlighter-rouge&quot;&gt;xrun&lt;/code&gt;. This package provides a streamlined way of running multiple components, specifically long-running components like an HTTP server or background worker. In this blog post, I will walk you through the basic functionality of &lt;code class=&quot;highlighter-rouge&quot;&gt;xrun&lt;/code&gt; and how it can help you manage your long-running components more efficiently.&lt;/p&gt;
