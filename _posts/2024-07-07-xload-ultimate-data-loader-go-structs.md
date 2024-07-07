@@ -27,18 +27,21 @@ go get github.com/gojekfarm/xtools/xload
 
 ## How does xload work its magic? 🎩✨
 
-1. Feed xload a Go struct with annotations
-    1. Example:
-       ```go
-       type Config struct{ Key string `env:"KEY"` }
-       ```
+1. Feed xload a Go struct with annotations.
 2. Let xload populate it with data from any source you want.
-    1. A source simply has to implement [`Loader`](https://pkg.go.dev/github.com/gojekfarm/xtools/xload#Loader) interface, or use one of existing ones! Here's an example of the inbuilt `OSLoader`:
-    ```go
-    var cfg Config
-    _ = xload.Load(context.TODO(), &cfg)
-    ```
+    - A source simply has to implement [`Loader`](https://pkg.go.dev/github.com/gojekfarm/xtools/xload#Loader) interface, or use one of existing ones!
 3. Enjoy the separation of data loading from its usage.
+
+Here's an example of the inbuilt `OSLoader`:
+
+```go
+type Config struct{ Key string `env:"KEY"` }
+
+func main() {
+	var cfg Config
+	_ = xload.Load(context.TODO(), &cfg)
+}
+```
 
 # **📝 Dive into Examples & Tutorials**
 
