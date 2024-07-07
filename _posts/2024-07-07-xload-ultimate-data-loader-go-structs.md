@@ -70,6 +70,34 @@ type AppConfig struct {
 }
 ```
 
+Or implement your own by defining one of the following methods for xload:
+1. `interface{ Decode(string) error }`
+2. `encoding.TextUnmarshaler`
+3. `json.Unmarshaler`
+4. `encoding.BinaryUnmarshaler`
+5. `encoding.GobDecoder`
+
+Example:
+
+```go
+// URL is a type alias for url.URL.
+// The general form represented is: [scheme:][//[userinfo@]host][/]path[?query][#fragment]
+type URL url.URL
+
+func (u *URL) String() string { return (*url.URL)(u).String() }
+
+func (u *URL) Decode(v string) error {
+	parsed, err := url.Parse(v)
+	if err != nil {
+		return err
+	}
+
+	*u = URL(*parsed)
+
+	return nil
+}
+```
+
 ### 🪄 **3. Nested Structs**
 
 For complex applications, configurations can get intricate. With xload, you can nest structs,  making it easier to group, reuse, and maintain configurations.
