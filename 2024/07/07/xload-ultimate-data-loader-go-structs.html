@@ -194,25 +194,24 @@ into the {body} of the default.hbs template -->
 <h2 id="how-does-xload-work-its-magic-">How does xload work its magic? 🎩✨</h2>
 
 <ol>
-  <li>Feed xload a Go struct with annotations
-    <ol>
-      <li>Example:
-        <div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">Config</span> <span class="k">struct</span><span class="p">{</span> <span class="n">Key</span> <span class="kt">string</span> <span class="s">`env:"KEY"`</span> <span class="p">}</span>
-</code></pre></div>        </div>
-      </li>
-    </ol>
-  </li>
+  <li>Feed xload a Go struct with annotations.</li>
   <li>Let xload populate it with data from any source you want.
-    <ol>
-      <li>A source simply has to implement <a href="https://pkg.go.dev/github.com/gojekfarm/xtools/xload#Loader"><code class="highlighter-rouge">Loader</code></a> interface, or use one of existing ones! Here’s an example of the inbuilt <code class="highlighter-rouge">OSLoader</code>:
-        <div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">var</span> <span class="n">cfg</span> <span class="n">Config</span>
- <span class="n">_</span> <span class="o">=</span> <span class="n">xload</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">TODO</span><span class="p">(),</span> <span class="o">&amp;</span><span class="n">cfg</span><span class="p">)</span>
-</code></pre></div>        </div>
-      </li>
-    </ol>
+    <ul>
+      <li>A source simply has to implement <a href="https://pkg.go.dev/github.com/gojekfarm/xtools/xload#Loader"><code class="highlighter-rouge">Loader</code></a> interface, or use one of existing ones!</li>
+    </ul>
   </li>
   <li>Enjoy the separation of data loading from its usage.</li>
 </ol>
+
+<p>Here’s an example of the inbuilt <code class="highlighter-rouge">OSLoader</code>:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">Config</span> <span class="k">struct</span><span class="p">{</span> <span class="n">Key</span> <span class="kt">string</span> <span class="s">`env:"KEY"`</span> <span class="p">}</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="k">var</span> <span class="n">cfg</span> <span class="n">Config</span>
+	<span class="n">_</span> <span class="o">=</span> <span class="n">xload</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">TODO</span><span class="p">(),</span> <span class="o">&amp;</span><span class="n">cfg</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <h1 id="-dive-into-examples--tutorials"><strong>📝 Dive into Examples &amp; Tutorials</strong></h1>
 

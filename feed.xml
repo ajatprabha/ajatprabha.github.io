@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://ajatprabha.in/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ajatprabha.in/" rel="alternate" type="text/html" /><updated>2024-07-07T17:07:59+00:00</updated><id>https://ajatprabha.in/feed.xml</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Unleashing xLoad: Your Ultimate Data Loader for Go Structs!</title><link href="https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs" rel="alternate" type="text/html" title="Unleashing xLoad: Your Ultimate Data Loader for Go Structs!" /><published>2024-07-07T01:00:00+00:00</published><updated>2024-07-07T01:00:00+00:00</updated><id>https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs</id><content type="html" xml:base="https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs">&lt;p&gt;Meet xLoad, your data-loading superhero 🦸‍♂️! It effortlessly brings data from various corners of the universe straight into Go structs. Whether you’re juggling configurations, internationalization labels, or experiments, xload is your trusty sidekick.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://ajatprabha.in/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ajatprabha.in/" rel="alternate" type="text/html" /><updated>2024-07-07T17:26:01+00:00</updated><id>https://ajatprabha.in/feed.xml</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Unleashing xLoad: Your Ultimate Data Loader for Go Structs!</title><link href="https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs" rel="alternate" type="text/html" title="Unleashing xLoad: Your Ultimate Data Loader for Go Structs!" /><published>2024-07-07T01:00:00+00:00</published><updated>2024-07-07T01:00:00+00:00</updated><id>https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs</id><content type="html" xml:base="https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs">&lt;p&gt;Meet xLoad, your data-loading superhero 🦸‍♂️! It effortlessly brings data from various corners of the universe straight into Go structs. Whether you’re juggling configurations, internationalization labels, or experiments, xload is your trusty sidekick.&lt;/p&gt;
 
 &lt;h2 id=&quot;️-why-xload&quot;&gt;🤷‍♂️ &lt;strong&gt;Why xload?&lt;/strong&gt;&lt;/h2&gt;
 
@@ -16,25 +16,24 @@
 &lt;h2 id=&quot;how-does-xload-work-its-magic-&quot;&gt;How does xload work its magic? 🎩✨&lt;/h2&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;Feed xload a Go struct with annotations
-    &lt;ol&gt;
-      &lt;li&gt;Example:
-        &lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Config&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`env:&quot;KEY&quot;`&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
-      &lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
+  &lt;li&gt;Feed xload a Go struct with annotations.&lt;/li&gt;
   &lt;li&gt;Let xload populate it with data from any source you want.
-    &lt;ol&gt;
-      &lt;li&gt;A source simply has to implement &lt;a href=&quot;https://pkg.go.dev/github.com/gojekfarm/xtools/xload#Loader&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Loader&lt;/code&gt;&lt;/a&gt; interface, or use one of existing ones! Here’s an example of the inbuilt &lt;code class=&quot;highlighter-rouge&quot;&gt;OSLoader&lt;/code&gt;:
-        &lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Config&lt;/span&gt;
- &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xload&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TODO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
-      &lt;/li&gt;
-    &lt;/ol&gt;
+    &lt;ul&gt;
+      &lt;li&gt;A source simply has to implement &lt;a href=&quot;https://pkg.go.dev/github.com/gojekfarm/xtools/xload#Loader&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Loader&lt;/code&gt;&lt;/a&gt; interface, or use one of existing ones!&lt;/li&gt;
+    &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;Enjoy the separation of data loading from its usage.&lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;p&gt;Here’s an example of the inbuilt &lt;code class=&quot;highlighter-rouge&quot;&gt;OSLoader&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Config&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Key&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`env:&quot;KEY&quot;`&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Config&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xload&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TODO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h1 id=&quot;-dive-into-examples--tutorials&quot;&gt;&lt;strong&gt;📝 Dive into Examples &amp;amp; Tutorials&lt;/strong&gt;&lt;/h1&gt;
 
