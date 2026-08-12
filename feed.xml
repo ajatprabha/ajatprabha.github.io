@@ -1,4 +1,823 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://ajatprabha.in/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ajatprabha.in/" rel="alternate" type="text/html" /><updated>2024-07-07T17:26:01+00:00</updated><id>https://ajatprabha.in/feed.xml</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Unleashing xLoad: Your Ultimate Data Loader for Go Structs!</title><link href="https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs" rel="alternate" type="text/html" title="Unleashing xLoad: Your Ultimate Data Loader for Go Structs!" /><published>2024-07-07T01:00:00+00:00</published><updated>2024-07-07T01:00:00+00:00</updated><id>https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs</id><content type="html" xml:base="https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs">&lt;p&gt;Meet xLoad, your data-loading superhero 🦸‍♂️! It effortlessly brings data from various corners of the universe straight into Go structs. Whether you’re juggling configurations, internationalization labels, or experiments, xload is your trusty sidekick.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://ajatprabha.in/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ajatprabha.in/" rel="alternate" type="text/html" /><updated>2026-08-12T21:42:48+00:00</updated><id>https://ajatprabha.in/feed.xml</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Ferry: xload Learns to Write</title><link href="https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write" rel="alternate" type="text/html" title="Ferry: xload Learns to Write" /><published>2026-08-12T01:00:00+00:00</published><updated>2026-08-12T01:00:00+00:00</updated><id>https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write</id><content type="html" xml:base="https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write">&lt;p&gt;Two years ago I wrote about &lt;a href=&quot;/2024/07/07/xload-ultimate-data-loader-go-structs&quot;&gt;xload&lt;/a&gt;, which fills an annotated Go struct from env vars, query params, files, anything you put behind a &lt;code class=&quot;highlighter-rouge&quot;&gt;Loader&lt;/code&gt;.
+It does that one job well.
+It does exactly half of what I needed.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/onhotpath/ferry&quot;&gt;ferry&lt;/a&gt; is the other half: one annotated struct, one tag grammar, two directions.
+Load from any source, dump to any sink.&lt;/p&gt;
+
+&lt;p&gt;Writing is not a thing ferry learned to do on top of reading.
+It is the same machine, run backwards.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;xload fills your struct and stops.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Loader.Load(ctx, key string) (string, error)&lt;/code&gt; is a read, and my first instinct was the obvious one: add a &lt;code class=&quot;highlighter-rouge&quot;&gt;Store&lt;/code&gt; beside it and call it a day.&lt;/p&gt;
+
+&lt;p&gt;That does not work.
+Finding out why is what turned this into a new library instead of a pull request.&lt;/p&gt;
+
+&lt;p&gt;A reader can discover the world one key at a time.
+A writer cannot.
+It needs the complete set of places up front, names that survive the trip out as well as the trip in, and one agreed spelling per type in both directions.&lt;/p&gt;
+
+&lt;p&gt;You cannot bolt that onto a reader as one more method, so ferry starts over: new repo, new core, no shared code.&lt;/p&gt;
+
+&lt;p&gt;What I needed was a handful of settings moved out of a YAML file and into the Windows registry.
+What I built was a 90,000-line library with 21 design decisions behind it.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Somewhere in there I stopped swatting the mosquito and started dropping a building on it. 😅&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;-the-breaking-point&quot;&gt;🩹 The breaking point&lt;/h2&gt;
+
+&lt;p&gt;The project that prompted ferry is a long-lived privileged Windows service, shipped as an installer to machines I don’t control.&lt;/p&gt;
+
+&lt;p&gt;Its config had been living in a YAML file next to the binary, editable by anybody on the machine.
+Moving it into the Windows registry closed that, and everything else here came out of that decision.&lt;/p&gt;
+
+&lt;p&gt;The registry is arguably the right home for application config on Windows anyway.
+Ordinary users will happily open a config file they can see; they will not go poking around in &lt;code class=&quot;highlighter-rouge&quot;&gt;regedit&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Commit to the registry and three jobs land on your desk:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Keep the registry out of the core domain.&lt;/strong&gt;
+Accept the registry and its API calls creep into code that has no business knowing what a registry is.
+I had an ad-hoc wrapper for exactly one key and a hand-rolled DPAPI wrapper, neither tested.
+Behind a driver interface with a conformance suite, that knowledge finally gets exercised.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Move the YAML config into the registry without doing it by hand.&lt;/strong&gt;
+Not a one-off migration script that has to track the schema forever.
+Just: read the struct from there, write the struct to here.
+Two lines, one plane to another.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Persist what the user changed.&lt;/strong&gt;
+A setting flips in the UI, the struct in memory changes, and that change has to outlive the process.
+xload has no answer here: &lt;code class=&quot;highlighter-rouge&quot;&gt;Load&lt;/code&gt; fills the struct and the story ends.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In fairness, I could have hand-written the migration.
+A few hundred lines, a weekend, done.
+But I had wanted an excuse to build this properly, and a stack of freshly published agent skills to put through their paces.
+More on that later.&lt;/p&gt;
+
+&lt;p&gt;Now put two and three side by side.&lt;/p&gt;
+
+&lt;p&gt;Porting YAML into the registry is &lt;em&gt;write the struct back&lt;/em&gt;.
+Persisting a user’s change is &lt;em&gt;write the struct back&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Two features, one missing capability.
+The loader already knew how to read my struct; I was short the same machinery run in reverse.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;️-meet-ferry&quot;&gt;⛴️ Meet ferry&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Two-way data mapping for Go structs: load from any source, dump to any sink.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Ferry is deliberately not a config library.
+The rule I set on day one and never relaxed: core contains nothing that requires knowing the store is a configuration file.&lt;/p&gt;
+
+&lt;p&gt;A &lt;strong&gt;plane&lt;/strong&gt; is whatever backend you are talking to, a YAML file, process env, a KV bucket, a query string.
+Core knows nothing about any of them.&lt;/p&gt;
+
+&lt;p&gt;Six verbs, and that is the whole surface:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;       &lt;span class=&quot;c&quot;&gt;// fresh value from a source&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LoadOver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;seed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;     &lt;span class=&quot;c&quot;&gt;// load over an existing value&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Dump&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sink&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;               &lt;span class=&quot;c&quot;&gt;// write a value to a sink&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Compile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;                  &lt;span class=&quot;c&quot;&gt;// check the type maps, no plane in sight&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Bind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;              &lt;span class=&quot;c&quot;&gt;// hand the source the addresses once&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;                        &lt;span class=&quot;c&quot;&gt;// ... and load through it as often as you like&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BindSink&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sink&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;         &lt;span class=&quot;c&quot;&gt;// the same split on the write side&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Dump&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Every exported field names its own segment or is marked &lt;code class=&quot;highlighter-rouge&quot;&gt;-&lt;/code&gt;, and ferry never invents a name out of the Go field name, so exporting a field cannot silently change what your program writes.&lt;/p&gt;
+
+&lt;p&gt;Start with the third job, persisting what the user changed: someone flips a setting and it has to still be there tomorrow.
+Here is a config file a person maintains, &lt;code class=&quot;highlighter-rouge&quot;&gt;app.yaml&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# the port the server listens on&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;8080&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;8080&quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# quoted, so it stays a string&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;tags&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;a&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;owner&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;platform-team&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Load it, change what the user changed, write it back:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Port&lt;/span&gt;  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;      &lt;span class=&quot;s&quot;&gt;`ferry:&quot;port&quot;`&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Label&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;   &lt;span class=&quot;s&quot;&gt;`ferry:&quot;label&quot;`&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Debug&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt;     &lt;span class=&quot;s&quot;&gt;`ferry:&quot;debug&quot;`&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Tags&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`ferry:&quot;tags&quot;`&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;yaml&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NewSource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;// port=8080 label=&quot;8080&quot; debug=false tags=[a]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Debug&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tags&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;b&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Dump&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;yaml&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NewSink&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And the file afterwards:&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# the port the server listens on&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;8080&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;8080&quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# quoted, so it stays a string&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;tags&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;a&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;b&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;owner&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;platform-team&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The comment is still there, the key order is still there, &lt;code class=&quot;highlighter-rouge&quot;&gt;owner&lt;/code&gt; is still there and no field ever mapped it, and &lt;code class=&quot;highlighter-rouge&quot;&gt;label&lt;/code&gt; is still the string &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;8080&quot;&lt;/code&gt; rather than the number 8080.
+A dump merges into the document that is already on disk; it does not re-serialise your struct over the top of it.
+That merge is not free, and I measured what it costs further down.&lt;/p&gt;
+
+&lt;p&gt;The second job, moving YAML into the registry, falls out of the same machinery: once both directions run off one schema, nobody has to build plane-to-plane transfer.
+The struct mentions neither plane:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;// One type, two directions, and neither plane appears in it.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Service&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Host&lt;/span&gt;   &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;            &lt;span class=&quot;s&quot;&gt;`ferry:&quot;host&quot;`&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Port&lt;/span&gt;   &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;               &lt;span class=&quot;s&quot;&gt;`ferry:&quot;port&quot;`&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Tags&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;          &lt;span class=&quot;s&quot;&gt;`ferry:&quot;tags&quot;`&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Labels&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`ferry:&quot;labels&quot;`&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And the transfer is the whole of it:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Service&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Dump&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sink&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;What lands in the destination plane:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/host = string(&quot;db1.internal&quot;)
+/labels/owner = string(&quot;platform&quot;)
+/port = number(&quot;5432&quot;)
+/tags#0 = string(&quot;primary&quot;)
+/tags#1 = string(&quot;eu-west&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;There is no intermediate format and no migration script, because the address set the load walked is the same one the dump walks.
+Swap either side for a module under &lt;code class=&quot;highlighter-rouge&quot;&gt;driver/&lt;/code&gt; and those two lines do not move: a YAML file into a Consul-shaped KV store is the same two calls.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;-a-small-core-everything-else-is-a-driver&quot;&gt;🔌 A small core, everything else is a driver&lt;/h2&gt;
+
+&lt;p&gt;Everything above is core, and core only grows for a mechanism drivers need, never a feature one of them wants.
+It knows structs, addresses and values: no file formats, no key syntax, no idea any of this might be configuration.
+Everything that touches a real backend sits outside it, behind two interfaces.&lt;/p&gt;
+
+&lt;p&gt;Five drivers ship today, each its own Go module:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;module&lt;/th&gt;
+      &lt;th&gt;plane&lt;/th&gt;
+      &lt;th&gt;directions&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;driver/env&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;environment variables, layered over &lt;code class=&quot;highlighter-rouge&quot;&gt;.env&lt;/code&gt; files&lt;/td&gt;
+      &lt;td&gt;load and dump&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;driver/yaml&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;a YAML file, edited in place&lt;/td&gt;
+      &lt;td&gt;load and dump&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;driver/kv&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;a Consul-shaped key-value store, client supplied by you&lt;/td&gt;
+      &lt;td&gt;load and dump, experimental&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;driver/http&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;one request’s query params or header fields&lt;/td&gt;
+      &lt;td&gt;load&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;driver/windows/winreg&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;the Windows registry&lt;/td&gt;
+      &lt;td&gt;load and dump, experimental&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The last row is the first job closed: the registry knowledge my application used to carry now lives in a driver, and the application just says &lt;code class=&quot;highlighter-rouge&quot;&gt;Load&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Dump&lt;/code&gt;.
+(On the env row, a dump writes a &lt;code class=&quot;highlighter-rouge&quot;&gt;.env&lt;/code&gt; file, never your running process.)&lt;/p&gt;
+
+&lt;p&gt;Not every row goes both ways, on purpose.
+Some planes have no honest write: you can read query params off a request, but writing config into a request the caller already built makes no sense.
+So ferry puts that in the types.
+Readable planes implement &lt;code class=&quot;highlighter-rouge&quot;&gt;Source&lt;/code&gt;, writable ones implement &lt;code class=&quot;highlighter-rouge&quot;&gt;Sink&lt;/code&gt;, and there is no &lt;code class=&quot;highlighter-rouge&quot;&gt;CanWrite()&lt;/code&gt; bool to check at runtime.
+Try to &lt;code class=&quot;highlighter-rouge&quot;&gt;Dump&lt;/code&gt; into &lt;code class=&quot;highlighter-rouge&quot;&gt;driver/http&lt;/code&gt; and your program does not compile.&lt;/p&gt;
+
+&lt;p&gt;Missing a backend you need? A driver is two required methods, plus optional capabilities you add by implementing more interfaces.
+One call, &lt;code class=&quot;highlighter-rouge&quot;&gt;ferrytest.Driver(t, plane())&lt;/code&gt;, runs it through the same conformance suite the built-in ones pass.&lt;/p&gt;
+
+&lt;p&gt;File-backed drivers can also watch.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;env.WatchFiles&lt;/code&gt; and the yaml driver’s watch report when the file moves, and &lt;code class=&quot;highlighter-rouge&quot;&gt;watch.Values&lt;/code&gt; turns those into a stream of freshly loaded structs.&lt;/p&gt;
+
+&lt;p&gt;The file changes, your struct updates.&lt;/p&gt;
+
+&lt;h3 id=&quot;adding-your-own-word-to-the-tags&quot;&gt;Adding your own word to the tags&lt;/h3&gt;
+
+&lt;p&gt;Drivers extend which planes ferry reaches.
+Sometimes you want a new word instead: a way to say “this field is a secret” once, on the field, and have it hold wherever the struct gets written.&lt;/p&gt;
+
+&lt;p&gt;Ferry’s tag vocabulary is closed, so another library claims a tag key of its own.
+Core parses that key’s words, attaches them to the address it found them on, and stops there.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;protect:&quot;secret&quot;&lt;/code&gt; means as much to core as a &lt;code class=&quot;highlighter-rouge&quot;&gt;json&lt;/code&gt; tag does, which is nothing.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;driver/windows/protect&lt;/code&gt; is what that buys.
+Not a plane but a decorator: it wraps somebody else’s &lt;code class=&quot;highlighter-rouge&quot;&gt;Source&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Sink&lt;/code&gt; and encrypts the marked values on the way past, using Windows DPAPI-NG.
+Every other address goes through untouched.&lt;/p&gt;
+
+&lt;p&gt;Mark one field, leave its neighbour ordinary:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Settings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Host&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;      &lt;span class=&quot;s&quot;&gt;`ferry:&quot;host&quot;`&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Auth&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Credentials&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`ferry:&quot;auth&quot;`&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Credentials&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;RefreshToken&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`ferry:&quot;refresh_token&quot; protect:&quot;secret&quot;`&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Declare the tag key on a registry, wrap the plane, then load and dump as before:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;reg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MustRegistry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WithTagKeys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;protect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Extension&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;src&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;protect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Over&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;protect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CurrentUser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;protect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FromTags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Settings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WithRegistry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;What the plane holds afterwards:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/host               = string(&quot;example.internal&quot;)
+/auth/refresh_token = string(&quot;ferry-protect:1:AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The unmarked field is stored as always.
+The marked one is a marker plus the base64 DPAPI-NG ciphertext, and it loads back as the original string on the machine and under the account that wrote it.
+The value’s kind rides inside the ciphertext, so a protected number returns a number, not a string.
+Which descriptor to pass, and why &lt;code class=&quot;highlighter-rouge&quot;&gt;CurrentUser&lt;/code&gt; beats the obvious &lt;code class=&quot;highlighter-rouge&quot;&gt;LocalSystem&lt;/code&gt; off a domain, is &lt;a href=&quot;/2026/08/12/what-the-windows-registry-taught-me&quot;&gt;its own story&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;One mistake it refuses to let you make: an undeclared tag key parses to nothing.
+Wrap a plane in &lt;code class=&quot;highlighter-rouge&quot;&gt;protect&lt;/code&gt;, forget the declaration, and every &lt;code class=&quot;highlighter-rouge&quot;&gt;protect:&quot;secret&quot;&lt;/code&gt; goes inert and every secret gets written in the clear, which from inside the decorator looks exactly like a struct that marks nothing.
+So it refuses at bind, before a single read or write.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;-what-it-does-differently&quot;&gt;🔬 What it does differently&lt;/h2&gt;
+
+&lt;p&gt;I did a prior-art sweep before writing a line of engine.
+I could not find an existing Go library that drives both directions off one tag grammar over pluggable backends, which is why ferry exists rather than a PR to something else.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;One compiled schema, cached.&lt;/strong&gt;
+Your struct compiles once into the complete set of addresses it names, and the result is cached on the registry, so every load after the first skips the compile entirely.
+That same address set drives both directions.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Bind before I/O.&lt;/strong&gt;
+The driver is handed that address set whole, before anything is read or written, in a step whose signature takes no &lt;code class=&quot;highlighter-rouge&quot;&gt;context.Context&lt;/code&gt; because it does no I/O.
+Core never joins segments into a key, since a separator is plane knowledge, so the driver flattens the set itself.
+Two checks land there, both refusals: that the plane can name every address, and that no two addresses collide onto one key.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Everything loud, nothing silent.&lt;/strong&gt;
+Unrecognized tag content, out-of-set types, lossy dumps, discarded parse errors: all refusals.
+And when a struct has several problems, the error carries all of them, so you are not fixing one to discover the next.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Parse, don’t validate.&lt;/strong&gt;
+There is no &lt;code class=&quot;highlighter-rouge&quot;&gt;min=&lt;/code&gt;, no &lt;code class=&quot;highlighter-rouge&quot;&gt;max=&lt;/code&gt;, no &lt;code class=&quot;highlighter-rouge&quot;&gt;oneof=&lt;/code&gt;; the type is the validation.
+If you want a port that cannot be 70000, that is a type, not a tag.&lt;/p&gt;
+
+&lt;p&gt;A bare &lt;code class=&quot;highlighter-rouge&quot;&gt;type Port int&lt;/code&gt; is admitted by its kind and gets you nothing, so give it a codec and the range check lives in the parse:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Port&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;encodePort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;65535&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Errorf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;port %d is out of range&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;strconv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Itoa&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)),&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;decodePort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;strconv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Atoi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;65535&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Errorf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;port %d is out of range&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;registry&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MustRegistry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;ferry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NumberValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;encodePort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;decodePort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now a &lt;code class=&quot;highlighter-rouge&quot;&gt;Port&lt;/code&gt; field loaded with &lt;code class=&quot;highlighter-rouge&quot;&gt;ferry.WithRegistry(registry)&lt;/code&gt; cannot hold 70000, because there is no path into the struct that does not go through &lt;code class=&quot;highlighter-rouge&quot;&gt;decodePort&lt;/code&gt;.
+And the claim serves both directions, so &lt;code class=&quot;highlighter-rouge&quot;&gt;encodePort&lt;/code&gt; guards the way out too: an out-of-range port can neither enter a struct through ferry nor leave one.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;NumberValue&lt;/code&gt; is the constructor to reach for here rather than a &lt;code class=&quot;highlighter-rouge&quot;&gt;TextAppender&lt;/code&gt; pair, because it writes the plane’s number kind, and a port stored as &lt;code class=&quot;highlighter-rouge&quot;&gt;8080&lt;/code&gt; rather than &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;8080&quot;&lt;/code&gt; is the point.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;One decision per type, serving both directions.&lt;/strong&gt;
+Ferry picks a representation once: a registered codec if you gave it one, else the &lt;code class=&quot;highlighter-rouge&quot;&gt;TextAppender&lt;/code&gt; + &lt;code class=&quot;highlighter-rouge&quot;&gt;TextUnmarshaler&lt;/code&gt; pair, else &lt;code class=&quot;highlighter-rouge&quot;&gt;reflect.Kind&lt;/code&gt;.
+That one choice covers load and dump, so anything ferry writes it can read back.
+Which is why &lt;code class=&quot;highlighter-rouge&quot;&gt;fmt.Stringer&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;json.Marshaler&lt;/code&gt; and gob are never consulted: &lt;code class=&quot;highlighter-rouge&quot;&gt;String()&lt;/code&gt; says how to write a value and nothing about parsing it back, and a one-way representation is data written once and never loadable again.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;net.IP&lt;/code&gt; travels as &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;192.0.2.1&quot;&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;slog.Level&lt;/code&gt; as &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;WARN&quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;A typed boundary, and one coercion rule.&lt;/strong&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Loader.Load(ctx, key) (string, error)&lt;/code&gt; funnels everything through a string, losing the plane’s own idea of what it held before the struct side sees it.
+Ferry’s boundary value carries a kind, closed at six: absent, null, bool, number, string, bytes.
+A YAML &lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt; arrives a bool, a &lt;code class=&quot;highlighter-rouge&quot;&gt;REG_DWORD&lt;/code&gt; a number, and a number keeps the text the plane spelled it with, so no width is picked before a target type is in hand.
+A leaf then accepts its own kind plus a string parsed by exactly that kind’s parser, nothing more.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;0080&quot;&lt;/code&gt; is 80 at an int and never 0, &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;yes&quot;&lt;/code&gt; is not a bool, and a plane’s number is refused at a Go string field, which keeps a quoted &lt;code class=&quot;highlighter-rouge&quot;&gt;8080&lt;/code&gt; distinct from an unquoted one across a round trip.&lt;/p&gt;
+
+&lt;p&gt;That would be obnoxious on its own, since plenty of planes do spell a boolean &lt;code class=&quot;highlighter-rouge&quot;&gt;on&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;off&lt;/code&gt;.
+So core never guesses and the plane declares: a spelling is a &lt;code class=&quot;highlighter-rouge&quot;&gt;Parse&lt;/code&gt; and a &lt;code class=&quot;highlighter-rouge&quot;&gt;Render&lt;/code&gt; from the driver, spelled &lt;code class=&quot;highlighter-rouge&quot;&gt;env.BoolWords(&quot;on&quot;, &quot;off&quot;, &quot;true&quot;, &quot;false&quot;)&lt;/code&gt; from a caller’s seat.
+All four words are accepted, &lt;code class=&quot;highlighter-rouge&quot;&gt;on&lt;/code&gt; is what a &lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt; writes back as, and the convention lives with the driver that knows it instead of as a per-field escape hatch in your struct.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Zero dependencies in core.&lt;/strong&gt;
+The &lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt; block is empty and CI asserts it stays that way.&lt;/p&gt;
+
+&lt;h3 id=&quot;back-to-the-old-pain&quot;&gt;Back to the old pain&lt;/h3&gt;
+
+&lt;p&gt;With the library on the table, the rest of what hurt is easier to answer:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Two decoders, two tag vocabularies.&lt;/strong&gt; xload could not load a list of structs, so &lt;a href=&quot;https://github.com/mitchellh/mapstructure&quot;&gt;mapstructure&lt;/a&gt; got bolted on for one file, with its own dialect over the same schema. The missing feature was the symptom; two vocabularies over one schema was the disease. Ferry sorts every address into a leaf, a section whose children the type knows, or a composite whose children come from the value. A list of structs is a composite of sections of leaves, addressed as &lt;code class=&quot;highlighter-rouge&quot;&gt;/servers#0/host&lt;/code&gt;, so there was never a special case to bolt onto.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Defaults did not compose with layered config.&lt;/strong&gt; A per-field &lt;code class=&quot;highlighter-rouge&quot;&gt;default=30s&lt;/code&gt; fires wherever a source is silent, and in a layered stack most sources are silent about most fields. The file sets &lt;code class=&quot;highlighter-rouge&quot;&gt;10s&lt;/code&gt;, the env overlay says nothing, and loading the overlay puts &lt;code class=&quot;highlighter-rouge&quot;&gt;30s&lt;/code&gt; back over the file’s answer. Ferry has &lt;code class=&quot;highlighter-rouge&quot;&gt;default=&lt;/code&gt; and the same collision, but a documented position instead of a silent one: a tag default re-fires on every load, so for a layered stack you seed the defaults in a plain Go value and &lt;code class=&quot;highlighter-rouge&quot;&gt;LoadOver&lt;/code&gt; each source onto it. A layer that holds an address overwrites it; a silent layer leaves it alone.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;I wanted a capability absent, not disabled.&lt;/strong&gt; The env route earns its keep in dev, where local runs and tests override config all day. A shipped binary has no such need, so build tags pick the source stack and a release never imports the env driver. Not switched off, not compiled in, and no flag can switch it back on.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;the-collision-nobody-checks&quot;&gt;The collision nobody checks&lt;/h3&gt;
+
+&lt;p&gt;Here is a struct with a bug in it that I would not spot in review:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Config&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;DBHost&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`ferry:&quot;db_host&quot;`&lt;/span&gt;
+
+	&lt;span class=&quot;n&quot;&gt;DB&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;Host&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`ferry:&quot;host&quot;`&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;`ferry:&quot;db&quot;`&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Two fields, two different places.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;/db_host&lt;/code&gt; is one segment; &lt;code class=&quot;highlighter-rouge&quot;&gt;/db/host&lt;/code&gt; is two.&lt;/p&gt;
+
+&lt;p&gt;Now load that from environment variables, where nesting joins with &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt;.
+Both of them spell &lt;code class=&quot;highlighter-rouge&quot;&gt;DB_HOST&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;One field gets the value and the other does not, and for most libraries nobody can tell you which, because the winner falls out of Go’s map iteration order and changes between runs of the same binary over the same environment.&lt;/p&gt;
+
+&lt;p&gt;How the field handles it:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;koanf&lt;/strong&gt; takes the last load, silently, with no error.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;viper&lt;/strong&gt; collides at &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt;, does not collide at &lt;code class=&quot;highlighter-rouge&quot;&gt;__&lt;/code&gt;, and checks neither way.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;xload&lt;/strong&gt; does catch it on the struct side, with a real message naming the key. But &lt;code class=&quot;highlighter-rouge&quot;&gt;SkipCollisionDetection&lt;/code&gt; turns that off, and its map-flattening path never checks at all: run the same load again and again over the same data and the answer flips, with roughly one run in seven coming back with the other field’s value, and no error either time.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And since I help maintain xload, that last one is mine to fix upstream.&lt;/p&gt;
+
+&lt;p&gt;Ferry cannot land in that spot, because core never flattens anything.
+A separator is plane knowledge, so the driver owns the join, and &lt;code class=&quot;highlighter-rouge&quot;&gt;/db_host&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;/db/host&lt;/code&gt; stay two distinct addresses under every circumstance.
+The ambiguity only ever existed for designs that have to recover structure back out of a flattened string.&lt;/p&gt;
+
+&lt;p&gt;Core checks the driver’s key rule over the whole address set at bind time, before a single variable is read:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ferry: /db_host: env gives this and /db/host the same name, &quot;DB_HOST&quot;, so one of the two would be lost
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Both addresses named, the key that ate them quoted, nothing read and nothing written.
+Every run, the same refusal, the same message.&lt;/p&gt;
+
+&lt;p&gt;The fix is yours to pick: rename a field, or hand the driver a join that keeps them apart with &lt;code class=&quot;highlighter-rouge&quot;&gt;env.Separator(&quot;__&quot;)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is also why there are no runtime path accessors anywhere in ferry.
+Once you offer &lt;code class=&quot;highlighter-rouge&quot;&gt;Get(&quot;db.host&quot;)&lt;/code&gt; you are back to parsing structure out of a string, and the failures come with it: viper’s two engines return different answers for one key and one of them is silent, and koanf’s &lt;code class=&quot;highlighter-rouge&quot;&gt;Int64()&lt;/code&gt; turns &lt;code class=&quot;highlighter-rouge&quot;&gt;18446744073709551615&lt;/code&gt; into &lt;code class=&quot;highlighter-rouge&quot;&gt;9223372036854775807&lt;/code&gt; with a nil error while &lt;code class=&quot;highlighter-rouge&quot;&gt;String()&lt;/code&gt; on the same key is lossless.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;️-performance-and-the-thing-i-found-while-measuring-it&quot;&gt;⏱️ Performance, and the thing I found while measuring it&lt;/h2&gt;
+
+&lt;p&gt;The harness refuses to run at all unless every library produces the identical struct from the identical source, asserted outside every timed loop against a hand-written expected value.
+The baseline is the same job written by hand with no mapping layer, published as the floor rather than as a competitor, because nothing beats it.
+The numbers are machine-generated into the README between markers, so I never type them.&lt;/p&gt;
+
+&lt;p&gt;Where it currently lands:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;scenario&lt;/th&gt;
+      &lt;th&gt;ferry&lt;/th&gt;
+      &lt;th&gt;fastest other&lt;/th&gt;
+      &lt;th&gt;verdict&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;yaml_small&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;24.3µs&lt;/td&gt;
+      &lt;td&gt;31.8µs (viper)&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;1.31x faster&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;yaml_large&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;125µs&lt;/td&gt;
+      &lt;td&gt;219µs (viper)&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;1.74x faster&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dump_large&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;512µs&lt;/td&gt;
+      &lt;td&gt;421µs (koanf)&lt;/td&gt;
+      &lt;td&gt;1.22x slower&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dump_fresh&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;358µs&lt;/td&gt;
+      &lt;td&gt;396µs (koanf)&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;1.11x faster&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;I have left the env rows out of that table, and not because they flatter me: ferry loses env loading today, by a good margin, and the full table in the README says exactly by how much.
+That path is the one I am still working on.&lt;/p&gt;
+
+&lt;p&gt;The YAML wins come from the schema being compiled once per type and cached, so a warm load reads only the addresses the schema names instead of parsing a whole document into an intermediate map and mapstructure-decoding that into the struct.&lt;/p&gt;
+
+&lt;p&gt;The two dump rows are the interesting part.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dump_large&lt;/code&gt; writes over a file that already exists, and ferry loses by 1.22x.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;dump_fresh&lt;/code&gt; writes where there is no file, and ferry wins by 1.11x.
+The gap between those two rows is precisely the read-and-parse that in-place editing costs, which is work no other library does, because no other library keeps your comments.&lt;/p&gt;
+
+&lt;h3 id=&quot;nobody-fsyncs&quot;&gt;Nobody fsyncs&lt;/h3&gt;
+
+&lt;p&gt;Staring at the dump numbers is how I found this: almost nobody syncs on every write.&lt;/p&gt;
+
+&lt;p&gt;koanf’s write is &lt;code class=&quot;highlighter-rouge&quot;&gt;os.WriteFile&lt;/code&gt;, neither atomic nor durable.
+viper opens with &lt;code class=&quot;highlighter-rouge&quot;&gt;O_TRUNC&lt;/code&gt; and ends &lt;code class=&quot;highlighter-rouge&quot;&gt;writeConfig&lt;/code&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;f.Sync()&lt;/code&gt;, so it is durable but not atomic, and the slowest of the four on both dump rows.
+That is the worst pairing available: a crash mid-write leaves the operator a truncated file, durably committed.&lt;/p&gt;
+
+&lt;p&gt;So the field splits into libraries that are fast because they skip durability, and one that pays for it and gets torn writes anyway.&lt;/p&gt;
+
+&lt;p&gt;Ferry is atomic and not durable.
+A temp file beside the plane is renamed over it, so nothing reads a half-written config and a failed save leaves the file byte for byte as it was.
+Nothing is flushed unless you ask, so the rows above measure koanf’s durability and the baseline’s, on equal terms.&lt;/p&gt;
+
+&lt;p&gt;Asking is &lt;code class=&quot;highlighter-rouge&quot;&gt;yaml.Durable()&lt;/code&gt;, opt-in because the journal commit costs more than the rest of the save combined.
+Durability is a real cost, so I would rather it be a choice than a tax you pay without noticing.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;-a-note-on-the-windows-driver&quot;&gt;🪟 A note on the Windows driver&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;driver/windows/winreg&lt;/code&gt; is the one that started all of this, and building it turned up enough Windows-specific surprises to fill a post of their own.
+Silent case folding that turns two config keys into one, &lt;code class=&quot;highlighter-rouge&quot;&gt;REG_SZ&lt;/code&gt; preserving a number’s spelling better than &lt;code class=&quot;highlighter-rouge&quot;&gt;REG_DWORD&lt;/code&gt; does, and DPAPI descriptors that work on a domain-joined machine and fail on a standalone one.&lt;/p&gt;
+
+&lt;p&gt;They are in &lt;a href=&quot;/2026/08/12/what-the-windows-registry-taught-me&quot;&gt;What the Windows Registry Taught Me&lt;/a&gt;, and most of it is useful whether or not you use ferry.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;-built-in-10-days-with-claude&quot;&gt;🤖 Built in 10 days with Claude&lt;/h2&gt;
+
+&lt;p&gt;Ferry went from empty repo to the thing described above in ten days.&lt;/p&gt;
+
+&lt;p&gt;The first commit was not code but instructions for the agent: an AGENTS.md laying out how to work, what outranks what, and what to do when a lint rule fires.&lt;/p&gt;
+
+&lt;p&gt;Then three full days of nothing but design.
+Every decision got argued out and written down as an ADR, an architecture decision record, and those 21 documents turned out to be the thing that made the whole approach work: they were the durable shared context between me and the agents, so a session that started cold could read where I had already steered and pick it up from there.
+A prototype got built in that window too, audited against the ADRs, and thrown away.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Then the whole engine, in a day.
+Walk, &lt;code class=&quot;highlighter-rouge&quot;&gt;Load&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;LoadOver&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;Dump&lt;/code&gt;, tag grammar, schema compiler, codec chain, codec registry, error aggregation, &lt;code class=&quot;highlighter-rouge&quot;&gt;ferrytest&lt;/code&gt;, the first four drivers, README, perf pipeline.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;docs:&lt;/code&gt; commits ended up outnumbering &lt;code class=&quot;highlighter-rouge&quot;&gt;feat:&lt;/code&gt; two to one, which is not the ratio I expected going in.&lt;/p&gt;
+
+&lt;p&gt;Where it landed, as of 10 August:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;224 commits&lt;/strong&gt;, and &lt;strong&gt;89,580 lines of Go&lt;/strong&gt; across 275 files: 35,626 implementation, 53,954 test, so the tests outweigh the code about 1.5 to 1.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;1,099 test functions and 54 examples.&lt;/strong&gt; CI gates core at 90% coverage and will not merge below it.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;21 ADRs&lt;/strong&gt;, all accepted and all implemented, the longest running 1,381 lines.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The mosquito from the intro is, I am pleased to report, extremely dead.
+And now I get to reuse the building.&lt;/p&gt;
+
+&lt;p&gt;The guardrails are what let an agent move that fast without the codebase quietly rotting:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;A lint canary.&lt;/strong&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;lintcanary.go&lt;/code&gt; plus &lt;code class=&quot;highlighter-rouge&quot;&gt;make lint-canary&lt;/code&gt; assert that the &lt;code class=&quot;highlighter-rouge&quot;&gt;unused&lt;/code&gt; linter still reports dead code, so the linter itself is tested. Thresholds are cognitive complexity 7, cyclomatic 10, function length 75/50, nesting 4, and AGENTS.md says: “When one fires, split the function. Never raise the number, never add a nolint.”&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;godoc-check.&lt;/strong&gt; No exported doc comment may cite an ADR, issue or PR number. The boundary is literally “whether &lt;code class=&quot;highlighter-rouge&quot;&gt;go doc&lt;/code&gt; prints it”.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Examples that cannot rot.&lt;/strong&gt; Doc-comment code is promoted to &lt;code class=&quot;highlighter-rouge&quot;&gt;Example&lt;/code&gt; functions with &lt;code class=&quot;highlighter-rouge&quot;&gt;// Output:&lt;/code&gt;, and the driver READMEs quote those examples verbatim, so a README example that stops being true fails the build.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Machine-generated perf tables.&lt;/strong&gt; The harness lives on a separate &lt;code class=&quot;highlighter-rouge&quot;&gt;perf/&lt;/code&gt; branch outside &lt;code class=&quot;highlighter-rouge&quot;&gt;go.work&lt;/code&gt;, so koanf and viper never enter the dependency graph.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Two things outside my repo deserve credit.&lt;/p&gt;
+
+&lt;p&gt;Skills from &lt;a href=&quot;https://github.com/mattpocock/skills&quot;&gt;Matt Pocock’s skills repo&lt;/a&gt;, vendored and SHA-256 pinned, did much of the heavy lifting on process; the ones that saw real use were &lt;code class=&quot;highlighter-rouge&quot;&gt;/ask-matt&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;/wayfinder&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;/to-spec&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;/to-tickets&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;/implement&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;/tdd&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;/code-review&lt;/code&gt;.
+&lt;a href=&quot;https://github.com/kunchenguid/lavish-axi&quot;&gt;Kun Chen’s lavish-axi&lt;/a&gt; is what I used to plan and review the design visually while those decisions were being argued out.&lt;/p&gt;
+
+&lt;h2 id=&quot;-wrap-up&quot;&gt;🎉 Wrap up&lt;/h2&gt;
+
+&lt;p&gt;Ferry is still in experimentation.
+A v1 will come soon enough, but before I cut it I want more users on the project: put it into something real, see if the design makes sense to you, tell me where it does not.
+If the design holds up, I bump it to v1; if it does not, I keep working on it.&lt;/p&gt;
+
+&lt;p&gt;I am also moving the project that prompted it onto ferry, which is the best way I know to find out which of those 21 decisions were wrong.&lt;/p&gt;
+
+&lt;p&gt;Code is at &lt;a href=&quot;https://github.com/onhotpath/ferry&quot;&gt;github.com/onhotpath/ferry&lt;/a&gt;, docs at &lt;a href=&quot;https://pkg.go.dev/github.com/onhotpath/ferry&quot;&gt;pkg.go.dev&lt;/a&gt;.
+If you try it, the most useful thing you can send me is the thing it refused to do that you thought it should have done.
+Issues and questions very welcome.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Ferry stands on &lt;a href=&quot;https://pkg.go.dev/github.com/gojekfarm/xtools/xload&quot;&gt;xload&lt;/a&gt;, which is the brainchild of &lt;a href=&quot;https://raviatluri.in/&quot;&gt;Ravi&lt;/a&gt; and which I help maintain. A nod as well to &lt;a href=&quot;https://nadh.in/&quot;&gt;Kailash Nadh&lt;/a&gt;, whose &lt;a href=&quot;https://github.com/knadh/koanf&quot;&gt;koanf&lt;/a&gt; was the closest existing library to what I had in mind for ferry, and the best candidate to compare against on both performance and usability. Happy coding, Gophers!&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>Ajat Prabha</name></author><category term="golang" /><summary type="html">Two years ago I wrote about xload, which fills an annotated Go struct from env vars, query params, files, anything you put behind a Loader. It does that one job well. It does exactly half of what I needed.</summary></entry><entry><title type="html">What the Windows Registry Taught Me</title><link href="https://ajatprabha.in/2026/08/12/what-the-windows-registry-taught-me" rel="alternate" type="text/html" title="What the Windows Registry Taught Me" /><published>2026-08-12T00:30:00+00:00</published><updated>2026-08-12T00:30:00+00:00</updated><id>https://ajatprabha.in/2026/08/12/what-the-windows-registry-taught-me</id><content type="html" xml:base="https://ajatprabha.in/2026/08/12/what-the-windows-registry-taught-me">&lt;p&gt;I built a Windows registry driver for &lt;a href=&quot;/2026/08/12/ferry-xload-learns-to-write&quot;&gt;ferry&lt;/a&gt;, my two-way config library, so that an application could stop carrying registry API calls around inside its domain code.&lt;/p&gt;
+
+&lt;p&gt;The registry turns out to be a good home for configuration and a slightly hostile one for a library.&lt;/p&gt;
+
+&lt;p&gt;Windows had opinions.&lt;/p&gt;
+
+&lt;p&gt;Most of what follows applies whether or not you ever touch ferry.&lt;/p&gt;
+
+&lt;h2 id=&quot;-why-the-registry-at-all&quot;&gt;🔐 Why the registry at all&lt;/h2&gt;
+
+&lt;p&gt;The service that prompted this keeps its config on machines I don’t control, installed by people who are not developers.
+That config had been living in a YAML file next to the binary, in plain sight and editable by anybody on the machine.&lt;/p&gt;
+
+&lt;p&gt;The registry fixes that mostly by being boring.
+An ordinary user will happily open a config file they can see; they are not going to go poking around in &lt;code class=&quot;highlighter-rouge&quot;&gt;regedit&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;But the real argument is the permissions, and this is the part I did not appreciate before.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Put your config under &lt;code class=&quot;highlighter-rouge&quot;&gt;HKLM\SOFTWARE&lt;/code&gt; and non-admin writes are denied for free.&lt;/strong&gt;
+Users inherit &lt;code class=&quot;highlighter-rouge&quot;&gt;ReadKey&lt;/code&gt;, Administrators and SYSTEM get &lt;code class=&quot;highlighter-rouge&quot;&gt;FullControl&lt;/code&gt;, and you did not have to do anything to get that.
+Compare it with a data directory under ProgramData, where the same protection depends on someone having set the ACL correctly at install time and nobody having loosened it since.&lt;/p&gt;
+
+&lt;p&gt;One of those is a property of where you put the data.
+The other is a promise somebody made once.&lt;/p&gt;
+
+&lt;p&gt;The cost is that writing under &lt;code class=&quot;highlighter-rouge&quot;&gt;HKEY_LOCAL_MACHINE&lt;/code&gt; needs administrator rights, so an unprivileged process is refused when the save starts rather than part way through it.&lt;/p&gt;
+
+&lt;h2 id=&quot;️-the-registry-is-a-nicer-tree-than-it-looks&quot;&gt;🗂️ The registry is a nicer tree than it looks&lt;/h2&gt;
+
+&lt;p&gt;A config library needs to know where a struct field lands.
+The registry makes that easy, because it keeps two namespaces under every key: &lt;strong&gt;values&lt;/strong&gt;, which hold data, and &lt;strong&gt;subkeys&lt;/strong&gt;, which hold more of both.&lt;/p&gt;
+
+&lt;p&gt;A struct maps onto that almost exactly:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;the struct says&lt;/th&gt;
+      &lt;th&gt;the registry holds&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Host string&lt;/code&gt; tagged &lt;code class=&quot;highlighter-rouge&quot;&gt;host&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;the value &lt;code class=&quot;highlighter-rouge&quot;&gt;host&lt;/code&gt; under the driver’s key&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;DB struct{...}&lt;/code&gt; tagged &lt;code class=&quot;highlighter-rouge&quot;&gt;db&lt;/code&gt;, with &lt;code class=&quot;highlighter-rouge&quot;&gt;Host&lt;/code&gt; inside&lt;/td&gt;
+      &lt;td&gt;the value &lt;code class=&quot;highlighter-rouge&quot;&gt;host&lt;/code&gt; under the subkey &lt;code class=&quot;highlighter-rouge&quot;&gt;db&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Tags []string&lt;/code&gt; tagged &lt;code class=&quot;highlighter-rouge&quot;&gt;tags&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;the subkey &lt;code class=&quot;highlighter-rouge&quot;&gt;tags&lt;/code&gt;, holding the values &lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;2&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Envs map[string]struct{...}&lt;/code&gt; tagged &lt;code class=&quot;highlighter-rouge&quot;&gt;envs&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;the subkey &lt;code class=&quot;highlighter-rouge&quot;&gt;envs&lt;/code&gt;, one subkey per map key&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;a config whose whole value is one leaf&lt;/td&gt;
+      &lt;td&gt;the key’s own unnamed value, which &lt;code class=&quot;highlighter-rouge&quot;&gt;regedit&lt;/code&gt; shows as &lt;code class=&quot;highlighter-rouge&quot;&gt;(Default)&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;A value named &lt;code class=&quot;highlighter-rouge&quot;&gt;host&lt;/code&gt; and a subkey named &lt;code class=&quot;highlighter-rouge&quot;&gt;host&lt;/code&gt; under the same key are two different objects, and both are legal.
+That is more structure than most config backends give you, and it means nothing has to be flattened into a delimited string on the way in.&lt;/p&gt;
+
+&lt;p&gt;Then there is the part that bit me.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The registry folds key case, and it does it silently.&lt;/strong&gt;
+Write &lt;code class=&quot;highlighter-rouge&quot;&gt;Host&lt;/code&gt;, then write &lt;code class=&quot;highlighter-rouge&quot;&gt;host&lt;/code&gt;, and you do not get two values.
+You get one value named &lt;code class=&quot;highlighter-rouge&quot;&gt;Host&lt;/code&gt; holding the second write’s data, and no error is raised at any point.&lt;/p&gt;
+
+&lt;p&gt;For a library whose whole premise is that two different fields are two different places, that is a data-loss bug waiting to happen.
+So the driver folds every part of an address to lower case before comparing two of them, and refuses a schema where two addresses collide, naming both:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ferry: /Host: winreg gives this and /host the same name, &quot;host&quot;, so one of the two would be lost
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;That lands when the load starts, before anything is read or written.
+The case you actually wrote is still what gets stored, because the registry keeps whichever spelling created a name first; the fold is only for the check.&lt;/p&gt;
+
+&lt;p&gt;Two more things have no registry name at all and get refused the same way: an empty address part, and one containing a backslash.
+There is no escape hatch for the backslash, for the same reason it is dangerous in the first place: any byte an escape used would be a byte a map key is entitled to contain.&lt;/p&gt;
+
+&lt;h2 id=&quot;-reg_sz-is-better-at-numbers-than-the-number-types&quot;&gt;🔢 REG_SZ is better at numbers than the number types&lt;/h2&gt;
+
+&lt;p&gt;This is my favourite piece of Windows trivia from the whole exercise.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;REG_SZ&lt;/code&gt; preserves how a number was written, and &lt;code class=&quot;highlighter-rouge&quot;&gt;REG_DWORD&lt;/code&gt; cannot.&lt;/strong&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;007&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;3.14159265358979&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;18446744073709551615&lt;/code&gt; all come back exactly as they went in.
+Put any of those through a typed numeric value and you lose the leading zero, or the precision, or the whole thing.&lt;/p&gt;
+
+&lt;p&gt;So the driver writes numbers as &lt;code class=&quot;highlighter-rouge&quot;&gt;REG_SZ&lt;/code&gt;, and there is no option to choose otherwise.&lt;/p&gt;
+
+&lt;p&gt;Reading is wide and writing is narrow, which is the shape most of these drivers end up with:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;read&lt;/th&gt;
+      &lt;th&gt;becomes&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;REG_SZ&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;a string&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;REG_EXPAND_SZ&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;a string, exactly as stored, never expanded&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;REG_DWORD&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;REG_QWORD&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;a number&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;REG_BINARY&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;bytes&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;REG_MULTI_SZ&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;refused&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Two of those rows have stories.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;REG_EXPAND_SZ&lt;/code&gt; is read raw because expanding it is not reversible.&lt;/strong&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;%SystemRoot%-literal&lt;/code&gt; expands to &lt;code class=&quot;highlighter-rouge&quot;&gt;C:\WINDOWS-literal&lt;/code&gt;, and a save afterwards would write that back over what the operator originally wrote.
+It is also the one type a save preserves: text written where the registry already holds an expandable string is stored as one, because retyping it would destroy the expansion for every other reader of that key.
+That costs one read per string a save writes, and it is worth it.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;REG_MULTI_SZ&lt;/code&gt; is refused&lt;/strong&gt; because it spells a whole sequence inside one value, and a sequence’s elements each deserve their own address.&lt;/p&gt;
+
+&lt;p&gt;The honest cost of all this: an operator who hand-retyped a value to &lt;code class=&quot;highlighter-rouge&quot;&gt;REG_DWORD&lt;/code&gt; gets it back as &lt;code class=&quot;highlighter-rouge&quot;&gt;REG_SZ&lt;/code&gt; on the next save.
+The data survives, the type annotation does not.&lt;/p&gt;
+
+&lt;h2 id=&quot;️-encrypting-the-parts-that-need-it&quot;&gt;🛡️ Encrypting the parts that need it&lt;/h2&gt;
+
+&lt;p&gt;Some config values are secrets, and on Windows the reflex is DPAPI.
+Two things surprised me here, and the first one is the one I would most want a past version of me to read.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;DPAPI at machine scope is not encryption at rest.&lt;/strong&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;CRYPTPROTECT_LOCAL_MACHINE&lt;/code&gt; with NULL entropy decrypts for every principal on the machine, so any local account, any service, any scheduled task can read it back.
+The only thing actually keeping anyone out is the ACL on whatever holds the ciphertext.
+Encrypt with it if you like, but do not let it talk you out of getting the ACL right.&lt;/p&gt;
+
+&lt;p&gt;That is the mistake this whole area exists to retire: machine-scope DPAPI with no entropy, written to a file whose access list grants read to everyone, and inherited from a parent directory rather than chosen.&lt;/p&gt;
+
+&lt;p&gt;DPAPI-NG does better, but it has a trap of its own.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The LocalSystem descriptor needs a domain.&lt;/strong&gt;
+The obvious descriptor for a service running as LocalSystem is &lt;code class=&quot;highlighter-rouge&quot;&gt;SID=S-1-5-18&lt;/code&gt;, and it looks correct right up until you install on a machine that is not domain-joined.
+It resolves through Active Directory’s key distribution service, there is nothing to resolve against, and &lt;code class=&quot;highlighter-rouge&quot;&gt;NCryptProtectSecret&lt;/code&gt; fails at the first save with &lt;code class=&quot;highlighter-rouge&quot;&gt;NTE_ENCRYPTION_FAILURE&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The three descriptors worth knowing:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;descriptor&lt;/th&gt;
+      &lt;th&gt;rule&lt;/th&gt;
+      &lt;th&gt;who can decrypt&lt;/th&gt;
+      &lt;th&gt;needs a domain&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CurrentUser&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LOCAL=user&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;the account the process runs as, on this machine&lt;/td&gt;
+      &lt;td&gt;no&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LocalMachine&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LOCAL=machine&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;every account on this machine&lt;/td&gt;
+      &lt;td&gt;no&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LocalSystem&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SID=S-1-5-18&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;the local system account, on this machine&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;yes&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;Start from &lt;code class=&quot;highlighter-rouge&quot;&gt;CurrentUser&lt;/code&gt;.&lt;/strong&gt;
+A service running as the local system account and protecting under &lt;code class=&quot;highlighter-rouge&quot;&gt;LOCAL=user&lt;/code&gt; gets exactly what &lt;code class=&quot;highlighter-rouge&quot;&gt;SID=S-1-5-18&lt;/code&gt; promises, that the value is for SYSTEM on this machine and nothing else, and it gets it on a standalone box too.
+The sharp edge is that the principal is whoever runs the process: run the same program by hand as an ordinary user and the value is protected to that user, and the service will not read it back.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LocalMachine&lt;/code&gt; is not an improvement on classic machine scope in access-control terms.
+Windows documents &lt;code class=&quot;highlighter-rouge&quot;&gt;LOCAL=machine&lt;/code&gt; as protecting content so that all users on the computer can decrypt it, which is the same grant &lt;code class=&quot;highlighter-rouge&quot;&gt;CRYPTPROTECT_LOCAL_MACHINE&lt;/code&gt; gives.&lt;/p&gt;
+
+&lt;p&gt;And none of this is a vault.
+An attacker who takes the machine’s own key material recovers the value offline at their leisure, and anyone with administrator rights can simply run as the principal the descriptor names and ask for the plaintext, which is what the descriptor says they may do.
+It is a large improvement over plaintext and it is not a secrets manager.&lt;/p&gt;
+
+&lt;p&gt;In ferry this lives in a decorator that wraps any plane and encrypts only the fields a struct marked, driven by a second struct tag.
+&lt;a href=&quot;/2026/08/12/ferry-xload-learns-to-write&quot;&gt;The ferry post&lt;/a&gt; has the worked example.&lt;/p&gt;
+
+&lt;h2 id=&quot;️-where-the-registry-runs-out&quot;&gt;⚠️ Where the registry runs out&lt;/h2&gt;
+
+&lt;p&gt;Four limits worth knowing before you put a config store on it.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;There is no null.&lt;/strong&gt;
+A registry value cannot exist without a type, and every type carries a payload, so there is no way to store “this is explicitly nothing” that is distinguishable from empty text.
+Containers are different: a subkey that exists and holds nothing is a real object.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;A save is ordered and it is not atomic.&lt;/strong&gt;
+Writes can be staged so that a refused save leaves the registry untouched, but once the commit starts, a machine that dies half way through is left half way through.
+The registry does have transactions, and Microsoft deprecated them.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Two Go strings have no &lt;code class=&quot;highlighter-rouge&quot;&gt;REG_SZ&lt;/code&gt; spelling.&lt;/strong&gt;
+A registry string is UTF-16 and ends at its first NUL, so a string holding a NUL, and one holding bytes that are not valid UTF-8, are both refused.
+Put those in a &lt;code class=&quot;highlighter-rouge&quot;&gt;[]byte&lt;/code&gt; field, which is written as &lt;code class=&quot;highlighter-rouge&quot;&gt;REG_BINARY&lt;/code&gt; and carries every byte.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;On 64-bit Windows there may be two of your key.&lt;/strong&gt;
+The registry keeps two copies of parts of the tree, and a 32-bit process is redirected into &lt;code class=&quot;highlighter-rouge&quot;&gt;WOW6432Node&lt;/code&gt; without being told, so a 32-bit service and a 64-bit installer writing the same path write two different keys.
+Name the view you want explicitly and give the same one to both halves, instead of inheriting whatever the process happens to be.&lt;/p&gt;
+
+&lt;p&gt;That last one is not a registry flaw so much as a twenty-year-old compatibility decision you inherit, and it is the kind of thing that produces a bug report saying “the installer wrote it but the service cannot see it”.&lt;/p&gt;
+
+&lt;h2 id=&quot;-wrap-up&quot;&gt;🎉 Wrap up&lt;/h2&gt;
+
+&lt;p&gt;The registry is a better configuration store than its reputation suggests: a real tree, permissions you get by inheritance rather than by remembering, and a string type that round-trips numbers more faithfully than the number types do.&lt;/p&gt;
+
+&lt;p&gt;It is also full of quiet edges, and almost all of them are quiet in the same direction, where something silently becomes one thing instead of two.&lt;/p&gt;
+
+&lt;p&gt;The driver is &lt;code class=&quot;highlighter-rouge&quot;&gt;driver/windows/winreg&lt;/code&gt; in &lt;a href=&quot;https://github.com/onhotpath/ferry&quot;&gt;github.com/onhotpath/ferry&lt;/a&gt;, experimental for now, and the library it plugs into is the subject of &lt;a href=&quot;/2026/08/12/ferry-xload-learns-to-write&quot;&gt;the other post&lt;/a&gt;.
+If you are building something similar on Windows and hit an edge I have not listed, I would like to hear about it.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Written while building &lt;a href=&quot;https://github.com/onhotpath/ferry&quot;&gt;ferry&lt;/a&gt;. Happy coding, Gophers!&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>Ajat Prabha</name></author><category term="golang" /><summary type="html">I built a Windows registry driver for ferry, my two-way config library, so that an application could stop carrying registry API calls around inside its domain code.</summary></entry><entry><title type="html">Unleashing xLoad: Your Ultimate Data Loader for Go Structs!</title><link href="https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs" rel="alternate" type="text/html" title="Unleashing xLoad: Your Ultimate Data Loader for Go Structs!" /><published>2024-07-07T01:00:00+00:00</published><updated>2024-07-07T01:00:00+00:00</updated><id>https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs</id><content type="html" xml:base="https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs">&lt;p&gt;Meet xLoad, your data-loading superhero 🦸‍♂️! It effortlessly brings data from various corners of the universe straight into Go structs. Whether you’re juggling configurations, internationalization labels, or experiments, xload is your trusty sidekick.&lt;/p&gt;
 
 &lt;h2 id=&quot;️-why-xload&quot;&gt;🤷‍♂️ &lt;strong&gt;Why xload?&lt;/strong&gt;&lt;/h2&gt;
 
@@ -1469,189 +2288,4 @@ Now the Go wrapper stretches the image while resizing, so we wrote some logic to
 
 &lt;p&gt;&lt;img src=&quot;/assets/images/IMG_20180525_184345_blur.jpg&quot; alt=&quot;GitLab&quot; style=&quot;max-width: 720px&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;The learning experience has been great so far and there is so much more to explore. I’m meeting new people, many more yet to meet.😅 I’ve made new friends, all of them are great. I’m liking Bangalore so far, especially the weather. It’s been raining almost every day since I’ve arrived. I went to my cousin’s home for the weekend and this is pretty much it about the first week.&lt;/p&gt;</content><author><name>Ajat Prabha</name></author><category term="gojek" /><category term="internship" /><category term="travel" /><summary type="html">It began, the week I’ve been waiting for since months! I was finally interning with GoJek in Bangalore.</summary></entry><entry><title type="html">How I got the internship at GoJek</title><link href="https://ajatprabha.in/2018/05/27/how-i-got-the-internship-at-gojek" rel="alternate" type="text/html" title="How I got the internship at GoJek" /><published>2018-05-27T16:00:00+00:00</published><updated>2018-05-27T16:00:00+00:00</updated><id>https://ajatprabha.in/2018/05/27/how-i-got-the-internship-at-gojek</id><content type="html" xml:base="https://ajatprabha.in/2018/05/27/how-i-got-the-internship-at-gojek">&lt;p&gt;It was October of 2017 I guess and campus interviews for internships were going on and I could easily spot my seniors wearing formals inside the campus. And believe me, I couldn’t even recognize one of the seniors whom I already knew 😛. One morning I asked my batch-mate that I wanna see the interview process! He was a volunteer in Student Placement Cell. He said, no problem, come with me tonight.&lt;/p&gt;
-
-&lt;p&gt;I went and it was GoJek taking the coding round. I saw a familiar face, Aayush Sharda he was, one of my seniors from &lt;code class=&quot;highlighter-rouge&quot;&gt;Defeat The Beat&lt;/code&gt;, our dance club. Abhinav Rai, another of my seniors was also there. Abhinav asked me to take the question paper and do it in 1 hour 😂. It was meant to be done in 3 hours though. I read the problem statement, it didn’t seem that difficult to me, I skipped it anyway 😅.&lt;/p&gt;
-
-&lt;p&gt;After the coding round was over I asked Aayush that what do they look for while examining the candidates. He replied, we look at various aspects like how do they name variables, how do they react to input while pair programming, what is their coding style, are they focusing on getting shit done or spending their time in optimizing it, etc. to name a few. It was surprising but only 1 person was able to finish all the milestones of the problem statement. Why? Because most of the people were stuck at optimizing the first milestone! 😅&lt;/p&gt;
-
-&lt;p&gt;After listening to all this, I decided to show the repository of one of my projects I did that summer to him. He asked me to send the link. Later that night, I received a call from him and he asked me to come over to the guest house where he was staying. He asked me questions which were a little out of context to me at first but he was just making sure that I actually wrote the code. 😅&lt;/p&gt;
-
-&lt;p&gt;For the next half an hour he was just telling me about what GoJek is and what does it do. And then came the question, “Tu GoJek k saath internship karega?” like if I would say no! Hell yeah, who would deny an internship in a unicorn. 😅&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/2b354w.jpg&quot; alt=&quot;hell yeah meme&quot; style=&quot;max-width: 400px;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;He then asked me to brush up all the things that I’ve used in that project because next afternoon was my interview scheduled. I barely slept that night and I went through almost everything I had used to code that project be it Git, MVC, OOP concepts or Django’s ORM. I read everything! Next day I attended all my classes and it was time for the interview. I was nervous that I shouldn’t blow up this opportunity.&lt;/p&gt;
-
-&lt;p&gt;I called Aayush and he was not gonna be a part of the interview. I was in the guest house now. I was so consumed by many things that I don’t even remember now who opened the door for me and asked me to have a seat. 😂&lt;/p&gt;
-
-&lt;p&gt;A few minutes later I was joined by Puneet Goyal and Shishir Joshi. The two were very casual, probably to make me comfortable. The interview started and both of them told me about themselves one after the other like what do they do, briefly about their journey in the tech world so far. And next was me! The questions were mostly about how I was motivated to do that project? Why did I choose Django? How did I cope with problems I had while working on the project? etc.&lt;/p&gt;
-
-&lt;p&gt;There were no hard-core coding questions or questions about data structures and algorithms, etc. maybe because I was a sophomore back then and the course was still ongoing. The interview came to an end and we shook hands and Puneet told me that he’ll let me know if we can work on a project together and hack something cool. I left the guest house and while my way back to the hostel room I was thinking, “I messed it up” because there was no code-related questions. 😅&lt;/p&gt;
-
-&lt;p&gt;I messaged Aayush that I think I blew up. He replied that everything was great and he’ll convey the details later and I was not supposed to tell anyone yet. I was still not believing all the things that happened and moved on.&lt;/p&gt;
-
-&lt;p&gt;2 days later Ashish Sahu, a senior congratulated me! I was like, for what exactly? He said, “Abhinav ne nahi btaya kya?”. I messaged Abhinav about it. He laughed and said, “Room par aake t-shirt le jana” 😂. Now I believed that yes I made it through. I thanked Aayush for the opportunity and asked if I can tell my parents now, “bata de or t-shirt pehen ke ghoom”, he said.&lt;/p&gt;
-
-&lt;p&gt;So this is how I got the internship. This was primarily because I was at the right place at the right time. Hadn’t I went to see the interview process, I probably wouldn’t get this opportunity. Thanks to Kuldeep and Nikhil!&lt;/p&gt;
-
-&lt;p&gt;The next 1-2 days went coping with memes that my &lt;code class=&quot;highlighter-rouge&quot;&gt;jigri dost&lt;/code&gt; were targeting at me.&lt;/p&gt;
-
-&lt;p&gt;Do read my first week’s experience &lt;a href=&quot;/2018/05/27/first-week-at-gojek-bangalore&quot;&gt;here&lt;/a&gt;&lt;/p&gt;</content><author><name>Ajat Prabha</name></author><category term="gojek" /><category term="internship" /><summary type="html">It was October of 2017 I guess and campus interviews for internships were going on and I could easily spot my seniors wearing formals inside the campus. And believe me, I couldn’t even recognize one of the seniors whom I already knew 😛. One morning I asked my batch-mate that I wanna see the interview process! He was a volunteer in Student Placement Cell. He said, no problem, come with me tonight.</summary></entry><entry><title type="html">TDD (Test Driven Development), why bother?</title><link href="https://ajatprabha.in/2017/12/20/tdd-why-bother" rel="alternate" type="text/html" title="TDD (Test Driven Development), why bother?" /><published>2017-12-20T17:24:00+00:00</published><updated>2017-12-20T17:24:00+00:00</updated><id>https://ajatprabha.in/2017/12/20/tdd-why-bother</id><content type="html" xml:base="https://ajatprabha.in/2017/12/20/tdd-why-bother">&lt;p&gt;Recently I came to know about TDD (Test Driven Development), a development methodology in &lt;a href=&quot;/2017/12/12/sdlc-waterfall-vs-agile&quot;&gt;Agile Software Craftsmanship&lt;/a&gt;. At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-is-tdd&quot;&gt;What is TDD?&lt;/h2&gt;
-
-&lt;p&gt;You already know the full-form of TDD. Now, TDD is a process that is used to create software with very small repetitive cycles which include: analysis of the requirement, converting that requirement into a very specific test case which shall fail, then we write the production code to make the test pass, we refactor the code and then again repeat the cycle with new requirement. After each cycle, all the tests must pass. We’re not that great at coming up with a code that has correct behaviour and correct structure simultaneously. To overcome this, we follow the RGR cycle in TDD, while always keeping the three laws of TDD in mind.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-three-laws-of-tdd&quot;&gt;The Three Laws of TDD&lt;/h2&gt;
-
-&lt;p&gt;These laws lock a developer into a cycle that is short but is very crucial to maintain. They are:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;ol&gt;
-    &lt;li&gt;You may not write production code until you have written a failing unit test.&lt;/li&gt;
-    &lt;li&gt;You may not write more of a unit test that is sufficient to fail, and not compiling is failing.&lt;/li&gt;
-    &lt;li&gt;You may not write more production code that is sufficient to pass the currently failing test.&lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;The purpose of these laws is just to provide line-by-line granularity to the code. Almost every second you keep these laws into consideration.&lt;/p&gt;
-
-&lt;h2 id=&quot;rgr-cycle&quot;&gt;RGR Cycle&lt;/h2&gt;
-
-&lt;p&gt;Red-Green-Refactor cycle is repeated after every complete unit test or after a couple of the three laws cycles. They are:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;ol&gt;
-    &lt;li&gt;Write a failing unit test&lt;/li&gt;
-    &lt;li&gt;Write production code that makes the unit test pass, by any means necessary&lt;/li&gt;
-    &lt;li&gt;Clean up the mess, i.e. refactor the code&lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/RGR-cycle-300x300.png&quot; alt=&quot;RGR
-Cycle
-Infographic&quot; /&gt;&lt;br /&gt;
-Source: Self-created.&lt;/p&gt;
-
-&lt;p&gt;Purpose of RGR cycle is to write clean code subject to constraints. As you write unit tests, you specify the behaviour of the software. And then you write production code which is constrained by the unit tests, so you can structure your production code while maintaining the behaviour of the software. Refactoring is done after each cycle, it is not to be left after the end of the project. It is this cycle that makes it easy to make changes in the code at any stage a lot easier while still maintaining the behaviour required.&lt;/p&gt;
-
-&lt;h2 id=&quot;specificgeneric-cycle&quot;&gt;Specific/Generic Cycle&lt;/h2&gt;
-
-&lt;p&gt;This cycle is observed after every 10-15 minutes. It tells you that&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;As the tests get more specific, the production code gets more generic.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;We’ll understand soon what this means with the help of an example. But in a nutshell, when you add even finer granularity to the unit tests, you should write more generalised production code to make the test pass.&lt;/p&gt;
-
-&lt;h4 id=&quot;now-lets-take-the-example-of-building-a-stack-class-using-tdd&quot;&gt;Now let’s take the example of building a stack class using TDD.&lt;/h4&gt;
-
-&lt;p&gt;I’ll use python in this example. Under a directory, I created two files viz. &lt;code class=&quot;highlighter-rouge&quot;&gt;stack.py&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;test_stack.py&lt;/code&gt; :&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stack.py&lt;/code&gt; contains the production code and the class &lt;code class=&quot;highlighter-rouge&quot;&gt;Stack&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;test_stack.py&lt;/code&gt; contains unit tests and the class &lt;code class=&quot;highlighter-rouge&quot;&gt;TestStack&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;So let’s say the very first test is that the size of a new stack should be zero. Note that tests in python should be prefixed with &lt;code class=&quot;highlighter-rouge&quot;&gt;test_&lt;/code&gt;&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=base-test-stack.py&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;Create an interface method like this.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=base-stack.py&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;Now, run the automated tests provided by &lt;code class=&quot;highlighter-rouge&quot;&gt;unittest&lt;/code&gt; module in python by command &lt;code class=&quot;highlighter-rouge&quot;&gt;python -m unittest&lt;/code&gt;. Let me make the test fail by returning a value -1&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=stack-size-fail.py&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;I can make this test pass simply by returning the desired value 0, recall point 2 of RGR cycle.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=stack-size-pass.py&quot;&gt; &lt;/script&gt;
-
-&lt;h4 id=&quot;stack-size-after-push-is-one&quot;&gt;Stack size after push is one&lt;/h4&gt;
-
-&lt;p&gt;Let me write another test which checks if the size of the stack is 1 or not after one push.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=test-one-push-stack.py&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;Let’s make the test pass by simply incrementing the value of &lt;code class=&quot;highlighter-rouge&quot;&gt;_size&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;.push()&lt;/code&gt; method and return that variable in &lt;code class=&quot;highlighter-rouge&quot;&gt;.size()&lt;/code&gt; method.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=one-push-stack.py&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;Take a moment and notice that I replaced a constant value with a more generic variable. Also, I need to &lt;strong&gt;refactor&lt;/strong&gt; the code now as I’ve duplicated code in both the tests. I can do this by moving the stack initialisation part in &lt;code class=&quot;highlighter-rouge&quot;&gt;setUp&lt;/code&gt; method of the class &lt;code class=&quot;highlighter-rouge&quot;&gt;TestStack&lt;/code&gt;, this method is called before running every test in the class.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=refactor-duplicate-code.py&quot;&gt; &lt;/script&gt;
-
-&lt;h4 id=&quot;stack-size-is-zero-after-a-push-and-a-pop&quot;&gt;Stack size is zero after a push and a pop&lt;/h4&gt;
-
-&lt;p&gt;If I push an element and then pop it, the size should be zero after that.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=stack-size-fail.py&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;Make this test pass by simply decrementing the value of &lt;code class=&quot;highlighter-rouge&quot;&gt;_size&lt;/code&gt;.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=push-pop-stack.py&quot;&gt; &lt;/script&gt;
-
-&lt;h4 id=&quot;stack-raises-underflow-error&quot;&gt;Stack raises underflow error&lt;/h4&gt;
-
-&lt;p&gt;What if the stack is empty and I try to pop a non-existing element? Yes, it should raise an error.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=test-underflow-pop-stack.py&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;I write the following production code to make this pass by checking for the size equal to zero.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=underflow-stack.py&quot;&gt; &lt;/script&gt;
-
-&lt;h4 id=&quot;stack-raises-overflow-error&quot;&gt;Stack raises overflow error&lt;/h4&gt;
-
-&lt;p&gt;Great going till now, but what if the stack has a specific capacity and I can’t exceed its maximum capacity? I write another test just to check that and it should raise &lt;code class=&quot;highlighter-rouge&quot;&gt;OverFlowError&lt;/code&gt; if pushed on a full stack.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=test-overflow-stack.py&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;Again, I’m introducing a variable &lt;code class=&quot;highlighter-rouge&quot;&gt;_capacity&lt;/code&gt; in the constructor and I’ll check for it when I push on the stack.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=overflow-stack.py&quot;&gt; &lt;/script&gt;
-
-&lt;h4 id=&quot;pop-last-element-pushed-into-stack&quot;&gt;Pop last element pushed into stack&lt;/h4&gt;
-
-&lt;p&gt;Okay, till now every test is passing. But this stack is nowhere close to the actual definition of a stack. So, let me test if zero is popped when I had pushed it before.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=test-pop-zero-when-pushed-zero.py&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;This test will pass by simply returning 0. Note the point 3 of TDD laws here.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=stack-pop-zero-when-pushed-zero.py&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;But what if a more general number, say 1 is pushed? It should return it when popped. I’ll write a test just for that now.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=test-pop-one-when-pushed-one.py&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;I’ll create a private variable &lt;code class=&quot;highlighter-rouge&quot;&gt;_element&lt;/code&gt; and update it in &lt;code class=&quot;highlighter-rouge&quot;&gt;.push()&lt;/code&gt; method and return it when popped.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=stack-pop-one-when-pushed-one.py&quot;&gt; &lt;/script&gt;
-
-&lt;h4 id=&quot;true-lifo-operation&quot;&gt;True LIFO operation&lt;/h4&gt;
-
-&lt;p&gt;Once again notice that I replaced the constant 0 with a more generic variable &lt;code class=&quot;highlighter-rouge&quot;&gt;_element&lt;/code&gt;. But now, let’s make this Stack class really perform the Last-In-First-Out operations.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=test-lifo-operation.py&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;I will now modify the production code in the following way to make the test pass.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=lifo-stack.py&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;Did you notice what happened? I modified &lt;code class=&quot;highlighter-rouge&quot;&gt;_element&lt;/code&gt; variable into a more general data type, an array. Now recall Specific/Generic cycle, as the unit tests become more specific, the production code gets more generic. I hope you understand now what was meant before. Also, the three laws were followed at every step of the cycles, recall that I returned a constant 0 to make the test &lt;code class=&quot;highlighter-rouge&quot;&gt;test_size_is_zero_ after_push_and_pop&lt;/code&gt; pass. I didn’t generalise it by returning a variable right away. I just somehow made the test pass, that’s it. Finally, I can again &lt;strong&gt;refactor&lt;/strong&gt; the code and since python provides some shortcuts with arrays, I can get rid of &lt;code class=&quot;highlighter-rouge&quot;&gt;_size&lt;/code&gt; variable and all the unit tests still pass.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/b2f80bc33796ed79fe7c79879d508b82.js?file=refactor-lifo-stack.py&quot;&gt; &lt;/script&gt;
-
-&lt;p&gt;In other languages like C++, you’ll not get rid of &lt;code class=&quot;highlighter-rouge&quot;&gt;_size&lt;/code&gt; and instead, can use it as an array index. In this way, even the initial code that I wrote is not a waste of time. I’m simply modifying the existing at every cycle and making sure the tests pass. None of the code that we write to pass the early tests is wasted code. It’s just incomplete and not generalised enough. After every cycle, the code evolves and becomes more general.&lt;/p&gt;
-
-&lt;h4 id=&quot;references&quot;&gt;References:&lt;/h4&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://blog.cleancoder.com/uncle-bob/2014/12/17/TheCyclesOfTDD.html&quot;&gt;The Clean Code Blog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Book: &lt;a href=&quot;https://books.google.co.in/books?isbn=0132350882&quot;&gt;Clean Code&lt;/a&gt; by Robert C. Martin&lt;/li&gt;
-&lt;/ol&gt;</content><author><name>Ajat Prabha</name></author><category term="tdd" /><summary type="html">Recently I came to know about TDD (Test Driven Development), a development methodology in Agile Software Craftsmanship. At first, I was not even sure that how can we write tests to detect bugs in the code, because we write very specific tests that don’t cover every possible use-case. I didn’t understand the purpose of such tests at all. But then digging more into the topic I discovered what is the utility of these tests which I’m going to share in this article.</summary></entry></feed>
+&lt;p&gt;The learning experience has been great so far and there is so much more to explore. I’m meeting new people, many more yet to meet.😅 I’ve made new friends, all of them are great. I’m liking Bangalore so far, especially the weather. It’s been raining almost every day since I’ve arrived. I went to my cousin’s home for the weekend and this is pretty much it about the first week.&lt;/p&gt;</content><author><name>Ajat Prabha</name></author><category term="gojek" /><category term="internship" /><category term="travel" /><summary type="html">It began, the week I’ve been waiting for since months! I was finally interning with GoJek in Bangalore.</summary></entry></feed>

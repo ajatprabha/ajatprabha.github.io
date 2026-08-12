@@ -8,6 +8,38 @@
     
       
       <item>
+        <title>Ferry: xload Learns to Write</title>
+        
+          <description>&lt;p&gt;Two years ago I wrote about &lt;a href=&quot;/2024/07/07/xload-ultimate-data-loader-go-structs&quot;&gt;xload&lt;/a&gt;, which fills an annotated Go struct from env vars, query params, files, anything you put behind a &lt;code class=&quot;highlighter-rouge&quot;&gt;Loader&lt;/code&gt;.
+It does that one job well.
+It does exactly half of what I needed.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Wed, 12 Aug 2026 01:00:00 +0000</pubDate>
+        <link>
+        https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write</link>
+        <guid isPermaLink="true">https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>What the Windows Registry Taught Me</title>
+        
+          <description>&lt;p&gt;I built a Windows registry driver for &lt;a href=&quot;/2026/08/12/ferry-xload-learns-to-write&quot;&gt;ferry&lt;/a&gt;, my two-way config library, so that an application could stop carrying registry API calls around inside its domain code.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Wed, 12 Aug 2026 00:30:00 +0000</pubDate>
+        <link>
+        https://ajatprabha.in/2026/08/12/what-the-windows-registry-taught-me</link>
+        <guid isPermaLink="true">https://ajatprabha.in/2026/08/12/what-the-windows-registry-taught-me</guid>
+      </item>
+      
+    
+      
+      <item>
         <title>Unleashing xLoad: Your Ultimate Data Loader for Go Structs!</title>
         
           <description>&lt;p&gt;Meet xLoad, your data-loading superhero 🦸‍♂️! It effortlessly brings data from various corners of the universe straight into Go structs. Whether you’re juggling configurations, internationalization labels, or experiments, xload is your trusty sidekick.&lt;/p&gt;
