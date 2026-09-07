@@ -58,9 +58,7 @@ Commit to the registry and three jobs land on your desk:
    Behind a driver interface with a conformance suite, that knowledge finally gets exercised.
 
 2. **Move the YAML config into the registry without doing it by hand.**
-   Not a one-off migration script that has to track the schema forever.
-   Just: read the struct from there, write the struct to here.
-   Two lines, one plane to another.
+   Not a one-off migration script that has to track the schema forever, just read the struct from there and write it to here.
 
 3. **Persist what the user changed.**
    A setting flips in the UI, the struct in memory changes, and that change has to outlive the process.
@@ -71,13 +69,12 @@ A few hundred lines, a weekend, done.
 But I had wanted an excuse to build this properly, and a stack of freshly published agent skills to put through their paces.
 More on that later.
 
-Now put two and three side by side.
+Now put the last two jobs side by side.
 
 Porting YAML into the registry is *write the struct back*.
 Persisting a user's change is *write the struct back*.
 
-Two features, one missing capability.
-The loader already knew how to read my struct; I was short the same machinery run in reverse.
+Two features, one missing capability: the loader already knew how to read my struct, and I was short the same machinery run in reverse.
 
 ---
 
@@ -106,7 +103,7 @@ w, err := ferry.BindSink[Config](sink)         // the same split on the write si
 err = w.Dump(ctx, cfg)
 ```
 
-Every exported field names its own segment or is marked `-`, and ferry never invents a name out of the Go field name, so exporting a field cannot silently change what your program writes.
+Every exported field names its own segment or is marked `-`, and ferry never invents a name out of the Go field name, so exporting a field cannot change what your program writes behind your back.
 
 Start with the third job, persisting what the user changed: someone flips a setting and it has to still be there tomorrow.
 Here is a config file a person maintains, `app.yaml`:
@@ -239,7 +236,7 @@ Core parses that key's words, attaches them to the address it found them on, and
 `protect:"secret"` means as much to core as a `json` tag does, which is nothing.
 
 `driver/windows/protect` is what that buys.
-Not a plane but a decorator: it wraps somebody else's `Source` and `Sink` and encrypts the marked values on the way past, using Windows DPAPI-NG.
+It is a decorator: it wraps somebody else's `Source` and `Sink` and encrypts the marked values on the way past, using Windows DPAPI-NG.
 Every other address goes through untouched.
 
 Mark one field, leave its neighbour ordinary:
@@ -285,7 +282,7 @@ So it refuses at bind, before a single read or write.
 ## 🔬 What it does differently
 
 I did a prior-art sweep before writing a line of engine.
-I could not find an existing Go library that drives both directions off one tag grammar over pluggable backends, which is why ferry exists rather than a PR to something else.
+I could not find an existing Go library that drives both directions off one tag grammar over pluggable backends, which is why ferry exists instead of a PR to something else.
 
 **One compiled schema, cached.**
 Your struct compiles once into the complete set of addresses it names, and the result is cached on the registry, so every load after the first skips the compile entirely.
@@ -337,7 +334,7 @@ var registry = ferry.MustRegistry(
 
 Now a `Port` field loaded with `ferry.WithRegistry(registry)` cannot hold 70000, because there is no path into the struct that does not go through `decodePort`.
 And the claim serves both directions, so `encodePort` guards the way out too: an out-of-range port can neither enter a struct through ferry nor leave one.
-`NumberValue` is the constructor to reach for here rather than a `TextAppender` pair, because it writes the plane's number kind, and a port stored as `8080` rather than `"8080"` is the point.
+`NumberValue` is the constructor to reach for here, not a `TextAppender` pair, because it writes the plane's number kind, and a port stored as `8080` rather than `"8080"` is the point.
 
 **One decision per type, serving both directions.**
 Ferry picks a representation once: a registered codec if you gave it one, else the `TextAppender` + `TextUnmarshaler` pair, else `reflect.Kind`.
@@ -363,9 +360,9 @@ The `require` block is empty and CI asserts it stays that way.
 
 With the library on the table, the rest of what hurt is easier to answer:
 
-- **Two decoders, two tag vocabularies.** xload could not load a list of structs, so [mapstructure](https://github.com/mitchellh/mapstructure) got bolted on for one file, with its own dialect over the same schema. The missing feature was the symptom; two vocabularies over one schema was the disease. Ferry sorts every address into a leaf, a section whose children the type knows, or a composite whose children come from the value. A list of structs is a composite of sections of leaves, addressed as `/servers#0/host`, so there was never a special case to bolt onto.
-- **Defaults did not compose with layered config.** A per-field `default=30s` fires wherever a source is silent, and in a layered stack most sources are silent about most fields. The file sets `10s`, the env overlay says nothing, and loading the overlay puts `30s` back over the file's answer. Ferry has `default=` and the same collision, but a documented position instead of a silent one: a tag default re-fires on every load, so for a layered stack you seed the defaults in a plain Go value and `LoadOver` each source onto it. A layer that holds an address overwrites it; a silent layer leaves it alone.
-- **I wanted a capability absent, not disabled.** The env route earns its keep in dev, where local runs and tests override config all day. A shipped binary has no such need, so build tags pick the source stack and a release never imports the env driver. Not switched off, not compiled in, and no flag can switch it back on.
+- **Two decoders, two tag vocabularies.** xload could not load a list of structs, so [mapstructure](https://github.com/mitchellh/mapstructure) got bolted on for one file, with its own dialect over the same schema. The missing feature was the visible complaint; the cost that kept coming back was maintaining two dialects over one schema. Ferry sorts every address into a leaf, a section whose children the type knows, or a composite whose children come from the value. A list of structs is a composite of sections of leaves, addressed as `/servers#0/host`, so there was never a special case to bolt onto.
+- **Defaults did not compose with layered config.** A per-field `default=30s` fires wherever a source is silent, and in a layered stack most sources are silent about most fields. The file sets `10s`, the env overlay says nothing, and loading the overlay puts `30s` back over the file's answer. Ferry has `default=` and the same collision, but with a documented position on it: a tag default re-fires on every load, so for a layered stack you seed the defaults in a plain Go value and `LoadOver` each source onto it. A layer that holds an address overwrites it; a silent layer leaves it alone.
+- **I wanted a capability absent, not disabled.** The env route earns its keep in dev, where local runs and tests override config all day. A shipped binary has no such need, so build tags pick the source stack and a release never imports the env driver. It is not compiled in, so no flag can switch it back on.
 
 ### The collision nobody checks
 
@@ -391,7 +388,7 @@ One field gets the value and the other does not, and for most libraries nobody c
 
 How the field handles it:
 
-- **koanf** takes the last load, silently, with no error.
+- **koanf** takes the last load and reports no error.
 - **viper** collides at `_`, does not collide at `__`, and checks neither way.
 - **xload** does catch it on the struct side, with a real message naming the key. But `SkipCollisionDetection` turns that off, and its map-flattening path never checks at all: run the same load again and again over the same data and the answer flips, with roughly one run in seven coming back with the other field's value, and no error either time.
 
@@ -407,8 +404,7 @@ Core checks the driver's key rule over the whole address set at bind time, befor
 ferry: /db_host: env gives this and /db/host the same name, "DB_HOST", so one of the two would be lost
 ```
 
-Both addresses named, the key that ate them quoted, nothing read and nothing written.
-Every run, the same refusal, the same message.
+It names both addresses and quotes the key that ate them, before anything is read or written, and it says the same thing on every run.
 
 The fix is yours to pick: rename a field, or hand the driver a join that keeps them apart with `env.Separator("__")`.
 
@@ -441,7 +437,7 @@ The two dump rows are the interesting part.
 
 `dump_large` writes over a file that already exists, and ferry loses by 1.22x.
 `dump_fresh` writes where there is no file, and ferry wins by 1.11x.
-The gap between those two rows is precisely the read-and-parse that in-place editing costs, which is work no other library does, because no other library keeps your comments.
+The gap between those two rows is the read-and-parse that in-place editing costs, which is work no other library does, because no other library keeps your comments.
 
 ### Nobody fsyncs
 
@@ -458,7 +454,7 @@ A temp file beside the plane is renamed over it, so nothing reads a half-written
 Nothing is flushed unless you ask, so the rows above measure koanf's durability and the baseline's, on equal terms.
 
 Asking is `yaml.Durable()`, opt-in because the journal commit costs more than the rest of the save combined.
-Durability is a real cost, so I would rather it be a choice than a tax you pay without noticing.
+Durability costs real time, and I would rather you choose to pay it than pay it without noticing.
 
 ---
 
@@ -475,7 +471,7 @@ They are in [What the Windows Registry Taught Me](/2026/08/12/what-the-windows-r
 
 Ferry went from empty repo to the thing described above in ten days.
 
-The first commit was not code but instructions for the agent: an AGENTS.md laying out how to work, what outranks what, and what to do when a lint rule fires.
+The first commit was an AGENTS.md, instructions for the agent laying out how to work, what outranks what, and what to do when a lint rule fires.
 
 Then three full days of nothing but design.
 Every decision got argued out and written down as an ADR, an architecture decision record, and those 21 documents turned out to be the thing that made the whole approach work: they were the durable shared context between me and the agents, so a session that started cold could read where I had already steered and pick it up from there.
@@ -495,7 +491,7 @@ Where it landed, as of 10 August:
 The mosquito from the intro is, I am pleased to report, extremely dead.
 And now I get to reuse the building.
 
-The guardrails are what let an agent move that fast without the codebase quietly rotting:
+The guardrails are what let an agent move that fast without the codebase rotting underneath:
 
 - **A lint canary.** `lintcanary.go` plus `make lint-canary` assert that the `unused` linter still reports dead code, so the linter itself is tested. Thresholds are cognitive complexity 7, cyclomatic 10, function length 75/50, nesting 4, and AGENTS.md says: "When one fires, split the function. Never raise the number, never add a nolint."
 - **godoc-check.** No exported doc comment may cite an ADR, issue or PR number. The boundary is literally "whether `go doc` prints it".
