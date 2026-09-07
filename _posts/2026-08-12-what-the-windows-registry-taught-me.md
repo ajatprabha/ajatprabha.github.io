@@ -14,7 +14,6 @@ author: ajatprabha
 I built a Windows registry driver for [ferry](/2026/08/12/ferry-xload-learns-to-write), my two-way config library, so that an application could stop carrying registry API calls around inside its domain code.
 
 The registry turns out to be a good home for configuration and a slightly hostile one for a library.
-
 Windows had opinions.
 
 Most of what follows applies whether or not you ever touch ferry.
@@ -33,8 +32,8 @@ But the real argument is the permissions, and this is the part I did not appreci
 Users inherit `ReadKey`, Administrators and SYSTEM get `FullControl`, and you did not have to do anything to get that.
 Compare it with a data directory under ProgramData, where the same protection depends on someone having set the ACL correctly at install time and nobody having loosened it since.
 
-One of those is a property of where you put the data.
-The other is a promise somebody made once.
+The registry's protection comes with the location.
+The directory's depends on somebody having set it up correctly once, and nobody checking since.
 
 The cost is that writing under `HKEY_LOCAL_MACHINE` needs administrator rights, so an unprivileged process is refused when the save starts rather than part way through it.
 
@@ -55,8 +54,6 @@ A struct maps onto that almost exactly:
 
 A value named `host` and a subkey named `host` under the same key are two different objects, and both are legal.
 That is more structure than most config backends give you, and it means nothing has to be flattened into a delimited string on the way in.
-
-Then there is the part that bit me.
 
 **The registry folds key case, and it does it silently.**
 Write `Host`, then write `host`, and you do not get two values.
@@ -104,7 +101,7 @@ That costs one read per string a save writes, and it is worth it.
 
 **`REG_MULTI_SZ` is refused** because it spells a whole sequence inside one value, and a sequence's elements each deserve their own address.
 
-The honest cost of all this: an operator who hand-retyped a value to `REG_DWORD` gets it back as `REG_SZ` on the next save.
+The cost of all this: an operator who hand-retyped a value to `REG_DWORD` gets it back as `REG_SZ` on the next save.
 The data survives, the type annotation does not.
 
 ## 🛡️ Encrypting the parts that need it
@@ -173,7 +170,7 @@ That last one is not a registry flaw so much as a twenty-year-old compatibility 
 
 The registry is a better configuration store than its reputation suggests: a real tree, permissions you get by inheritance rather than by remembering, and a string type that round-trips numbers more faithfully than the number types do.
 
-It is also full of quiet edges, and almost all of them are quiet in the same direction, where something silently becomes one thing instead of two.
+It is also full of edges that fail without an error, and almost all of them fail the same way: two things become one.
 
 The driver is `driver/windows/winreg` in [github.com/onhotpath/ferry](https://github.com/onhotpath/ferry), experimental for now, and the library it plugs into is the subject of [the other post](/2026/08/12/ferry-xload-learns-to-write).
 If you are building something similar on Windows and hit an edge I have not listed, I would like to hear about it.
