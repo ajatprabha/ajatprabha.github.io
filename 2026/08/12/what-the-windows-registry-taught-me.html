@@ -178,9 +178,8 @@ into the {body} of the default.hbs template -->
                 <div class="kg-card-markdown">
                     <p>I built a Windows registry driver for <a href="/2026/08/12/ferry-xload-learns-to-write">ferry</a>, my two-way config library, so that an application could stop carrying registry API calls around inside its domain code.</p>
 
-<p>The registry turns out to be a good home for configuration and a slightly hostile one for a library.</p>
-
-<p>Windows had opinions.</p>
+<p>The registry turns out to be a good home for configuration and a slightly hostile one for a library.
+Windows had opinions.</p>
 
 <p>Most of what follows applies whether or not you ever touch ferry.</p>
 
@@ -198,8 +197,8 @@ An ordinary user will happily open a config file they can see; they are not goin
 Users inherit <code class="highlighter-rouge">ReadKey</code>, Administrators and SYSTEM get <code class="highlighter-rouge">FullControl</code>, and you did not have to do anything to get that.
 Compare it with a data directory under ProgramData, where the same protection depends on someone having set the ACL correctly at install time and nobody having loosened it since.</p>
 
-<p>One of those is a property of where you put the data.
-The other is a promise somebody made once.</p>
+<p>The registry’s protection comes with the location.
+The directory’s depends on somebody having set it up correctly once, and nobody checking since.</p>
 
 <p>The cost is that writing under <code class="highlighter-rouge">HKEY_LOCAL_MACHINE</code> needs administrator rights, so an unprivileged process is refused when the save starts rather than part way through it.</p>
 
@@ -243,8 +242,6 @@ The registry makes that easy, because it keeps two namespaces under every key: <
 
 <p>A value named <code class="highlighter-rouge">host</code> and a subkey named <code class="highlighter-rouge">host</code> under the same key are two different objects, and both are legal.
 That is more structure than most config backends give you, and it means nothing has to be flattened into a delimited string on the way in.</p>
-
-<p>Then there is the part that bit me.</p>
 
 <p><strong>The registry folds key case, and it does it silently.</strong>
 Write <code class="highlighter-rouge">Host</code>, then write <code class="highlighter-rouge">host</code>, and you do not get two values.
@@ -314,7 +311,7 @@ That costs one read per string a save writes, and it is worth it.</p>
 
 <p><strong><code class="highlighter-rouge">REG_MULTI_SZ</code> is refused</strong> because it spells a whole sequence inside one value, and a sequence’s elements each deserve their own address.</p>
 
-<p>The honest cost of all this: an operator who hand-retyped a value to <code class="highlighter-rouge">REG_DWORD</code> gets it back as <code class="highlighter-rouge">REG_SZ</code> on the next save.
+<p>The cost of all this: an operator who hand-retyped a value to <code class="highlighter-rouge">REG_DWORD</code> gets it back as <code class="highlighter-rouge">REG_SZ</code> on the next save.
 The data survives, the type annotation does not.</p>
 
 <h2 id="️-encrypting-the-parts-that-need-it">🛡️ Encrypting the parts that need it</h2>
@@ -408,7 +405,7 @@ Name the view you want explicitly and give the same one to both halves, instead 
 
 <p>The registry is a better configuration store than its reputation suggests: a real tree, permissions you get by inheritance rather than by remembering, and a string type that round-trips numbers more faithfully than the number types do.</p>
 
-<p>It is also full of quiet edges, and almost all of them are quiet in the same direction, where something silently becomes one thing instead of two.</p>
+<p>It is also full of edges that fail without an error, and almost all of them fail the same way: two things become one.</p>
 
 <p>The driver is <code class="highlighter-rouge">driver/windows/winreg</code> in <a href="https://github.com/onhotpath/ferry">github.com/onhotpath/ferry</a>, experimental for now, and the library it plugs into is the subject of <a href="/2026/08/12/ferry-xload-learns-to-write">the other post</a>.
 If you are building something similar on Windows and hit an edge I have not listed, I would like to hear about it.</p>
