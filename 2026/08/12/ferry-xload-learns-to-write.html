@@ -228,9 +228,7 @@ Behind a driver interface with a conformance suite, that knowledge finally gets 
   </li>
   <li>
     <p><strong>Move the YAML config into the registry without doing it by hand.</strong>
-Not a one-off migration script that has to track the schema forever.
-Just: read the struct from there, write the struct to here.
-Two lines, one plane to another.</p>
+Not a one-off migration script that has to track the schema forever, just read the struct from there and write it to here.</p>
   </li>
   <li>
     <p><strong>Persist what the user changed.</strong>
@@ -244,13 +242,12 @@ A few hundred lines, a weekend, done.
 But I had wanted an excuse to build this properly, and a stack of freshly published agent skills to put through their paces.
 More on that later.</p>
 
-<p>Now put two and three side by side.</p>
+<p>Now put the last two jobs side by side.</p>
 
 <p>Porting YAML into the registry is <em>write the struct back</em>.
 Persisting a user’s change is <em>write the struct back</em>.</p>
 
-<p>Two features, one missing capability.
-The loader already knew how to read my struct; I was short the same machinery run in reverse.</p>
+<p>Two features, one missing capability: the loader already knew how to read my struct, and I was short the same machinery run in reverse.</p>
 
 <hr />
 
@@ -280,7 +277,7 @@ Core knows nothing about any of them.</p>
 <span class="n">err</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">Dump</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>Every exported field names its own segment or is marked <code class="highlighter-rouge">-</code>, and ferry never invents a name out of the Go field name, so exporting a field cannot silently change what your program writes.</p>
+<p>Every exported field names its own segment or is marked <code class="highlighter-rouge">-</code>, and ferry never invents a name out of the Go field name, so exporting a field cannot change what your program writes behind your back.</p>
 
 <p>Start with the third job, persisting what the user changed: someone flips a setting and it has to still be there tomorrow.
 Here is a config file a person maintains, <code class="highlighter-rouge">app.yaml</code>:</p>
@@ -436,7 +433,7 @@ Core parses that key’s words, attaches them to the address it found them on, a
 <code class="highlighter-rouge">protect:"secret"</code> means as much to core as a <code class="highlighter-rouge">json</code> tag does, which is nothing.</p>
 
 <p><code class="highlighter-rouge">driver/windows/protect</code> is what that buys.
-Not a plane but a decorator: it wraps somebody else’s <code class="highlighter-rouge">Source</code> and <code class="highlighter-rouge">Sink</code> and encrypts the marked values on the way past, using Windows DPAPI-NG.
+It is a decorator: it wraps somebody else’s <code class="highlighter-rouge">Source</code> and <code class="highlighter-rouge">Sink</code> and encrypts the marked values on the way past, using Windows DPAPI-NG.
 Every other address goes through untouched.</p>
 
 <p>Mark one field, leave its neighbour ordinary:</p>
@@ -479,7 +476,7 @@ So it refuses at bind, before a single read or write.</p>
 <h2 id="-what-it-does-differently">🔬 What it does differently</h2>
 
 <p>I did a prior-art sweep before writing a line of engine.
-I could not find an existing Go library that drives both directions off one tag grammar over pluggable backends, which is why ferry exists rather than a PR to something else.</p>
+I could not find an existing Go library that drives both directions off one tag grammar over pluggable backends, which is why ferry exists instead of a PR to something else.</p>
 
 <p><strong>One compiled schema, cached.</strong>
 Your struct compiles once into the complete set of addresses it names, and the result is cached on the registry, so every load after the first skips the compile entirely.
@@ -530,7 +527,7 @@ If you want a port that cannot be 70000, that is a type, not a tag.</p>
 
 <p>Now a <code class="highlighter-rouge">Port</code> field loaded with <code class="highlighter-rouge">ferry.WithRegistry(registry)</code> cannot hold 70000, because there is no path into the struct that does not go through <code class="highlighter-rouge">decodePort</code>.
 And the claim serves both directions, so <code class="highlighter-rouge">encodePort</code> guards the way out too: an out-of-range port can neither enter a struct through ferry nor leave one.
-<code class="highlighter-rouge">NumberValue</code> is the constructor to reach for here rather than a <code class="highlighter-rouge">TextAppender</code> pair, because it writes the plane’s number kind, and a port stored as <code class="highlighter-rouge">8080</code> rather than <code class="highlighter-rouge">"8080"</code> is the point.</p>
+<code class="highlighter-rouge">NumberValue</code> is the constructor to reach for here, not a <code class="highlighter-rouge">TextAppender</code> pair, because it writes the plane’s number kind, and a port stored as <code class="highlighter-rouge">8080</code> rather than <code class="highlighter-rouge">"8080"</code> is the point.</p>
 
 <p><strong>One decision per type, serving both directions.</strong>
 Ferry picks a representation once: a registered codec if you gave it one, else the <code class="highlighter-rouge">TextAppender</code> + <code class="highlighter-rouge">TextUnmarshaler</code> pair, else <code class="highlighter-rouge">reflect.Kind</code>.
@@ -557,9 +554,9 @@ The <code class="highlighter-rouge">require</code> block is empty and CI asserts
 <p>With the library on the table, the rest of what hurt is easier to answer:</p>
 
 <ul>
-  <li><strong>Two decoders, two tag vocabularies.</strong> xload could not load a list of structs, so <a href="https://github.com/mitchellh/mapstructure">mapstructure</a> got bolted on for one file, with its own dialect over the same schema. The missing feature was the symptom; two vocabularies over one schema was the disease. Ferry sorts every address into a leaf, a section whose children the type knows, or a composite whose children come from the value. A list of structs is a composite of sections of leaves, addressed as <code class="highlighter-rouge">/servers#0/host</code>, so there was never a special case to bolt onto.</li>
-  <li><strong>Defaults did not compose with layered config.</strong> A per-field <code class="highlighter-rouge">default=30s</code> fires wherever a source is silent, and in a layered stack most sources are silent about most fields. The file sets <code class="highlighter-rouge">10s</code>, the env overlay says nothing, and loading the overlay puts <code class="highlighter-rouge">30s</code> back over the file’s answer. Ferry has <code class="highlighter-rouge">default=</code> and the same collision, but a documented position instead of a silent one: a tag default re-fires on every load, so for a layered stack you seed the defaults in a plain Go value and <code class="highlighter-rouge">LoadOver</code> each source onto it. A layer that holds an address overwrites it; a silent layer leaves it alone.</li>
-  <li><strong>I wanted a capability absent, not disabled.</strong> The env route earns its keep in dev, where local runs and tests override config all day. A shipped binary has no such need, so build tags pick the source stack and a release never imports the env driver. Not switched off, not compiled in, and no flag can switch it back on.</li>
+  <li><strong>Two decoders, two tag vocabularies.</strong> xload could not load a list of structs, so <a href="https://github.com/mitchellh/mapstructure">mapstructure</a> got bolted on for one file, with its own dialect over the same schema. The missing feature was the visible complaint; the cost that kept coming back was maintaining two dialects over one schema. Ferry sorts every address into a leaf, a section whose children the type knows, or a composite whose children come from the value. A list of structs is a composite of sections of leaves, addressed as <code class="highlighter-rouge">/servers#0/host</code>, so there was never a special case to bolt onto.</li>
+  <li><strong>Defaults did not compose with layered config.</strong> A per-field <code class="highlighter-rouge">default=30s</code> fires wherever a source is silent, and in a layered stack most sources are silent about most fields. The file sets <code class="highlighter-rouge">10s</code>, the env overlay says nothing, and loading the overlay puts <code class="highlighter-rouge">30s</code> back over the file’s answer. Ferry has <code class="highlighter-rouge">default=</code> and the same collision, but with a documented position on it: a tag default re-fires on every load, so for a layered stack you seed the defaults in a plain Go value and <code class="highlighter-rouge">LoadOver</code> each source onto it. A layer that holds an address overwrites it; a silent layer leaves it alone.</li>
+  <li><strong>I wanted a capability absent, not disabled.</strong> The env route earns its keep in dev, where local runs and tests override config all day. A shipped binary has no such need, so build tags pick the source stack and a release never imports the env driver. It is not compiled in, so no flag can switch it back on.</li>
 </ul>
 
 <h3 id="the-collision-nobody-checks">The collision nobody checks</h3>
@@ -586,7 +583,7 @@ Both of them spell <code class="highlighter-rouge">DB_HOST</code>.</p>
 <p>How the field handles it:</p>
 
 <ul>
-  <li><strong>koanf</strong> takes the last load, silently, with no error.</li>
+  <li><strong>koanf</strong> takes the last load and reports no error.</li>
   <li><strong>viper</strong> collides at <code class="highlighter-rouge">_</code>, does not collide at <code class="highlighter-rouge">__</code>, and checks neither way.</li>
   <li><strong>xload</strong> does catch it on the struct side, with a real message naming the key. But <code class="highlighter-rouge">SkipCollisionDetection</code> turns that off, and its map-flattening path never checks at all: run the same load again and again over the same data and the answer flips, with roughly one run in seven coming back with the other field’s value, and no error either time.</li>
 </ul>
@@ -602,8 +599,7 @@ The ambiguity only ever existed for designs that have to recover structure back 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ferry: /db_host: env gives this and /db/host the same name, "DB_HOST", so one of the two would be lost
 </code></pre></div></div>
 
-<p>Both addresses named, the key that ate them quoted, nothing read and nothing written.
-Every run, the same refusal, the same message.</p>
+<p>It names both addresses and quotes the key that ate them, before anything is read or written, and it says the same thing on every run.</p>
 
 <p>The fix is yours to pick: rename a field, or hand the driver a join that keeps them apart with <code class="highlighter-rouge">env.Separator("__")</code>.</p>
 
@@ -666,7 +662,7 @@ That path is the one I am still working on.</p>
 
 <p><code class="highlighter-rouge">dump_large</code> writes over a file that already exists, and ferry loses by 1.22x.
 <code class="highlighter-rouge">dump_fresh</code> writes where there is no file, and ferry wins by 1.11x.
-The gap between those two rows is precisely the read-and-parse that in-place editing costs, which is work no other library does, because no other library keeps your comments.</p>
+The gap between those two rows is the read-and-parse that in-place editing costs, which is work no other library does, because no other library keeps your comments.</p>
 
 <h3 id="nobody-fsyncs">Nobody fsyncs</h3>
 
@@ -683,7 +679,7 @@ A temp file beside the plane is renamed over it, so nothing reads a half-written
 Nothing is flushed unless you ask, so the rows above measure koanf’s durability and the baseline’s, on equal terms.</p>
 
 <p>Asking is <code class="highlighter-rouge">yaml.Durable()</code>, opt-in because the journal commit costs more than the rest of the save combined.
-Durability is a real cost, so I would rather it be a choice than a tax you pay without noticing.</p>
+Durability costs real time, and I would rather you choose to pay it than pay it without noticing.</p>
 
 <hr />
 
@@ -700,7 +696,7 @@ Silent case folding that turns two config keys into one, <code class="highlighte
 
 <p>Ferry went from empty repo to the thing described above in ten days.</p>
 
-<p>The first commit was not code but instructions for the agent: an AGENTS.md laying out how to work, what outranks what, and what to do when a lint rule fires.</p>
+<p>The first commit was an AGENTS.md, instructions for the agent laying out how to work, what outranks what, and what to do when a lint rule fires.</p>
 
 <p>Then three full days of nothing but design.
 Every decision got argued out and written down as an ADR, an architecture decision record, and those 21 documents turned out to be the thing that made the whole approach work: they were the durable shared context between me and the agents, so a session that started cold could read where I had already steered and pick it up from there.
@@ -724,7 +720,7 @@ Walk, <code class="highlighter-rouge">Load</code>/<code class="highlighter-rouge
 <p>The mosquito from the intro is, I am pleased to report, extremely dead.
 And now I get to reuse the building.</p>
 
-<p>The guardrails are what let an agent move that fast without the codebase quietly rotting:</p>
+<p>The guardrails are what let an agent move that fast without the codebase rotting underneath:</p>
 
 <ul>
   <li><strong>A lint canary.</strong> <code class="highlighter-rouge">lintcanary.go</code> plus <code class="highlighter-rouge">make lint-canary</code> assert that the <code class="highlighter-rouge">unused</code> linter still reports dead code, so the linter itself is tested. Thresholds are cognitive complexity 7, cyclomatic 10, function length 75/50, nesting 4, and AGENTS.md says: “When one fires, split the function. Never raise the number, never add a nolint.”</li>

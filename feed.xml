@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://ajatprabha.in/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ajatprabha.in/" rel="alternate" type="text/html" /><updated>2026-08-12T21:48:38+00:00</updated><id>https://ajatprabha.in/feed.xml</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Ferry: xload Learns to Write</title><link href="https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write" rel="alternate" type="text/html" title="Ferry: xload Learns to Write" /><published>2026-08-12T01:00:00+00:00</published><updated>2026-08-12T01:00:00+00:00</updated><id>https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write</id><content type="html" xml:base="https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write">&lt;p&gt;Two years ago I wrote about &lt;a href=&quot;/2024/07/07/xload-ultimate-data-loader-go-structs&quot;&gt;xload&lt;/a&gt;, which fills an annotated Go struct from env vars, query params, files, anything you put behind a &lt;code class=&quot;highlighter-rouge&quot;&gt;Loader&lt;/code&gt;.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://ajatprabha.in/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ajatprabha.in/" rel="alternate" type="text/html" /><updated>2026-09-07T10:19:46+00:00</updated><id>https://ajatprabha.in/feed.xml</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Ferry: xload Learns to Write</title><link href="https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write" rel="alternate" type="text/html" title="Ferry: xload Learns to Write" /><published>2026-08-12T01:00:00+00:00</published><updated>2026-08-12T01:00:00+00:00</updated><id>https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write</id><content type="html" xml:base="https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write">&lt;p&gt;Two years ago I wrote about &lt;a href=&quot;/2024/07/07/xload-ultimate-data-loader-go-structs&quot;&gt;xload&lt;/a&gt;, which fills an annotated Go struct from env vars, query params, files, anything you put behind a &lt;code class=&quot;highlighter-rouge&quot;&gt;Loader&lt;/code&gt;.
 It does that one job well.
 It does exactly half of what I needed.&lt;/p&gt;
 
@@ -50,9 +50,7 @@ Behind a driver interface with a conformance suite, that knowledge finally gets 
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;strong&gt;Move the YAML config into the registry without doing it by hand.&lt;/strong&gt;
-Not a one-off migration script that has to track the schema forever.
-Just: read the struct from there, write the struct to here.
-Two lines, one plane to another.&lt;/p&gt;
+Not a one-off migration script that has to track the schema forever, just read the struct from there and write it to here.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;strong&gt;Persist what the user changed.&lt;/strong&gt;
@@ -66,13 +64,12 @@ A few hundred lines, a weekend, done.
 But I had wanted an excuse to build this properly, and a stack of freshly published agent skills to put through their paces.
 More on that later.&lt;/p&gt;
 
-&lt;p&gt;Now put two and three side by side.&lt;/p&gt;
+&lt;p&gt;Now put the last two jobs side by side.&lt;/p&gt;
 
 &lt;p&gt;Porting YAML into the registry is &lt;em&gt;write the struct back&lt;/em&gt;.
 Persisting a user’s change is &lt;em&gt;write the struct back&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;Two features, one missing capability.
-The loader already knew how to read my struct; I was short the same machinery run in reverse.&lt;/p&gt;
+&lt;p&gt;Two features, one missing capability: the loader already knew how to read my struct, and I was short the same machinery run in reverse.&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -102,7 +99,7 @@ Core knows nothing about any of them.&lt;/p&gt;
 &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Dump&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cfg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Every exported field names its own segment or is marked &lt;code class=&quot;highlighter-rouge&quot;&gt;-&lt;/code&gt;, and ferry never invents a name out of the Go field name, so exporting a field cannot silently change what your program writes.&lt;/p&gt;
+&lt;p&gt;Every exported field names its own segment or is marked &lt;code class=&quot;highlighter-rouge&quot;&gt;-&lt;/code&gt;, and ferry never invents a name out of the Go field name, so exporting a field cannot change what your program writes behind your back.&lt;/p&gt;
 
 &lt;p&gt;Start with the third job, persisting what the user changed: someone flips a setting and it has to still be there tomorrow.
 Here is a config file a person maintains, &lt;code class=&quot;highlighter-rouge&quot;&gt;app.yaml&lt;/code&gt;:&lt;/p&gt;
@@ -258,7 +255,7 @@ Core parses that key’s words, attaches them to the address it found them on, a
 &lt;code class=&quot;highlighter-rouge&quot;&gt;protect:&quot;secret&quot;&lt;/code&gt; means as much to core as a &lt;code class=&quot;highlighter-rouge&quot;&gt;json&lt;/code&gt; tag does, which is nothing.&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;driver/windows/protect&lt;/code&gt; is what that buys.
-Not a plane but a decorator: it wraps somebody else’s &lt;code class=&quot;highlighter-rouge&quot;&gt;Source&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Sink&lt;/code&gt; and encrypts the marked values on the way past, using Windows DPAPI-NG.
+It is a decorator: it wraps somebody else’s &lt;code class=&quot;highlighter-rouge&quot;&gt;Source&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Sink&lt;/code&gt; and encrypts the marked values on the way past, using Windows DPAPI-NG.
 Every other address goes through untouched.&lt;/p&gt;
 
 &lt;p&gt;Mark one field, leave its neighbour ordinary:&lt;/p&gt;
@@ -301,7 +298,7 @@ So it refuses at bind, before a single read or write.&lt;/p&gt;
 &lt;h2 id=&quot;-what-it-does-differently&quot;&gt;🔬 What it does differently&lt;/h2&gt;
 
 &lt;p&gt;I did a prior-art sweep before writing a line of engine.
-I could not find an existing Go library that drives both directions off one tag grammar over pluggable backends, which is why ferry exists rather than a PR to something else.&lt;/p&gt;
+I could not find an existing Go library that drives both directions off one tag grammar over pluggable backends, which is why ferry exists instead of a PR to something else.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;One compiled schema, cached.&lt;/strong&gt;
 Your struct compiles once into the complete set of addresses it names, and the result is cached on the registry, so every load after the first skips the compile entirely.
@@ -352,7 +349,7 @@ If you want a port that cannot be 70000, that is a type, not a tag.&lt;/p&gt;
 
 &lt;p&gt;Now a &lt;code class=&quot;highlighter-rouge&quot;&gt;Port&lt;/code&gt; field loaded with &lt;code class=&quot;highlighter-rouge&quot;&gt;ferry.WithRegistry(registry)&lt;/code&gt; cannot hold 70000, because there is no path into the struct that does not go through &lt;code class=&quot;highlighter-rouge&quot;&gt;decodePort&lt;/code&gt;.
 And the claim serves both directions, so &lt;code class=&quot;highlighter-rouge&quot;&gt;encodePort&lt;/code&gt; guards the way out too: an out-of-range port can neither enter a struct through ferry nor leave one.
-&lt;code class=&quot;highlighter-rouge&quot;&gt;NumberValue&lt;/code&gt; is the constructor to reach for here rather than a &lt;code class=&quot;highlighter-rouge&quot;&gt;TextAppender&lt;/code&gt; pair, because it writes the plane’s number kind, and a port stored as &lt;code class=&quot;highlighter-rouge&quot;&gt;8080&lt;/code&gt; rather than &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;8080&quot;&lt;/code&gt; is the point.&lt;/p&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;NumberValue&lt;/code&gt; is the constructor to reach for here, not a &lt;code class=&quot;highlighter-rouge&quot;&gt;TextAppender&lt;/code&gt; pair, because it writes the plane’s number kind, and a port stored as &lt;code class=&quot;highlighter-rouge&quot;&gt;8080&lt;/code&gt; rather than &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;8080&quot;&lt;/code&gt; is the point.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;One decision per type, serving both directions.&lt;/strong&gt;
 Ferry picks a representation once: a registered codec if you gave it one, else the &lt;code class=&quot;highlighter-rouge&quot;&gt;TextAppender&lt;/code&gt; + &lt;code class=&quot;highlighter-rouge&quot;&gt;TextUnmarshaler&lt;/code&gt; pair, else &lt;code class=&quot;highlighter-rouge&quot;&gt;reflect.Kind&lt;/code&gt;.
@@ -379,9 +376,9 @@ The &lt;code class=&quot;highlighter-rouge&quot;&gt;require&lt;/code&gt; block i
 &lt;p&gt;With the library on the table, the rest of what hurt is easier to answer:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;Two decoders, two tag vocabularies.&lt;/strong&gt; xload could not load a list of structs, so &lt;a href=&quot;https://github.com/mitchellh/mapstructure&quot;&gt;mapstructure&lt;/a&gt; got bolted on for one file, with its own dialect over the same schema. The missing feature was the symptom; two vocabularies over one schema was the disease. Ferry sorts every address into a leaf, a section whose children the type knows, or a composite whose children come from the value. A list of structs is a composite of sections of leaves, addressed as &lt;code class=&quot;highlighter-rouge&quot;&gt;/servers#0/host&lt;/code&gt;, so there was never a special case to bolt onto.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Defaults did not compose with layered config.&lt;/strong&gt; A per-field &lt;code class=&quot;highlighter-rouge&quot;&gt;default=30s&lt;/code&gt; fires wherever a source is silent, and in a layered stack most sources are silent about most fields. The file sets &lt;code class=&quot;highlighter-rouge&quot;&gt;10s&lt;/code&gt;, the env overlay says nothing, and loading the overlay puts &lt;code class=&quot;highlighter-rouge&quot;&gt;30s&lt;/code&gt; back over the file’s answer. Ferry has &lt;code class=&quot;highlighter-rouge&quot;&gt;default=&lt;/code&gt; and the same collision, but a documented position instead of a silent one: a tag default re-fires on every load, so for a layered stack you seed the defaults in a plain Go value and &lt;code class=&quot;highlighter-rouge&quot;&gt;LoadOver&lt;/code&gt; each source onto it. A layer that holds an address overwrites it; a silent layer leaves it alone.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;I wanted a capability absent, not disabled.&lt;/strong&gt; The env route earns its keep in dev, where local runs and tests override config all day. A shipped binary has no such need, so build tags pick the source stack and a release never imports the env driver. Not switched off, not compiled in, and no flag can switch it back on.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Two decoders, two tag vocabularies.&lt;/strong&gt; xload could not load a list of structs, so &lt;a href=&quot;https://github.com/mitchellh/mapstructure&quot;&gt;mapstructure&lt;/a&gt; got bolted on for one file, with its own dialect over the same schema. The missing feature was the visible complaint; the cost that kept coming back was maintaining two dialects over one schema. Ferry sorts every address into a leaf, a section whose children the type knows, or a composite whose children come from the value. A list of structs is a composite of sections of leaves, addressed as &lt;code class=&quot;highlighter-rouge&quot;&gt;/servers#0/host&lt;/code&gt;, so there was never a special case to bolt onto.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Defaults did not compose with layered config.&lt;/strong&gt; A per-field &lt;code class=&quot;highlighter-rouge&quot;&gt;default=30s&lt;/code&gt; fires wherever a source is silent, and in a layered stack most sources are silent about most fields. The file sets &lt;code class=&quot;highlighter-rouge&quot;&gt;10s&lt;/code&gt;, the env overlay says nothing, and loading the overlay puts &lt;code class=&quot;highlighter-rouge&quot;&gt;30s&lt;/code&gt; back over the file’s answer. Ferry has &lt;code class=&quot;highlighter-rouge&quot;&gt;default=&lt;/code&gt; and the same collision, but with a documented position on it: a tag default re-fires on every load, so for a layered stack you seed the defaults in a plain Go value and &lt;code class=&quot;highlighter-rouge&quot;&gt;LoadOver&lt;/code&gt; each source onto it. A layer that holds an address overwrites it; a silent layer leaves it alone.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;I wanted a capability absent, not disabled.&lt;/strong&gt; The env route earns its keep in dev, where local runs and tests override config all day. A shipped binary has no such need, so build tags pick the source stack and a release never imports the env driver. It is not compiled in, so no flag can switch it back on.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;the-collision-nobody-checks&quot;&gt;The collision nobody checks&lt;/h3&gt;
@@ -408,7 +405,7 @@ Both of them spell &lt;code class=&quot;highlighter-rouge&quot;&gt;DB_HOST&lt;/c
 &lt;p&gt;How the field handles it:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;koanf&lt;/strong&gt; takes the last load, silently, with no error.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;koanf&lt;/strong&gt; takes the last load and reports no error.&lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;viper&lt;/strong&gt; collides at &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt;, does not collide at &lt;code class=&quot;highlighter-rouge&quot;&gt;__&lt;/code&gt;, and checks neither way.&lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;xload&lt;/strong&gt; does catch it on the struct side, with a real message naming the key. But &lt;code class=&quot;highlighter-rouge&quot;&gt;SkipCollisionDetection&lt;/code&gt; turns that off, and its map-flattening path never checks at all: run the same load again and again over the same data and the answer flips, with roughly one run in seven coming back with the other field’s value, and no error either time.&lt;/li&gt;
 &lt;/ul&gt;
@@ -424,8 +421,7 @@ The ambiguity only ever existed for designs that have to recover structure back 
 &lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ferry: /db_host: env gives this and /db/host the same name, &quot;DB_HOST&quot;, so one of the two would be lost
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Both addresses named, the key that ate them quoted, nothing read and nothing written.
-Every run, the same refusal, the same message.&lt;/p&gt;
+&lt;p&gt;It names both addresses and quotes the key that ate them, before anything is read or written, and it says the same thing on every run.&lt;/p&gt;
 
 &lt;p&gt;The fix is yours to pick: rename a field, or hand the driver a join that keeps them apart with &lt;code class=&quot;highlighter-rouge&quot;&gt;env.Separator(&quot;__&quot;)&lt;/code&gt;.&lt;/p&gt;
 
@@ -488,7 +484,7 @@ That path is the one I am still working on.&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dump_large&lt;/code&gt; writes over a file that already exists, and ferry loses by 1.22x.
 &lt;code class=&quot;highlighter-rouge&quot;&gt;dump_fresh&lt;/code&gt; writes where there is no file, and ferry wins by 1.11x.
-The gap between those two rows is precisely the read-and-parse that in-place editing costs, which is work no other library does, because no other library keeps your comments.&lt;/p&gt;
+The gap between those two rows is the read-and-parse that in-place editing costs, which is work no other library does, because no other library keeps your comments.&lt;/p&gt;
 
 &lt;h3 id=&quot;nobody-fsyncs&quot;&gt;Nobody fsyncs&lt;/h3&gt;
 
@@ -505,7 +501,7 @@ A temp file beside the plane is renamed over it, so nothing reads a half-written
 Nothing is flushed unless you ask, so the rows above measure koanf’s durability and the baseline’s, on equal terms.&lt;/p&gt;
 
 &lt;p&gt;Asking is &lt;code class=&quot;highlighter-rouge&quot;&gt;yaml.Durable()&lt;/code&gt;, opt-in because the journal commit costs more than the rest of the save combined.
-Durability is a real cost, so I would rather it be a choice than a tax you pay without noticing.&lt;/p&gt;
+Durability costs real time, and I would rather you choose to pay it than pay it without noticing.&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -522,7 +518,7 @@ Silent case folding that turns two config keys into one, &lt;code class=&quot;hi
 
 &lt;p&gt;Ferry went from empty repo to the thing described above in ten days.&lt;/p&gt;
 
-&lt;p&gt;The first commit was not code but instructions for the agent: an AGENTS.md laying out how to work, what outranks what, and what to do when a lint rule fires.&lt;/p&gt;
+&lt;p&gt;The first commit was an AGENTS.md, instructions for the agent laying out how to work, what outranks what, and what to do when a lint rule fires.&lt;/p&gt;
 
 &lt;p&gt;Then three full days of nothing but design.
 Every decision got argued out and written down as an ADR, an architecture decision record, and those 21 documents turned out to be the thing that made the whole approach work: they were the durable shared context between me and the agents, so a session that started cold could read where I had already steered and pick it up from there.
@@ -546,7 +542,7 @@ Walk, &lt;code class=&quot;highlighter-rouge&quot;&gt;Load&lt;/code&gt;/&lt;code
 &lt;p&gt;The mosquito from the intro is, I am pleased to report, extremely dead.
 And now I get to reuse the building.&lt;/p&gt;
 
-&lt;p&gt;The guardrails are what let an agent move that fast without the codebase quietly rotting:&lt;/p&gt;
+&lt;p&gt;The guardrails are what let an agent move that fast without the codebase rotting underneath:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;strong&gt;A lint canary.&lt;/strong&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;lintcanary.go&lt;/code&gt; plus &lt;code class=&quot;highlighter-rouge&quot;&gt;make lint-canary&lt;/code&gt; assert that the &lt;code class=&quot;highlighter-rouge&quot;&gt;unused&lt;/code&gt; linter still reports dead code, so the linter itself is tested. Thresholds are cognitive complexity 7, cyclomatic 10, function length 75/50, nesting 4, and AGENTS.md says: “When one fires, split the function. Never raise the number, never add a nolint.”&lt;/li&gt;
