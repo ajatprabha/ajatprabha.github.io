@@ -100,8 +100,8 @@ Preload only fonts required for visible initial text after measuring their loadi
 Preserve complete font license notices with the deployed assets.
 
 Both families have OFL licenses and variable fonts in primary Google Fonts metadata: [IBM Plex Sans](https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexsans/METADATA.pb) and [Source Serif 4](https://raw.githubusercontent.com/google/fonts/main/ofl/sourceserif4/METADATA.pb).
-The reviewed complete license notices are `.lavish/choice-fonts/ibmplexsans-OFL.txt` and `.lavish/choice-fonts/sourceserif4-OFL.txt`.
-Copy these notices through normal asset setup during implementation; the prototype font directory is not a production dependency.
+Fetch the complete license notices from the same pinned upstream revisions used to obtain each family's production font files.
+The prototype archive contains reference notices, but its local font directory is not a production dependency or an assumed input in a fresh checkout.
 
 ## Components and finite variants
 
