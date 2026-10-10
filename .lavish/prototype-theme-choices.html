@@ -1,0 +1,603 @@
+<!doctype html>
+<!-- Throwaway design prototype. Same content, three directions at ?variant=A|B|C. Never production code. -->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ajat: theme choices prototype</title><link rel="stylesheet" href="choice-fonts.css"><style>
+*{box-sizing:border-box}body{margin:0;background:var(--canvas);color:var(--text);font:16px/1.6 var(--ui);padding-bottom:110px}body[data-variant=A]{--canvas:#f7f6f1;--surface:#fff;--subtle:#eceee5;--text:#202925;--muted:#626b62;--border:#d5dacf;--control:#7a8877;--accent:#28614d;--on:#fff;--motif:#9b5138;--heading:'IBM Plex Sans',sans-serif;--ui:'IBM Plex Sans',sans-serif;--prose:'Source Serif 4',serif}body[data-variant=B]{--canvas:#f7f9fc;--surface:#fff;--subtle:#eaf0fa;--text:#172033;--muted:#60708a;--border:#d5deee;--control:#7886a2;--accent:#294fba;--on:#fff;--motif:#006b83;--heading:'Space Grotesk',sans-serif;--ui:Inter,sans-serif;--prose:Inter,sans-serif}body[data-variant=C]{--canvas:#fbf7f0;--surface:#fff;--subtle:#f1e8db;--text:#352a29;--muted:#746461;--border:#ddd0bf;--control:#938176;--accent:#8b3d4d;--on:#fff;--motif:#91652c;--heading:Newsreader,serif;--ui:'Source Sans 3',sans-serif;--prose:Newsreader,serif}
+body[data-variant=A][data-mode=dark]{--canvas:#171e1a;--surface:#222c25;--subtle:#2b372e;--text:#edf1e9;--muted:#aeb9af;--border:#3a493e;--control:#718578;--accent:#9ad2b4;--on:#171e1a;--motif:#e3aa8c}body[data-variant=B][data-mode=dark]{--canvas:#111827;--surface:#1c2638;--subtle:#27334a;--text:#e6edf7;--muted:#a5b2ca;--border:#3c4a65;--control:#7183a4;--accent:#9db5ff;--on:#111827;--motif:#7bd4e9}body[data-variant=C][data-mode=dark]{--canvas:#241d1d;--surface:#302626;--subtle:#3c3030;--text:#f3e9dc;--muted:#c0afa9;--border:#574340;--control:#aa8e85;--accent:#f1a4b5;--on:#241d1d;--motif:#dfc18c}
+a{color:var(--accent);text-underline-offset:4px}button,select,textarea{font:inherit;color:inherit}button,select{cursor:pointer;background:var(--surface);border:1px solid var(--control);padding:7px 12px;border-radius:4px}button:hover{background:var(--subtle)}a:focus-visible,button:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:4px}p,h1,h2,h3{margin-top:0}h1,h2,h3{font-family:var(--heading);font-optical-sizing:auto;line-height:1.12}h1{font-size:clamp(38px,5.5vw,70px);letter-spacing:-.035em}h2{font-size:28px}h3{font-size:22px}p{margin-bottom:18px}small,.muted{color:var(--muted)}main{max-width:1120px;margin:auto;padding:0 28px}.notice{padding:10px 24px;background:var(--subtle);font-size:13px;border-bottom:1px solid var(--border)}.notice strong{margin-right:12px}.nav{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:28px 0;border-bottom:1px solid var(--border)}.brand{font-weight:600;color:var(--text);text-decoration:none}.links{display:flex;gap:26px;align-items:center;flex-wrap:wrap}.links a{color:var(--text);text-decoration:none}.links a:hover{text-decoration:underline}.meta{font-family:ui-monospace,monospace;letter-spacing:.07em;text-transform:uppercase;font-size:11px;color:var(--muted)}.section-title{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:20px}.section-title h2{margin:0}.section-title a{font-size:14px}.hero{padding:50px 0 38px}.hero p{max-width:65ch;font-size:18px;color:var(--muted)}.field-hero{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:45px;align-items:center}.field-hero h1{font-size:56px;max-width:16ch;margin:12px 0 18px}.diagram{padding:28px;background:var(--subtle);border:1px solid var(--border);color:var(--accent);font-family:ui-monospace,monospace;font-size:12px;text-align:center}.diagram-row{display:flex;justify-content:center;align-items:center;gap:9px}.diagram-node{border:1px solid var(--accent);padding:12px 8px;border-radius:3px}.diagram-rule{height:30px;width:1px;background:var(--accent);margin:auto}.field-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:44px;border-top:1px solid var(--border);padding-top:26px}.project-row{padding:20px 0;border-bottom:1px solid var(--border)}.project-row h3{margin-bottom:8px}.project-row p{color:var(--muted);margin:0 0 8px}.project-row a{font-size:14px}.article-row{padding:20px 0;border-bottom:1px solid var(--border)}.article-row h3{font-size:21px;margin:8px 0;line-height:1.35}.article-row h3 a{color:var(--text);text-decoration:none}.article-row p{font-family:var(--prose);font-size:18px;color:var(--muted);margin:0}.personal-note{margin:36px 0;padding:24px;border-left:3px solid var(--motif);background:var(--subtle)}.personal-note p{font-family:var(--prose);font-size:19px;margin:0}
+.studio-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);gap:45px;padding:54px 0}.studio-hero h1{font-size:64px;max-width:12ch}.studio-hero p{font-size:18px;color:var(--muted)}.pill{display:inline-block;padding:5px 10px;border:1px solid var(--border);background:var(--subtle);color:var(--accent);font-size:12px;border-radius:20px;margin:0 5px 8px 0}.primary{display:inline-block;padding:10px 15px;background:var(--accent);color:var(--on);text-decoration:none;border-radius:5px}.preview-frame{min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}.preview-top{display:flex;justify-content:space-between;padding:16px;border-bottom:1px solid var(--border)}.preview-body{padding:28px;background:var(--subtle)}.preview-body h2{font-size:28px;margin:18px 0 24px}.flow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}.flow div{background:var(--surface);border:1px solid var(--border);padding:18px;font-size:14px}.studio-work{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}.studio-card{padding:24px;border:1px solid var(--border);background:var(--surface);border-radius:8px}.studio-card h3{margin:14px 0 8px}.studio-card p{color:var(--muted)}.studio-writing{margin-top:38px;padding:26px 0;border-top:1px solid var(--border)}.studio-writing .article-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px}.studio-writing .article-row h3{margin:0}
+.editorial-shell{display:grid;grid-template-columns:210px minmax(0,1fr);gap:56px;padding:48px 0}.editorial-aside{border-right:1px solid var(--border);padding-right:28px}.editorial-aside .brand{font-family:var(--heading);font-size:32px}.editorial-aside p{color:var(--muted);margin-top:18px}.editorial-aside .links{display:grid;gap:14px;margin:24px 0}.editorial-aside .handnote{font-family:var(--heading);font-style:italic;color:var(--motif);font-size:22px;line-height:1.35;margin-top:46px}.editorial-feature{padding-bottom:26px;border-bottom:1px solid var(--border)}.editorial-feature h1{font-size:62px;margin:20px 0}.editorial-feature .lede{font-family:var(--prose);font-size:25px;line-height:1.5}.editorial-feature .meta{color:var(--motif)}.editorial-work{padding:26px 0}.editorial-work .project-row{display:grid;grid-template-columns:90px minmax(0,1fr);gap:14px}.editorial-work h3{font-size:25px}
+.article-sample{max-width:980px;margin:45px auto}.article-intro{max-width:760px}.article-intro h1{margin:16px 0 24px;font-size:clamp(36px,5vw,58px)}.article-intro .lede{font:22px/1.6 var(--prose);color:var(--muted)}.article-grid{display:grid;grid-template-columns:minmax(0,1fr) 180px;gap:55px;margin-top:34px}.prose{font:20px/1.75 var(--prose);font-optical-sizing:auto;min-width:0}.prose h2{margin:34px 0 16px}.prose pre{margin:24px 0;padding:22px;background:var(--subtle);border:1px solid var(--border);overflow:auto;font:14px/1.8 ui-monospace,monospace;white-space:pre}.code-key{color:var(--accent)}.article-rail{font-size:13px;color:var(--muted);border-left:1px solid var(--border);padding-left:20px}.article-rail a{display:block;margin:12px 0}.callout{font:17px/1.65 var(--ui);padding:20px;background:var(--subtle);border-left:3px solid var(--accent);margin:24px 0}.review-panel{border-top:1px solid var(--border);margin-top:55px;padding:26px 0}.swatches{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}.swatch{font-size:12px;min-width:95px}.swatch span{display:block;height:40px;border:1px solid var(--control);margin-bottom:5px}.decision-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.decision-grid label{display:block;margin:14px 0}.decision-grid select{display:block;width:100%;margin-top:6px}.review-panel textarea{display:block;width:100%;padding:10px;background:var(--surface);border:1px solid var(--control);margin:12px 0}.switcher{position:fixed;z-index:10;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:center;background:#162329;color:#fff;padding:10px 14px;border-radius:12px;box-shadow:0 5px 25px #0003;max-width:calc(100% - 24px);font:13px/1.4 system-ui,sans-serif}.switcher button,.switcher select{background:#263b44;color:#fff;border:1px solid #799099;white-space:nowrap}.switcher .state{min-width:130px}.switcher small{color:#c9d5da}.variant-content{display:none}body[data-variant=A] #variant-A,body[data-variant=B] #variant-B,body[data-variant=C] #variant-C{display:block}[hidden]{display:none!important}footer{padding:30px 0;font-size:13px;color:var(--muted)}.skip{position:absolute;left:-9999px}.skip:focus{left:20px;top:10px;background:var(--surface);padding:10px;z-index:20}
+@media(max-width:750px){main{padding:0 20px}.nav{align-items:flex-start;padding:20px 0}.links{gap:15px;font-size:14px}.field-hero,.field-columns,.studio-hero,.studio-work,.article-grid,.decision-grid,.editorial-shell{grid-template-columns:minmax(0,1fr)}.field-hero{gap:20px}.field-hero h1,.studio-hero h1,.editorial-feature h1{font-size:42px}.field-hero .diagram{display:none}.field-columns{gap:30px}.studio-hero{gap:25px;padding:35px 0}.studio-writing .article-row{grid-template-columns:minmax(0,1fr);gap:10px}.editorial-shell{gap:28px;padding:26px 0}.editorial-aside{border:0;border-bottom:1px solid var(--border);padding:0 0 16px}.editorial-aside .links{display:flex}.editorial-aside .handnote{display:none}.editorial-aside p{margin:10px 0}.editorial-feature .lede{font-size:22px}.article-rail{display:none}.prose{font-size:19px}.switcher{gap:6px;padding:8px;font-size:12px}.switcher .state{min-width:90px}.switcher select{max-width:90px}.switcher button{padding:6px 9px}.notice{padding:10px 20px;font-size:12px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body data-variant="A" data-mode="light"><a class="skip" href="#content">Skip to content</a><div class="notice"><strong>THROWAWAY DESIGN REVIEW</strong>Same content, three coordinated systems. Choose the direction before fine-tuning.</div><main id="content">
+<div id="home-view">
+<div id="variant-A" class="variant-content"><header class="nav"><a class="brand" href="#">Ajat Prabha</a><nav class="links"><a href="#writing-A">Writing</a><a href="#projects-A">Projects</a><a href="#review">About</a></nav></header><section class="hero field-hero"><div><div class="meta">Engineering / open source / personal notes</div><h1>Software, systems, and things worth writing down.</h1><p>I’m Ajat. This is a home for the software I build, the decisions behind it, and the things I learn along the way.</p></div><div class="diagram" aria-label="Configuration diagram"><div class="diagram-row"><span class="diagram-node">ENV</span><span class="diagram-node">FILES</span><span class="diagram-node">FLAGS</span></div><div class="diagram-rule"></div><div class="diagram-node">Go struct</div><div class="diagram-rule"></div><div class="meta">One shared visual grammar</div></div></section><div class="field-columns"><section id="projects-A"><div class="section-title"><h2>Selected work</h2><a href="#review">All projects ↗</a></div><article class="project-row"><div class="meta">01 / Go library</div><h3>ferry</h3><p>Configuration that moves both ways. Read into Go structs and write changes back.</p><a href="?variant=A&amp;view=article">Read the project story →</a></article><article class="project-row"><div class="meta">02 / Go library</div><h3>xload</h3><p>Load data from different sources into annotated Go structs.</p><a href="#review">Project details →</a></article><article class="project-row"><div class="meta">03 / Go library</div><h3>xrun</h3><p>Manage the lifecycle of long-running application components.</p><a href="#review">Project details →</a></article></section><section id="writing-A"><div class="section-title"><h2>Recent writing</h2><a href="#review">The archive ↗</a></div><article class="article-row"><div class="meta">12 Aug 2026 / Go</div><h3><a href="?variant=A&amp;view=article">Ferry: xload Learns to Write</a></h3><p>The story behind taking a one-way configuration loader in a new direction.</p></article><article class="article-row"><div class="meta">12 Aug 2026 / Go</div><h3>What the Windows Registry Taught Me</h3><p>The useful lessons hiding behind an unfamiliar configuration interface.</p></article><article class="article-row"><div class="meta">06 Oct 2020 / DIY</div><h3>Making a DIY Sound System</h3><p>Building something useful that also belongs in the room.</p></article><aside class="personal-note"><div class="meta">Beyond the code</div><p>Engineering notes can share a home with music, travel, and things built by hand.</p></aside></section></div></div>
+<div id="variant-B" class="variant-content"><header class="nav"><a class="brand" href="#">AP / Ajat Prabha</a><nav class="links"><a href="#projects-B">Projects</a><a href="#writing-B">Writing</a><a href="#review">About</a></nav></header><section class="studio-hero"><div><span class="pill">Software &amp; engineering</span><h1>Build it.<br>Understand it.<br>Write it down.</h1><p>Useful software, considered engineering, and the stories behind the work.</p><a class="primary" href="#projects-B">Explore selected work →</a></div><article class="preview-frame"><div class="preview-top"><span class="meta">Featured project / ferry</span><span class="pill">Go</span></div><div class="preview-body"><h2>One configuration model.<br>Both directions.</h2><div class="flow"><div><strong>Read</strong><br><small>Sources → Go struct</small></div><div><strong>Write</strong><br><small>Go struct → sources</small></div></div><p class="muted" style="margin:24px 0 0">A repeatable preview frame for diagrams, screenshots, or a useful demo.</p></div><div class="preview-top"><a href="?variant=B&amp;view=article">Read the story →</a><small>Static preview</small></div></article></section><section id="projects-B"><div class="section-title"><h2>More selected work</h2><a href="#review">All projects ↗</a></div><div class="studio-work"><article class="studio-card"><span class="meta">Data loading</span><h3>xload</h3><p>Different inputs. One annotated Go struct.</p><span class="pill">Go library</span><a href="#review">View project →</a></article><article class="studio-card"><span class="meta">Application lifecycle</span><h3>xrun</h3><p>Coordinate long-running application components.</p><span class="pill">Go library</span><a href="#review">View project →</a></article></div></section><section id="writing-B" class="studio-writing"><div class="section-title"><h2>From the notebook</h2><a href="#review">All writing ↗</a></div><article class="article-row"><span class="meta">12 Aug 2026</span><h3><a href="?variant=B&amp;view=article">Ferry: xload Learns to Write</a></h3></article><article class="article-row"><span class="meta">12 Aug 2026</span><h3>What the Windows Registry Taught Me</h3></article><article class="article-row"><span class="meta">06 Oct 2020</span><h3>Making a DIY Sound System</h3></article></section></div>
+<div id="variant-C" class="variant-content"><div class="editorial-shell"><aside class="editorial-aside"><a class="brand" href="#">Ajat Prabha</a><p>A personal collection of software, stories, and things made by hand.</p><nav class="links"><a href="#writing-C">Writing</a><a href="#projects-C">Selected work</a><a href="#review">About</a></nav><p class="handnote">A small place for ideas that deserve more than a passing thought.</p></aside><div><section id="writing-C" class="editorial-feature"><div class="meta">From the engineering notebook / 12 Aug 2026</div><h1>Ferry: xload<br>Learns to Write</h1><p class="lede">What happens when a library built to load configuration learns to send it back?</p><a href="?variant=C&amp;view=article">Read the essay →</a></section><section style="padding-top:28px"><div class="section-title"><h2>Other pages from the notebook</h2><a href="#review">All writing ↗</a></div><article class="article-row"><div class="meta">Engineering</div><h3>What the Windows Registry Taught Me</h3><p>Lessons from building a driver around an unfamiliar interface.</p></article><article class="article-row"><div class="meta">Life &amp; DIY</div><h3>Making a DIY Sound System</h3><p>A quieter design for something made to be heard.</p></article></section><section id="projects-C" class="editorial-work"><div class="section-title"><h2>Things I’ve built</h2><a href="#review">Selected work ↗</a></div><article class="project-row"><span class="meta">ferry</span><div><h3>Configuration, in both directions.</h3><p>A Go library and the engineering story behind it.</p></div></article><article class="project-row"><span class="meta">xload / xrun</span><div><h3>Small libraries, useful foundations.</h3><p>Data loading and component lifecycle management in Go.</p></div></article></section></div></div></div>
+</div>
+<section id="article-view" class="article-sample" hidden><header class="nav"><a class="brand" href="#">Ajat Prabha</a><a href="#" id="back-home">← Back to home sample</a></header><div class="article-intro"><div class="meta" style="margin-top:35px">Engineering / Go / 12 August 2026</div><h1>Ferry: xload Learns to Write</h1><p class="lede">Two years ago I wrote about xload, which fills an annotated Go struct from env vars, query params, files, anything you put behind a Loader.</p></div><div class="article-grid"><article class="prose"><p>This sample starts with an excerpt from your writing to test the reading experience. The supporting copy, illustrative code, and callout below are prototype content.</p><h2 id="sample-heading">One model, two directions</h2><p>A personal site has to make room for the details. The project summary gets you interested; the article gives the explanation space to breathe.</p><pre><code><span class="code-key">type</span> Config <span class="code-key">struct</span> {
+    Port <span class="code-key">int</span>
+    Host <span class="code-key">string</span>
+}</code></pre><p>This is illustrative Go syntax for evaluating code typography, not a verified usage example of the library. Long code scrolls inside its own frame.</p><aside class="callout"><strong>A shared article system.</strong><br>Engineering, DIY, and personal stories use the same reading template. Specialized content uses a small, documented set of figures, code blocks, and asides.</aside><h2>A page that works without decoration</h2><p>Ordinary writing should require Markdown and metadata. A new post should look complete without a custom illustration, bespoke layout, or interactive demo.</p></article><aside class="article-rail"><span class="meta">On this page</span><a href="#sample-heading">One model, two directions</a><span class="meta" style="display:block;margin-top:35px">Related work</span><p>ferry<br>xload</p></aside></div></section>
+<section id="review" class="review-panel"><div class="meta">Design decisions / not implementation approval</div><h2 style="margin-top:12px">Review this as a complete system.</h2><p id="type-description"></p><div class="swatches" id="swatches"></div><p class="muted">All three palettes are new. Existing Casper colors, fonts, and layouts are not carried over. Exact colors can be refined after choosing the direction.</p><form data-lavish-question="theme-lock"><div class="decision-grid"><div><label>Overall direction<select name="direction"><option value="undecided">Undecided</option><option value="A">A: Engineering field journal</option><option value="B">B: Technical studio</option><option value="C">C: Personal editorial</option></select></label><label>Color modes<select name="modes"><option value="undecided">Undecided</option><option>Coordinated light and dark, system preference plus override</option><option>Light only for launch</option></select></label><label>Theme ownership<select name="ownership"><option value="undecided">Undecided</option><option>Adapt a documented Astro theme with bounded overrides</option><option>Own a compact documented Astro theme</option><option>Stay close to a ready-made theme</option></select></label></div><div><label>Homepage emphasis<select name="emphasis"><option value="undecided">Undecided</option><option>Balanced writing and projects</option><option>Projects first</option><option>Writing first</option></select></label><label>Launch signature<select name="signature"><option value="undecided">Undecided</option><option>Static diagrams and restrained details</option><option>One optional interactive work demonstration</option><option>Small illustration motif library</option></select></label><label>Other scope defaults<select name="scope"><option value="undecided">Review the proposed defaults</option><option>RSS; no newsletter or analytics at launch; audit comments; search if base supports it</option><option>I want to specify these individually in chat</option></select></label></div></div><label>Changes or combinations<textarea name="notes" rows="3" placeholder="For example: A’s structure, with more editorial titles."></textarea></label><button type="submit">Queue these choices</button> <button type="button" id="copy-choices">Show choices to copy into chat</button><p id="answer-status" role="status"></p><textarea id="answers" readonly rows="8" hidden aria-label="Choices to copy into chat"></textarea></form></section><details style="margin-top:24px"><summary>Prototype font license notices</summary><pre style="white-space:pre-wrap;font:12px/1.6 monospace">ibmplexsans-OFL.txt
+Copyright © 2017 IBM Corp. with Reserved Font Name &quot;Plex&quot;
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+
+This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+&quot;Font Software&quot; refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+&quot;Reserved Font Name&quot; refers to any names specified as such after the
+copyright statement(s).
+
+&quot;Original Version&quot; refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+&quot;Modified Version&quot; refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+&quot;Author&quot; refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION &amp; CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+
+inter-OFL.txt
+Copyright 2020 The Inter Project Authors (https://github.com/rsms/inter)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+&quot;Font Software&quot; refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+&quot;Reserved Font Name&quot; refers to any names specified as such after the
+copyright statement(s).
+
+&quot;Original Version&quot; refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+&quot;Modified Version&quot; refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+&quot;Author&quot; refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION &amp; CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+
+newsreader-OFL.txt
+Copyright 2020 The Newsreader Project Authors (http://github.com/productiontype/Newsreader)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+&quot;Font Software&quot; refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+&quot;Reserved Font Name&quot; refers to any names specified as such after the
+copyright statement(s).
+
+&quot;Original Version&quot; refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+&quot;Modified Version&quot; refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+&quot;Author&quot; refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION &amp; CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+sourcesans3-OFL.txt
+Copyright 2010-2020 Adobe (http://www.adobe.com/), with Reserved Font Name &#x27;Source&#x27;. All Rights Reserved. Source is a trademark of Adobe in the United States and/or other countries.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+
+This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+&quot;Font Software&quot; refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+&quot;Reserved Font Name&quot; refers to any names specified as such after the
+copyright statement(s).
+
+&quot;Original Version&quot; refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+&quot;Modified Version&quot; refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+&quot;Author&quot; refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION &amp; CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+
+sourceserif4-OFL.txt
+Copyright 2014 The Source Serif 4 Project Authors (https://github.com/adobe-fonts/source-serif)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://openfontlicense.org
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+&quot;Font Software&quot; refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+&quot;Reserved Font Name&quot; refers to any names specified as such after the
+copyright statement(s).
+
+&quot;Original Version&quot; refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+&quot;Modified Version&quot; refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+&quot;Author&quot; refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION &amp; CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+
+spacegrotesk-OFL.txt
+Copyright 2020 The Space Grotesk Project Authors (https://github.com/floriankarsten/space-grotesk)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+&quot;Font Software&quot; refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+&quot;Reserved Font Name&quot; refers to any names specified as such after the
+copyright statement(s).
+
+&quot;Original Version&quot; refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+&quot;Modified Version&quot; refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+&quot;Author&quot; refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION &amp; CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+</pre></details><footer>Prototype only. Project descriptions are based on existing posts. Hero and sample supporting copy are proposed. No current employer, project metrics, or biography claims are invented. Run locally: python -m http.server 4388 --directory .lavish</footer>
+</main><div class="switcher" aria-label="Prototype controls"><button id="previous" aria-label="Previous direction">←</button><div class="state"><strong id="variant-name">A: Field journal</strong><br><small id="mode-state">Light / home</small></div><button id="next" aria-label="Next direction">→</button><select id="view" aria-label="Sample page"><option value="home">Home</option><option value="article">Article</option></select><button id="mode">Dark</button></div><script>
+const labels={A:'A: Field journal',B:'B: Studio',C:'C: Editorial'};
+const fonts={A:'IBM Plex Sans headings and interface; Source Serif 4 prose. Forest links, warm paper, and rust details.',B:'Space Grotesk headings; Inter interface and prose. Cobalt links, cool surfaces, and cyan details.',C:'Newsreader headings and prose; Source Sans 3 interface. Wine links, cream paper, and ochre details.'};
+let params=new URLSearchParams(location.search);let variant=['A','B','C'].includes(params.get('variant'))?params.get('variant'):'A';let view=params.get('view')==='article'?'article':'home';let mode=params.get('mode')==='dark'?'dark':'light';
+function render(){document.body.dataset.variant=variant;document.body.dataset.mode=mode;document.querySelector('#variant-name').textContent=labels[variant];document.querySelector('#mode-state').textContent=mode+' / '+view;document.querySelector('#mode').textContent=mode==='light'?'Dark':'Light';document.querySelector('#view').value=view;document.querySelector('#home-view').hidden=view!=='home';document.querySelector('#article-view').hidden=view!=='article';document.querySelector('#type-description').textContent=fonts[variant];document.querySelector('#swatches').innerHTML=['canvas','text','accent','motif'].map(t=>'<div class="swatch"><span style="background:var(--'+t+')"></span>'+t+'<br>'+getComputedStyle(document.body).getPropertyValue('--'+t).trim()+'</div>').join('');const url=new URL(location.href);url.searchParams.set('variant',variant);url.searchParams.set('view',view);url.searchParams.set('mode',mode);history.replaceState(null,'',url);document.querySelectorAll('a[href*="view=article"]').forEach(a=>{const dest=new URL(a.href);dest.searchParams.set('variant',variant);dest.searchParams.set('mode',mode);a.href=dest.pathname+dest.search});}
+function cycle(n){variant=['A','B','C'][(['A','B','C'].indexOf(variant)+n+3)%3];render()}
+document.querySelector('#previous').onclick=()=>cycle(-1);document.querySelector('#next').onclick=()=>cycle(1);document.querySelector('#mode').onclick=()=>{mode=mode==='light'?'dark':'light';render()};document.querySelector('#view').onchange=e=>{view=e.target.value;render();scrollTo(0,0)};document.querySelector('#back-home').onclick=e=>{e.preventDefault();view='home';render();scrollTo(0,0)};document.addEventListener('keydown',e=>{if(e.target.closest('input,textarea,select,[contenteditable]'))return;if(e.key==='ArrowLeft'){e.preventDefault();cycle(-1)}if(e.key==='ArrowRight'){e.preventDefault();cycle(1)}});const form=document.querySelector('form');function choiceText(){return 'Theme choices:\n'+Object.entries(Object.fromEntries(new FormData(form))).map(([k,v])=>k+': '+v).join('\n')};function show(){const a=document.querySelector('#answers');a.hidden=false;a.value=choiceText();a.focus();a.select();document.querySelector('#answer-status').textContent='Copy these choices into chat when ready.'}document.querySelector('#copy-choices').onclick=show;form.onsubmit=e=>{e.preventDefault();if(window.lavish?.queuePrompt){window.lavish.queuePrompt(choiceText(),{tag:'choice',queueKey:'theme-lock',element:form,data:Object.fromEntries(new FormData(form))});document.querySelector('#answer-status').textContent='Queued. Press Send to Agent to submit.'}else show()};render();
+</script></body></html>
