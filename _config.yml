@@ -78,6 +78,7 @@ production_url:  https://ajatprabha.in/
 source_url:  https://github.com/ajatprabha/ajatprabha.github.io/
 
 exclude:
+  - docs
   - assets/css
   - node_modules
   - vendor
