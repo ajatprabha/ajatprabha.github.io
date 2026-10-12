@@ -43,6 +43,19 @@ async function centeredArticle(page: Page, viewportWidth: number) {
       return {
         center: prose.x + prose.width / 2,
         width: prose.width,
+        left: prose.left,
+        right: prose.right,
+        headings: Array.from(
+          document.querySelectorAll(".reading-body > h2, .reading-body > h3"),
+          (heading) => {
+            const rect = heading.getBoundingClientRect();
+            return {
+              left: rect.left,
+              right: rect.right,
+              textAlign: getComputedStyle(heading).textAlign,
+            };
+          },
+        ),
         coverWidth: cover?.width,
         quoteWidth: document
           .querySelector(".reading-body > blockquote")
@@ -51,6 +64,12 @@ async function centeredArticle(page: Page, viewportWidth: number) {
     });
   expect(Math.abs(geometry.center - viewportWidth / 2)).toBeLessThanOrEqual(2);
   if (viewportWidth >= 1000) {
+    expect(geometry.headings.length).toBeGreaterThan(0);
+    for (const heading of geometry.headings) {
+      expect(Math.abs(heading.left - geometry.left)).toBeLessThanOrEqual(1);
+      expect(Math.abs(heading.right - geometry.right)).toBeLessThanOrEqual(1);
+      expect(["left", "start"]).toContain(heading.textAlign);
+    }
     expect(geometry.coverWidth).toBeGreaterThan(geometry.width);
     expect(geometry.quoteWidth).toBeGreaterThan(geometry.width);
     expect(geometry.quoteWidth).toBeLessThanOrEqual(geometry.coverWidth!);
