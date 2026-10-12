@@ -1,6 +1,7 @@
 ---
 import type { ArticleSummary } from '../../lib/types';
-interface Props { article: ArticleSummary }
-const { article } = Astro.props;
+interface Props { article: ArticleSummary; headingLevel?: 2 | 3 }
+const { article, headingLevel = 3 } = Astro.props;
+const Heading = headingLevel === 2 ? 'h2' : 'h3';
 ---
-<article class="article-row"><time datetime={article.publishedAt}>{new Intl.DateTimeFormat('en',{year:'numeric',month:'short',day:'numeric',timeZone:'UTC'}).format(new Date(article.publishedAt))}</time><div><h3><a href={article.href}>{article.title}</a></h3>{article.description && <p>{article.description}</p>}</div></article>
+<article class="article-row"><time datetime={article.publishedAt}>{new Intl.DateTimeFormat('en',{year:'numeric',month:'short',day:'numeric',timeZone:'UTC'}).format(new Date(article.publishedAt))}</time><div><Heading><a href={article.href}>{article.title}</a></Heading>{article.description && <p>{article.description}</p>}</div></article>
