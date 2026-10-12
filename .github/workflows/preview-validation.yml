@@ -25,7 +25,7 @@ jobs:
         run: npm --prefix site run validate:composition
       - name: Install Chromium for composition journeys
         if: hashFiles('site/src/data/validation-stage.json') != ''
-        run: npm --prefix site exec playwright install --with-deps chromium
+        run: npm --prefix site exec -- playwright install --with-deps chromium
       - name: Browser journeys
         if: hashFiles('site/src/data/validation-stage.json') != ''
         run: npm --prefix site run test:browser

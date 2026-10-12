@@ -96,7 +96,7 @@ Its selected glyph designs and real italics remain IBM Plex Sans; both complete 
 ### Local validation evidence
 
 The integrated validation checkpoint passed Astro/TypeScript with zero errors, warnings or hints and the static table-transform interface test.
-All 13 historical metadata records and the five content/source/Gist transformation tests passed.
+All 13 historical metadata records and the six content/source/Gist transformation tests passed.
 The 39-page review build passed baseline article/routes/heading/media/local-link parity and independent composition verification.
 Both feeds passed exact historical format, ordered item count, identity, title, publication instant and link checks.
 The isolated legacy rebuild passed equality for posts, feeds, archives and historical media hashes.
@@ -118,14 +118,14 @@ npm --prefix site run build
 npm --prefix site run validate:output
 npm --prefix site run validate:feeds
 npm --prefix site run validate:composition
-npm --prefix site exec playwright install --with-deps chromium
+npm --prefix site exec -- playwright install --with-deps chromium
 npm --prefix site run test:browser
 npm --prefix site run preview -- --port 4321
 ```
 
 The review server is `http://localhost:4321`, with host binding exposed for environment browser access.
 Astro 7 tracks its agent-started preview as a background process in the final worktree.
-Run `npm --prefix site exec astro preview status` there to inspect it and `npm --prefix site exec astro preview stop` there to stop it.
+Run `npm --prefix site exec -- astro preview status` there to inspect it and `npm --prefix site exec -- astro preview stop` there to stop it.
 The process remains available only while this runtime environment stays active.
 The isolated environment's local Chromium shared-library extraction is `/tmp/ajat-browser-libs/extracted/usr/lib/x86_64-linux-gnu`.
 If standard browser dependency installation lacks privileges locally, prepend that path using LD_LIBRARY_PATH for the browser command.
@@ -135,6 +135,7 @@ Normal build excludes the noindex reference route; `build:review` includes `/the
 ### Production gates
 
 - Obtain the owner's authenticated Disqus export and preserve any existing comments; anonymous access failure did not prove zero comments.
+- Review each real video for meaningful audio and provide captions or a transcript where required; playback controls alone do not satisfy this accessibility review.
 - Obtain explicit approval before merging the review stack, changing the production builder, deployment, or deleting legacy tooling.
 - Keep the separate GSoC project archive publishing mechanism and link intact.
 - Finish hosted CI and user visual/content review before a production-cutover change is proposed.
