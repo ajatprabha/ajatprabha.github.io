@@ -25,4 +25,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sh scripts/legacy-build.sh /tmp/ajat-legacy-rebuilt
-      - run: python3 scripts/legacy-capture.py /tmp/ajat-legacy-rebuilt --provenance 'PR isolated build'
+      - run: python3 scripts/legacy-compare.py /tmp/ajat-legacy-rebuilt
