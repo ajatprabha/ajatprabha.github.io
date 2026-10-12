@@ -125,7 +125,8 @@ npm --prefix site run preview -- --port 4321
 
 The review server is `http://localhost:4321`, with host binding exposed for environment browser access.
 Astro 7 tracks its agent-started preview as a background process in the final worktree.
-Run `npm --prefix site exec -- astro preview status` there to inspect it and `npm --prefix site exec -- astro preview stop` there to stop it.
+From the final repository root, run `(cd site && npm exec -- astro preview status)` to inspect it and `(cd site && npm exec -- astro preview stop)` to stop it.
+Astro preview status and stop require the site working directory; npm exec with --prefix resolves the binary without changing the working directory.
 The process remains available only while this runtime environment stays active.
 The isolated environment's local Chromium shared-library extraction is `/tmp/ajat-browser-libs/extracted/usr/lib/x86_64-linux-gnu`.
 If standard browser dependency installation lacks privileges locally, prepend that path using LD_LIBRARY_PATH for the browser command.
