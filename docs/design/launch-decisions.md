@@ -58,7 +58,7 @@ Implementation does not require that separate checkout because the necessary bio
 - Public professional links: [GitHub](https://github.com/ajatprabha) and [LinkedIn](https://www.linkedin.com/in/ajatprabha).
 
 The resume has no role marked current as of this review.
-Use a role-neutral introduction until the user supplies a current role or focus.
+The user explicitly selected a role-neutral introduction for now.
 Do not present Fenmo CTO as a current position or repeat the obsolete real-time communication SaaS venture from the old About page.
 Do not copy phone numbers, grades, customer counts, revenue figures, or other resume details merely because they appear in the source.
 Leave old personal-interest copy out of the first draft until it is reconfirmed.
@@ -76,4 +76,4 @@ This is draft prose for preview review, grounded in the authorized source rather
 
 The feature and first-draft visual choices are settled.
 Remaining gates are implementation evidence: actual comment archival if needed, code capture, route/feed/media parity, and browser/independent review.
-Current role wording is optional for the preview because a factual role-neutral introduction is available.
+No current-role or biography decision remains for the first preview.
