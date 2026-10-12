@@ -1,6 +1,6 @@
 # Field journal theme specification
 
-Status: selected direction and theme ownership, with proposed design defaults for planning review.
+Status: selected direction and theme ownership; palette, typography, and light/dark modes approved for the first draft on 12 October 2026.
 Prepared 2026-10-10.
 This document specifies the future theme; it does not implement application code or authorize production cutover.
 
@@ -11,7 +11,9 @@ The user requested planning/design PRs before application implementation.
 Composability is a core project requirement across presentation, content processing, routing, integrations, and tooling.
 No external base theme or starter fork supplies the theme interface.
 
-IBM Plex Sans with Source Serif 4, coordinated light/dark modes, and static SVG motifs are recommended defaults for review, rather than separately confirmed user choices.
+IBM Plex Sans with Source Serif 4, coordinated light/dark modes, and the specified warm paper/forest/rust palette are selected for the first draft.
+Static SVG motifs remain an implementation default.
+The [launch decisions](launch-decisions.md) define selected features, project ordering, biography facts, and comment preservation.
 Plain CSS custom properties and native Astro components are implementation defaults.
 Do not add React, Tailwind, a component kit, client routing, or an animation library without a concrete requirement that justifies its maintenance cost.
 

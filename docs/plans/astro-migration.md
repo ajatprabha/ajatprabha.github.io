@@ -18,6 +18,7 @@ Read these inputs before starting:
 - `docs/research/migration-inventory.md`: verified local inventory, migration risks, and remaining evidence gaps.
 - `docs/README.md`: selected framework, authoring, hosting and theme ownership decisions.
 - `docs/design/field-journal-theme.md`: exact visual tokens, typography, layout, interaction choices, and approval status.
+- `docs/design/launch-decisions.md`: finalized feature scope, project ordering, resume-derived biography, and remaining preservation work.
 - `_config.yml`, `.github/workflows/build.yaml`, `_posts/`, `about/index.md`, `_plugins/`, and the legacy layouts: current behavior.
 - Applicable `AGENTS.md` instructions and the GitHub operating skill before performing GitHub actions.
 
@@ -38,28 +39,29 @@ Colors and typography belong to the approved new design system.
 Do not carry over the old theme's palette or fonts merely because they already exist.
 Do not introduce independently styled AI-generated sections or a separate component system for each page.
 
-### Proposed defaults and outstanding gates
+### Selected launch scope, defaults, and verification gates
 
-These defaults make the implementation concrete, but they are not additional approved user choices.
-Record their disposition in the planning/design review before the affected work starts.
+The user settled feature scope and first-draft visual choices on 12 October 2026.
+The launch decision record distinguishes those choices from architecture defaults and remaining implementation evidence.
 
 | Area | Proposed default | Gate |
 | --- | --- | --- |
 | Historical article URLs | Keep exact existing dated URLs as canonical | Validate actual Jekyll output and production behavior |
 | New article URLs | Use the same dated convention | Confirm during contract freeze |
-| Theme modes, fonts, palette, motion | Follow the approved design specification | Design review |
-| Search | Defer unless explicitly selected; if selected, use a maintained static index | Feature decision before foundation |
-| Newsletter | RSS only | Confirm no new service is requested |
-| Analytics | No provider initially | Do not migrate obsolete Universal Analytics automatically |
-| Comments | Decide after auditing actual Disqus threads | No silent loss or invented thread identifiers |
-| External code embeds | Capture referenced code as local fenced blocks with attribution | Verify every captured Gist and explicitly resolve unavailable content |
-| Projects | Curated project Markdown records | Approve selection and verify factual descriptions |
-| About | Updated, factual biography | Confirm current facts; do not infer employment or outcomes from old copy |
+| Theme modes, fonts, palette, motion | Palette, fonts, and light/dark selected for first draft; motion follows specification | Verify implementation against selected design |
+| Search | None at initial launch | Selected |
+| Newsletter | RSS only; no signup service | Selected |
+| Analytics | None at initial launch | Selected; do not copy obsolete Universal Analytics |
+| Comments | No public comments; preserve an archive if any existing comments exist | Audit actual threads and archive before cutover |
+| External code embeds | Local syntax-highlighted blocks with source links and attribution | Selected; capture and compare available Gist files |
+| Projects | Darkroom, Tempogate, Ferry, Dagger, xrun, GSoC Kubernetes Dashboard work, in that order | Selection and authorship supplied by user; verify technical descriptions |
+| About | Resume-sourced, role-neutral biography as recorded in launch decisions | Current-role wording optional; do not infer a present role from ended positions |
 | App location | Permanent `site/` directory | Architecture default, chosen to support safe coexistence |
 | Deployment | Keep branch-based `gh-pages` publishing for this migration | Verify existing Pages settings before implementation |
 
-Comments and unavailable Gist content are cutover blockers until there is an explicit preservation or removal decision.
-Missing current biography or project facts block those page sections, while content migration and theme work can proceed independently.
+Feature decisions are settled; actual comment preservation and source/content parity remain cutover gates.
+All 23 referenced Gist files were available in the follow-up audit, but code capture is still required.
+The sourced biography and six selected projects are enough for the first preview; current-role wording may be added when supplied.
 
 ## Repository architecture
 
@@ -69,7 +71,8 @@ The only production-affecting foundation change should be these deliberate exclu
 
 Use native Astro components and ordinary CSS by default.
 Use framework integrations for content, code highlighting, feeds, sitemap generation, and assets when their interfaces fit the selected version.
-Add browser JavaScript only for approved interactions such as a mode toggle or search.
+Add browser JavaScript only for approved interactions such as the mode toggle.
+Search is excluded from initial launch.
 An application framework, client router, UI kit, animation library, or MDX integration requires a concrete selected use case.
 
 Proposed source boundaries:
@@ -507,15 +510,17 @@ Audit the 24 Gist occurrences across 23 distinct script URLs.
 Retrieve the exact referenced files, record source attribution, compare their contents and preserve language/code formatting.
 An unavailable Gist requires an archived source or an explicit content decision; a missing embed does not count as a successful conversion.
 
-Inspect actual Disqus threads before deciding the comment adapter.
+Inspect actual Disqus threads to determine whether a comment archive is required.
 The existing configuration assigns the homepage URL and site title to every article's widget.
 Do not generate new per-article identifiers and call that preservation.
-If retaining Disqus, preserve audited thread identity and implement loading through the theme's approved interaction pattern.
-If removing it, record the explicit decision and any preservation/export action requested.
+The selected launch has no public comments or Disqus integration.
+If comments exist, preserve an archive with original thread identifiers, known article mappings, and export provenance before cutover.
+If export needs authenticated access, ask for the specific export or access after preparing concrete instructions.
+Do not silently skip archival or publish the preservation archive without a separate request.
 
-Inspect the old `/gsoc-meta-k8s/` navigation target on production.
-Its missing local source is an existing uncertainty, not automatically a migration regression.
-Record whether it should be restored, linked externally, aliased or removed.
+The `/gsoc-meta-k8s/` archive was verified live on 12 October 2026 despite its missing source in this checkout.
+Preserve its reachable link and investigate its separate project publishing mechanism before changing branch output.
+Do not delete the link or invent a replacement page based only on missing local source.
 
 ## Cutover and rollback
 

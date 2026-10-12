@@ -93,6 +93,11 @@ RSS is the proposed initial subscription mechanism.
 
 ## Proposed defaults for upcoming choices
 
+Historical defaults below are superseded by the [12 October launch decisions](../design/launch-decisions.md).
+The user selected no public comments with archival if existing comments are found, local attributed code blocks, RSS-only subscription, no analytics or search, six ordered projects, and resume-sourced biography.
+All 23 referenced Gist files were available in the follow-up audit, and the GSoC project archive was verified live.
+Actual code capture, Disqus export if needed, and migration parity remain implementation work.
+
 | Decision | Proposed default | Rationale |
 | --- | --- | --- |
 | Post URLs | Preserve dated routes | Avoid unnecessary redirects and SEO churn |
