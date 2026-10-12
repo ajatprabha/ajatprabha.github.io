@@ -46,3 +46,7 @@ Missing covers produce a deliberate text card rather than placeholder artwork.
 The hero and page identity are centered, and prose remains left-aligned within a centered reading column.
 The article cover slot and direct rich body blocks use the wider centered page frame.
 The outline is a centered native disclosure; no asymmetric reading rail narrows or shifts prose.
+
+The reading body resolves its ordinary text measure to a shared `42.5rem` length.
+Headings, paragraphs, lists and rules inherit that same length rather than recomputing a `ch` measure against each element's font.
+Rich media keeps the wider page frame, and blockquote surfaces extend four rem beyond the text measure while containing their prose.
