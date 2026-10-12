@@ -24,7 +24,7 @@ Local images/videos are inventoried independently of article references.
 - All 11 real tag archives exist; there are no published tag pagination pages.
 - `/feed.xml` is Atom with the newest 10 posts, whose identifiers are the exact extensionless canonical URLs.
 - `/atom.xml` is RSS with all 13 posts; preserve its actual item GUIDs and timestamps.
-- Both 2026 posts publish at `2026-08-12T01:00:00+00:00`; historical dates must retain their original instants.
+- Ferry publishes at `2026-08-12T01:00:00+00:00`, and Windows Registry at `2026-08-12T00:30:00+00:00`; historical dates must retain their original instants.
 - GitHub Pages API confirms the main repository publishes `gh-pages` at `/`, with `ajatprabha.in` and HTTPS enabled.
 
 ## Isolated rebuild
@@ -34,6 +34,8 @@ Image digest: `sha256:bcaad4dfd52b4805e9f8c5205be5aadb8c206813199a9aeae13793a93f
 `bundle install` failed because dependency resolution selects `ffi 1.17.4`, which requires Ruby 3 or later.
 The legacy repository has no committed Gemfile.lock.
 A second attempt uses a throwaway copy with `gem "ffi", "< 1.17"` and Bundler's `force_ruby_platform`; this is a capture runtime adjustment, not a production change.
+Run `sh scripts/legacy-build.sh /tmp/ajat-legacy-rebuilt` to reproduce the isolated build.
+The command mounts the checkout read-only and installs dependencies in a disposable container.
 The adjusted isolated rebuild succeeded with Jekyll `3.8.7`.
 Its 13 post metadata/heading/media records, both feed entry records, archive routes, and all image/video hashes exactly match the published capture.
 Existing Ruby/Jekyll source and production workflow remain untouched.
