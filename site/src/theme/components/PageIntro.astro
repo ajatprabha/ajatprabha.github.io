@@ -1,12 +1,14 @@
 ---
 interface Props {
   title: string;
+  headingLevel?: 1 | 2;
   variant?: "home" | "compact";
 }
-const { title, variant = "compact" } = Astro.props;
+const { title, variant = "compact", headingLevel = 1 } = Astro.props;
+const Heading = headingLevel === 1 ? "h1" : "h2";
 ---
 
 <div class:list={["page-intro", variant === "home" && "home-intro"]}>
-  <h1>{title}</h1>
+  <Heading>{title}</Heading>
   <slot />
 </div>

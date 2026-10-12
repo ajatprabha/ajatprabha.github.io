@@ -2,13 +2,15 @@
 import type { ArticleSummary } from "../../lib/types";
 interface Props {
   article: ArticleSummary;
+  headingLevel?: 1 | 2;
 }
-const { article } = Astro.props;
+const { article, headingLevel = 1 } = Astro.props;
+const Heading = headingLevel === 1 ? "h1" : "h2";
 ---
 
 <article class="article-layout">
   <header class="article-header">
-    <h1>{article.title}</h1>
+    <Heading>{article.title}</Heading>
     <slot name="metadata" />
   </header>
   {Astro.slots.has("outline") && (

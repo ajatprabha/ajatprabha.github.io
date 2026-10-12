@@ -34,7 +34,7 @@ const project: ProjectSummary = {
 ---
 
 <div class="reference-grid">
-  <ArticleLayout article={article}>
+  <ArticleLayout article={article} headingLevel={2}>
     <Metadata slot="metadata" publishedAt={article.publishedAt}>
       <TagLink tag="Fixture" href="#reference-controls" />
     </Metadata>
@@ -69,7 +69,7 @@ const project: ProjectSummary = {
     />
     <CodeBlock code="Plain code has the same containment." variant="plain" />
     <div slot="related">
-      <h2>Related fixture</h2>
+      <h3>Related fixture</h3>
       <ArticleRow article={article} />
     </div>
   </ArticleLayout>
@@ -92,9 +92,9 @@ const project: ProjectSummary = {
       />
     </div>
   </Section>
-  <ProjectLayout project={project}>
+  <ProjectLayout project={project} headingLevel={2}>
     <Metadata slot="metadata" status="Review fixture" />
-    <h2 id="project-fixture">A project with omitted optional regions</h2>
+    <h3 id="project-fixture">A project with omitted optional regions</h3>
     <p>
       The same metadata piece appears in both layouts. This project omits
       previews, outlines and related content.
@@ -139,10 +139,18 @@ const project: ProjectSummary = {
       These are review fixtures for component coverage, separate from real site
       content.
     </p>
-    <PageIntro title="Home introduction fixture" variant="home">
+    <PageIntro
+      title="Home introduction fixture"
+      variant="home"
+      headingLevel={2}
+    >
       <p>A concise home introduction.</p>
     </PageIntro>
-    <PageIntro title="Compact introduction fixture" variant="compact">
+    <PageIntro
+      title="Compact introduction fixture"
+      variant="compact"
+      headingLevel={2}
+    >
       <p>A concise index introduction.</p>
     </PageIntro>
     <div class="prose">
