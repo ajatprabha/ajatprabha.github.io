@@ -17,7 +17,8 @@ for (const [collection, schema] of [['projects', projectSchema], ['writing', wri
 for (const {file,data,source} of writing) {
  for (const id of data.projectIds) if (!projects.has(id)) throw new Error(`${file}: unknown project ${id}`);
  if (/\{%|\{\{|<script[^>]+gist\.github/.test(source)) throw new Error(`${file}: unconverted remote or Liquid markup`);
- for (const path of source.matchAll(/(?:src=["']|\]\()(\/assets\/[^"'\s)]+)/g)) await access(`${site}/..${decodeURIComponent(path[1].split('#')[0])}`);
+ const paths = [...source.matchAll(/src=["'](\/assets\/[^"']+)["']/g), ...source.matchAll(/\]\((\/assets\/[^)]+)\)/g)];
+ for (const path of paths) await access(`${site}/..${decodeURIComponent(path[1].split('#')[0])}`);
 }
 console.log(`Validated schema, unique routes, project references and local media for ${writing.length} writing entries.`);
 if (!writing.length) console.log('Foundation fixture stage: historical source parity is not yet covered.');
