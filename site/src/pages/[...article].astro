@@ -7,7 +7,7 @@ import { site, navigation } from "../data/site";
 import {
   SiteShell,
   ArticleLayout,
-  ArticleRow,
+  ArticleCard,
   TableOfContents,
 } from "../theme";
 import { metadata, formatDate } from "./_metadata";
@@ -80,7 +80,7 @@ const pageMetadata = metadata(
     }
     {
       article.cover && (
-        <figure>
+        <figure slot="cover">
           <img
             src={article.cover.src}
             alt={article.cover.alt}
@@ -95,9 +95,11 @@ const pageMetadata = metadata(
       related.length > 0 && (
         <div slot="related">
           <h2>Related writing</h2>
-          {related.map((other) => (
-            <ArticleRow article={toArticleSummary(other)} />
-          ))}
+          <div class="article-card-grid">
+            {related.map((other) => (
+              <ArticleCard article={toArticleSummary(other)} />
+            ))}
+          </div>
         </div>
       )
     }

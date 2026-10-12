@@ -8,7 +8,7 @@ import {
   toArticleSummary,
 } from "../../lib/content";
 import { site, navigation } from "../../data/site";
-import { SiteShell, ProjectLayout, ArticleRow } from "../../theme";
+import { SiteShell, ProjectLayout, ArticleCard } from "../../theme";
 import { metadata } from "../_metadata";
 export async function getStaticPaths() {
   return (await getProjects()).map((entry) => ({
@@ -61,9 +61,11 @@ const related = (await getWriting()).filter((article) =>
       related.length > 0 && (
         <section slot="related">
           <h2>Related writing</h2>
-          {related.map((article) => (
-            <ArticleRow article={toArticleSummary(article)} />
-          ))}
+          <div class="article-card-grid">
+            {related.map((article) => (
+              <ArticleCard article={toArticleSummary(article)} />
+            ))}
+          </div>
         </section>
       )
     }
