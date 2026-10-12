@@ -217,6 +217,9 @@ test("representative media/code/table articles stay contained and load local res
   for (const path of fixtures) {
     await page.goto(path);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(page.locator(".article-header")).not.toContainText("by Ajat Prabha");
+    await expect(page.locator(".article-header time")).toBeVisible();
+    await expect(page.getByRole("list", { name: "Tags", exact: true })).toBeVisible();
     await page.evaluate(async () => {
       await document.fonts.ready;
     });

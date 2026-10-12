@@ -55,11 +55,10 @@ const pageMetadata = metadata(
 >
   <ArticleLayout article={article}>
     <div slot="metadata">
-      <time datetime={article.publishedAt}
-        >{formatDate(article.publishedAt)}</time
-      ><span> by <a href="/author/ajatprabha/">Ajat Prabha</a></span><ul
-        aria-label="Tags"
-      >
+      <time datetime={article.publishedAt}>
+        {formatDate(article.publishedAt)}
+      </time>
+      <ul aria-label="Tags">
         {
           article.tags.map((tag) => (
             <li>
