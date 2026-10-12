@@ -20,3 +20,9 @@ jobs:
       - run: npm --prefix site run build:review
       - run: npm --prefix site run validate:output
       - run: npm --prefix site run validate:feeds
+  legacy-compatibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sh scripts/legacy-build.sh /tmp/ajat-legacy-rebuilt
+      - run: python3 scripts/legacy-capture.py /tmp/ajat-legacy-rebuilt --provenance 'PR isolated build'
