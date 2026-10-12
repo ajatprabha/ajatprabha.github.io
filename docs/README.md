@@ -9,9 +9,9 @@ This phase provides the design and implementation plan for review; it does not i
 1. Read the [field journal theme specification](design/field-journal-theme.md) for the selected visual direction, theme contract, and reviewable design defaults.
 2. Read the [migration inventory](research/migration-inventory.md) for existing content, route, media, feed, and integration risks.
    Read the [launch decisions](design/launch-decisions.md) for the user's finalized feature scope, six projects, and sourced About copy.
-3. On the next planning stack layer, read `docs/plans/astro-migration.md` for the task DAG, ownership, proposed commands, implementation PR stack, verification, and rollback.
+3. Read the [Astro migration plan](plans/astro-migration.md) for the task DAG, ownership, proposed commands, implementation PR stack, verification, and rollback.
 
-The execution plan is added by the second planning PR; its link becomes available when that layer is included.
+The execution plan is the second layer of the planning PR stack.
 Future implementation begins after the planning/design PRs have been reviewed.
 The planning stack is separate from the future implementation stack.
 
