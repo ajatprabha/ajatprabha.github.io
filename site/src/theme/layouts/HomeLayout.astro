@@ -1,7 +1,9 @@
 <div class="home-layout">
-  <div class="home-intro">
-    <slot name="intro" />
-  </div>
+  {Astro.slots.has("intro") && (
+    <div class="home-intro">
+      <slot name="intro" />
+    </div>
+  )}
   <section aria-label="Recent writing">
     <slot name="writing" />
   </section>

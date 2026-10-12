@@ -5,7 +5,6 @@ import {
   ArticleRow,
   ArticleCard,
   FeaturedArticle,
-  HomeHero,
   ProjectCard,
   Section,
   Figure,
@@ -46,17 +45,6 @@ const project: ProjectSummary = {
 ---
 
 <div class="reference-grid">
-  <HomeHero
-    title="Image-led introduction fixture"
-    headingLevel={2}
-    image={{ src: "/assets/images/blog-cover.jpg", alt: "" }}
-  >
-    <span slot="eyebrow">Engineering, projects, and life</span>
-    <p>A concise introduction on the original site photograph.</p>
-    <Action slot="actions" href="#main">
-      Explore writing
-    </Action>
-  </HomeHero>
   <Section title="Image-led writing compositions">
     <FeaturedArticle article={imageArticle} />
     <div class="article-card-grid">
