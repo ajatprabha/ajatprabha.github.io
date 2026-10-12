@@ -1,0 +1,33 @@
+---
+import type { Cover } from "../../lib/types";
+interface Props {
+  image: Cover;
+  title: string;
+  headingLevel?: 1 | 2;
+}
+const { image, title, headingLevel = 1 } = Astro.props;
+const Heading = headingLevel === 1 ? "h1" : "h2";
+---
+
+<section class="home-hero">
+  <img
+    class="home-hero-image"
+    src={image.src}
+    alt={image.alt}
+    width={image.width}
+    height={image.height}
+    fetchpriority="high"
+  />
+  <div class="home-hero-content">
+    <div class="home-hero-eyebrow">
+      <slot name="eyebrow" />
+    </div>
+    <Heading>{title}</Heading>
+    <div class="home-hero-introduction">
+      <slot />
+    </div>
+    <div class="home-hero-actions">
+      <slot name="actions" />
+    </div>
+  </div>
+</section>

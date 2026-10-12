@@ -11,9 +11,12 @@ Writing sorts newest first then stable ID; projects follow `data/site.ts` select
 | SiteShell | site, navigation, metadata, optional activeSection | default, head, footer |
 | HomeLayout | none | intro, projects, writing, note |
 | IndexLayout | none | intro, controls, entries, pagination |
-| ArticleLayout | article: ArticleSummary | default body, metadata, outline, related |
+| ArticleLayout | article: ArticleSummary | default body, metadata, outline, cover, related |
 | ProjectLayout | project: ProjectSummary | default body, metadata, preview, related |
-| ArticleRow | article: ArticleSummary | none |
+| ArticleRow | article: ArticleSummary, optional headingLevel: 2 or 3 | none |
+| HomeHero | image: Cover, title, optional headingLevel: 1 or 2 | default introduction, eyebrow, actions |
+| FeaturedArticle | article: ArticleSummary, optional headingLevel: 2 or 3 | none |
+| ArticleCard | article: ArticleSummary, optional headingLevel: 2 or 3 | none |
 | ProjectCard | project: ProjectSummary | default |
 
 The theme does not query content or infer slugs.
@@ -33,3 +36,13 @@ Identity layouts and PageIntro accept a finite `headingLevel: 1 | 2`, defaulting
 The review route provides its own single h1 and composes identity demos with level 2.
 ArticleRow and ProjectCard accept `headingLevel: 2 | 3`, defaulting to 3 for entries beneath titled sections.
 Index and archive callers use level 2 for entries immediately beneath the page introduction.
+
+The image-led review retains original cover assets on the homepage, writing grids, archive thumbnails and related stories.
+`HomeLayout` places intro, writing, projects and note in that order.
+Routes own `article-card-grid` composition and choose entries, while individual cards own their media and metadata presentation.
+`ArticleMedia` and `ArticleDetails` are internal shared primitives, not exported theme APIs.
+Image links are hidden from the accessibility tree and keyboard order because each card's title is its descriptive navigation link.
+Missing covers produce a deliberate text card rather than placeholder artwork.
+The hero and page identity are centered, and prose remains left-aligned within a centered reading column.
+The article cover slot and direct rich body blocks use the wider centered page frame.
+The outline is a centered native disclosure; no asymmetric reading rail narrows or shifts prose.

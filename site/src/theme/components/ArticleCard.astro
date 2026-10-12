@@ -1,0 +1,24 @@
+---
+import type { ArticleSummary } from "../../lib/types";
+import ArticleMedia from "./ArticleMedia.astro";
+import ArticleDetails from "./ArticleDetails.astro";
+interface Props {
+  article: ArticleSummary;
+  headingLevel?: 2 | 3;
+}
+const { article, headingLevel = 3 } = Astro.props;
+const Heading = headingLevel === 2 ? "h2" : "h3";
+---
+
+<article
+  class:list={["article-card", { "article-card--text": !article.cover }]}
+>
+  <ArticleMedia article={article} />
+  <div class="article-card-content">
+    <ArticleDetails article={article} />
+    <Heading>
+      <a href={article.href}>{article.title}</a>
+    </Heading>
+    {article.description && <p>{article.description}</p>}
+  </div>
+</article>

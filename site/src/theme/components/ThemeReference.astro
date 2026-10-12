@@ -3,6 +3,9 @@ import {
   ArticleLayout,
   ProjectLayout,
   ArticleRow,
+  ArticleCard,
+  FeaturedArticle,
+  HomeHero,
   ProjectCard,
   Section,
   Figure,
@@ -34,6 +37,38 @@ const project: ProjectSummary = {
 ---
 
 <div class="reference-grid">
+  <HomeHero
+    title="Image-led introduction fixture"
+    headingLevel={2}
+    image={{ src: "/assets/images/blog-cover.jpg", alt: "" }}
+  >
+    <span slot="eyebrow">Engineering, projects, and life</span>
+    <p>A concise introduction on the original site photograph.</p>
+    <Action slot="actions" href="#main">
+      Explore writing
+    </Action>
+  </HomeHero>
+  <Section title="Image-led writing compositions">
+    <FeaturedArticle article={article} />
+    <div class="article-card-grid">
+      <ArticleCard article={article} />
+      <ArticleCard
+        article={{
+          ...article,
+          title: "Writing without a cover",
+          href: "/writing/",
+          cover: undefined,
+        }}
+      />
+      <ArticleCard
+        article={{
+          ...article,
+          title:
+            "A deliberately long article heading tests narrow image card wrapping and reading order",
+        }}
+      />
+    </div>
+  </Section>
   <ArticleLayout article={article} headingLevel={2}>
     <Metadata slot="metadata" publishedAt={article.publishedAt}>
       <TagLink tag="Fixture" href="#reference-controls" />
@@ -70,9 +105,28 @@ const project: ProjectSummary = {
     <CodeBlock code="Plain code has the same containment." variant="plain" />
     <div slot="related">
       <h3>Related fixture</h3>
-      <ArticleRow article={article} />
+      <div class="article-card-grid">
+        <ArticleCard article={article} />
+        <ArticleCard
+          article={{
+            ...article,
+            cover: undefined,
+            title: "Related writing without a cover",
+          }}
+        />
+      </div>
     </div>
   </ArticleLayout>
+  <Section title="Archive row compositions">
+    <ArticleRow article={article} />
+    <ArticleRow
+      article={{
+        ...article,
+        cover: undefined,
+        title: "Archive writing without a cover",
+      }}
+    />
+  </Section>
   <Section title="Entry compositions" variant="ruled">
     <div class="project-grid">
       <ProjectCard project={project} />

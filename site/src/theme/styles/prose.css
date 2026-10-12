@@ -158,3 +158,21 @@
   margin: 0;
   width: 100%;
 }
+
+/* Reading and media share a centered axis; rich blocks use the wider page frame. */
+.reading-body > * {
+  max-width: min(100%, var(--width-reading));
+  margin-inline: auto;
+}
+.reading-body > :is(figure, .gallery, pre, .table-scroll, table, .callout),
+.reading-body > p:has(> img),
+.reading-body > div:has(> .gallery) {
+  max-width: 100%;
+  width: 100%;
+}
+.reading-body > blockquote {
+  margin-inline: auto;
+}
+.reading-body > p > img:only-child {
+  width: 100%;
+}
