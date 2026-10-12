@@ -26,7 +26,7 @@ const article = toArticleSummary(entry);
 const { Content, headings } = await render(entry);
 const outline = entry.rendered?.html
   ? extractOutline(entry.rendered.html)
-  : headings.filter((heading) => heading.depth === 2);
+  : headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
 const related = (await getWriting())
   .filter(
     (other) =>
@@ -74,7 +74,7 @@ const pageMetadata = metadata(
         <TableOfContents
           slot="outline"
           headings={outline}
-          variant="disclosure"
+          variant="rail"
         />
       )
     }

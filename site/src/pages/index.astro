@@ -9,45 +9,30 @@ import {
 import {
   SiteShell,
   HomeLayout,
-  HomeHero,
   FeaturedArticle,
   ArticleCard,
   ProjectCard,
 } from "../theme";
-import { metadata, introduction } from "./_metadata";
+import { metadata } from "./_metadata";
 const [writing, projects] = await Promise.all([getWriting(), getProjects()]);
-const hero = {
-  src: "/assets/images/blog-cover.jpg",
-  alt: "",
-  width: 2000,
-  height: 666,
-};
 const [latest, ...recent] = writing;
+const featured = latest ? toArticleSummary(latest) : undefined;
 ---
 
 <SiteShell
   site={site}
   navigation={navigation}
-  metadata={metadata("Field journal", site.description, "/", { image: hero })}
+  metadata={metadata("Field journal", site.description, "/", { image: featured?.cover })}
 >
   <HomeLayout>
-    <HomeHero slot="intro" image={hero} title="Ajat Prabha">
-      <span slot="eyebrow">Engineering field journal</span>
-      <p>{introduction}</p>
-      <nav slot="actions" aria-label="Explore the site">
-        <a href="/writing/">Writing</a>
-        <a href="/projects/">Projects</a>
-        <a href="/about/">About me</a>
-      </nav>
-    </HomeHero>
     <div slot="writing">
-      <h2>Recent writing</h2>
-      {latest && <FeaturedArticle article={toArticleSummary(latest)} />}
+      <h1>Recent writing</h1>
+      {featured && <FeaturedArticle article={featured} headingLevel={2} />}
       <div class="article-card-grid">
         {
           recent
             .slice(0, 3)
-            .map((entry) => <ArticleCard article={toArticleSummary(entry)} />)
+            .map((entry) => <ArticleCard article={toArticleSummary(entry)} headingLevel={2} />)
         }
       </div>
       <a href="/writing/">All writing</a>
