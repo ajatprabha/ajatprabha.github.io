@@ -22,6 +22,7 @@ The planning stack is separate from the future implementation stack.
 | Authoring | Markdown in Git; no CMS | Selected |
 | Hosting | GitHub Pages and existing custom domain | Selected |
 | Theme ownership | Compact owned theme; no external theme fork | Selected |
+| Architecture | Composability across UI, content, routing, integrations, and tooling | Required |
 | Visual direction | Engineering field journal, balanced writing and projects | Selected |
 | Delivery | Planning/design PRs first | Selected |
 | Initial typography | IBM Plex Sans headings/UI, Source Serif 4 prose | Design default for PR review |

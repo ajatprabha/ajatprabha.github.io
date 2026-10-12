@@ -8,6 +8,7 @@ This document specifies the future theme; it does not implement application code
 
 The user selected a compact owned Astro theme, an engineering field journal identity, and a homepage balanced between writing and projects.
 The user requested planning/design PRs before application implementation.
+Composability is a core project requirement across presentation, content processing, routing, integrations, and tooling.
 No external base theme or starter fork supplies the theme interface.
 
 IBM Plex Sans with Source Serif 4, coordinated light/dark modes, and static SVG motifs are recommended defaults for review, rather than separately confirmed user choices.
@@ -28,10 +29,10 @@ Theme components do not query collections, infer route slugs, or read arbitrary 
 | Interface | Inputs | Responsibility |
 | --- | --- | --- |
 | SiteShell | Site identity, navigation, page metadata, active section, content slot | Shared document, navigation, footer, fonts, color-mode initialization |
-| HomeLayout | Intro slot, selected project summaries, recent article summaries, personal note slot | Balanced homepage composition |
-| IndexLayout | Title, description, entry summaries, optional tag/navigation controls | Writing, projects, and compatible archive presentation |
-| ArticleLayout | Title, publication date, optional updated date, tags, headings, related entries, body slot | Calm reading layout and optional TOC |
-| ProjectLayout | Name, summary, optional status, verified links, optional preview, related writing, body slot | Consistent project context and detail |
+| HomeLayout | Intro, projects, writing, and personal note slots | Balanced homepage regions assembled by the route |
+| IndexLayout | Introduction, controls, entries, and pagination slots | Shared index structure without querying or choosing entries |
+| ArticleLayout | Article identity/metadata, body slot, optional outline and related-content slots | Calm reading structure; the caller assembles optional features |
+| ProjectLayout | Project identity/metadata, body slot, optional preview and related-writing slots | Consistent project structure; the caller assembles optional features |
 | Content primitives | Typed props, finite variants, content slots where needed | Reusable media, entries, controls, and article presentation |
 
 Define normalized summary types once and share them with routes.
@@ -43,6 +44,42 @@ Do not expose raw style props or open-ended variant strings as the theme API.
 Shared site configuration controls identity, navigation, footer links, and optional features.
 Publishing a normal article or project requires Markdown and metadata, without layout changes or agent-authored components.
 MDX remains optional for a future article whose explanation benefits from a supported interactive component.
+
+## Composition as a core requirement
+
+The source preference is Ajat's composition guide at `/home/ap/workspace/fenmo/frontend/docs/COMPONENT_COMPOSITION.md`, supplied during planning, and the referenced [Composition Is All You Need talk](https://www.youtube.com/watch?v=4KvbVq3Eg5w).
+These requirements are recorded here so implementation does not depend on access to that separate repository or a video transcript.
+The guide's React examples express the principle; native Astro composition remains the default implementation.
+
+Customize by assembling, ordering, replacing, or omitting focused pieces, rather than adding boolean switches to a monolithic layout.
+Use Astro's default and named slots for structural extension points and typed props for each piece's data.
+Routes assemble shared sections, entry lists, metadata, media previews, and optional controls inside layout slots.
+Layouts own consistent structure and accessibility; child pieces own their presentation within that structure.
+Keep optional TOCs, related writing, search controls, and comments independently composable instead of adding `showToc`, `showRelated`, `enableSearch`, or `showComments` flags to a universal layout.
+Schema booleans such as an article's `draft` status are valid data, not structural UI switches.
+
+Finite visual variants remain useful when they describe one coherent presentation dimension, such as `Section`'s surface treatment.
+Distinct structures with different semantics, such as article rows and project cards, should have explicit focused entry modules sharing internal primitives.
+Treat the `ContentEntry` variants below as the supported presentation inventory, not a requirement to implement one variant-switching component.
+`ProjectPreview`'s kind selects actual preview data; optional placement is decided by composition.
+Do not expose arbitrary CSS, unrestricted markup, or open-ended variants as substitutes for documented extension points.
+
+Keep content selection and normalization separate from HTML rendering.
+Compose import transformations and validation from focused operations with explicit inputs and outputs; keep filesystem, network, and publishing side effects in their entry-point adapters.
+Share route and canonical helpers across pages, feeds, and sitemap generation rather than repeating URL logic.
+Compose CLI checks and CI jobs from the same documented commands rather than implementing validation twice.
+Prefer explicit imports and a small stable interface; do not create a generic plugin registry, provider tree, or pass-through wrapper for every function.
+Introduce a replaceable adapter where a real requirement varies, such as audited comment behavior or legacy content conversion.
+
+Interactive pieces own their minimal state and actions.
+Share state through a common owner only when multiple pieces actually coordinate.
+If a future client island is justified, its UI composition must remain independent of its state/storage implementation.
+Static layouts must not acquire client hydration just to mimic a React provider pattern.
+
+The reference fixtures must demonstrate the same pieces in at least two actual site contexts, including omitted optional regions.
+For example, article and project layouts both compose shared metadata and related-writing pieces, while a text-only project omits its preview.
+Review additions by asking whether the requirement can be expressed through existing pieces before adding a flag or a new abstraction.
+Verify the composed result preserves heading order, landmarks, keyboard behavior, styling tokens, and functioning navigation without JavaScript.
 
 ## Color tokens
 
