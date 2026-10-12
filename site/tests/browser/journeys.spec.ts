@@ -135,6 +135,7 @@ test("representative media/code/table articles stay contained and load local res
       .locator("img")
       .evaluateAll((images) =>
         images
+          .filter((image): image is HTMLImageElement => image instanceof HTMLImageElement)
           .filter(
             (image) =>
               image.loading !== "lazy" &&
@@ -147,6 +148,10 @@ test("representative media/code/table articles stay contained and load local res
     if (path === article) {
       await expect(page.locator("pre").first()).toBeVisible();
       await screenshot(page, `${info.project.name}-ferry`);
+    }
+    for (const image of await page.locator(".gallery img").all()) {
+      await image.scrollIntoViewIfNeeded();
+      await expect.poll(() => image.evaluate(element => element instanceof HTMLImageElement && element.complete && element.naturalWidth > 0)).toBe(true);
     }
     for (const table of await page.locator("main table").all()) {
       expect(
@@ -166,6 +171,7 @@ test("representative media/code/table articles stay contained and load local res
       for (const video of await page.locator("video").all()) {
         await expect(video).toHaveAttribute("controls", "");
         await expect(video).toHaveAttribute("preload", "metadata");
+        await expect.poll(() => video.evaluate(element => element instanceof HTMLVideoElement ? element.readyState : 0)).toBeGreaterThanOrEqual(1);
       }
       const sizes = await page
         .locator("video")
