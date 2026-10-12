@@ -1,4 +1,4 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Page, type Locator } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 const article = "/2026/08/12/ferry-xload-learns-to-write";
@@ -18,6 +18,39 @@ async function containment(page: Page) {
     "Page must contain wide content",
   ).toBe(true);
 }
+async function loadedImage(image: Locator) {
+  await image.scrollIntoViewIfNeeded();
+  await expect
+    .poll(() =>
+      image.evaluate(
+        (element) =>
+          element instanceof HTMLImageElement &&
+          element.complete &&
+          element.naturalWidth > 0,
+      ),
+    )
+    .toBe(true);
+}
+async function centeredArticle(page: Page, viewportWidth: number) {
+  const geometry = await page
+    .locator(".prose > p")
+    .first()
+    .evaluate((paragraph) => {
+      const prose = paragraph.getBoundingClientRect();
+      const cover = document
+        .querySelector(".article-cover img")
+        ?.getBoundingClientRect();
+      return {
+        center: prose.x + prose.width / 2,
+        width: prose.width,
+        coverWidth: cover?.width,
+      };
+    });
+  expect(Math.abs(geometry.center - viewportWidth / 2)).toBeLessThanOrEqual(2);
+  if (viewportWidth >= 1000) {
+    expect(geometry.coverWidth).toBeGreaterThan(geometry.width);
+  }
+}
 async function screenshot(page: Page, name: string) {
   const directory =
     process.env.BROWSER_EVIDENCE_DIR ?? "/tmp/ajat-astro-evidence";
@@ -34,7 +67,7 @@ test("home to writing/article and projects/detail, metadata and optional composi
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Notes from building things.",
+    "Ajat Prabha",
   );
   await expect(
     page.getByRole("heading", { level: 2, name: "Selected projects" }),
@@ -43,6 +76,14 @@ test("home to writing/article and projects/detail, metadata and optional composi
     page.getByRole("heading", { level: 2, name: "Recent writing" }),
   ).toBeVisible();
   await containment(page);
+  const hero = page.locator(".home-hero img");
+  await expect(hero).toHaveAttribute("src", "/assets/images/blog-cover.jpg");
+  await loadedImage(hero);
+  await loadedImage(page.locator(".featured-article img"));
+  await expect(page.locator(".article-card-grid img")).toHaveCount(3);
+  for (const image of await page.locator(".article-card-grid img").all()) {
+    await loadedImage(image);
+  }
   const palette = await page.evaluate(() => {
     const style = getComputedStyle(document.body);
     const luminance = (color: string) => {
@@ -77,6 +118,8 @@ test("home to writing/article and projects/detail, metadata and optional composi
   await expect(page).toHaveURL(/\/writing\/?$/);
   await expect(page.locator("main h2").first()).toBeVisible();
   await expect(page.locator("main h3")).toHaveCount(0);
+  await expect(page.locator(".article-card-grid img")).toHaveCount(13);
+  await loadedImage(page.locator(".article-card-grid img").first());
   await page
     .getByRole("link", { name: "Ferry: xload Learns to Write", exact: true })
     .click();
@@ -87,6 +130,15 @@ test("home to writing/article and projects/detail, metadata and optional composi
     "href",
     `https://ajatprabha.in${article}`,
   );
+  const relatedSection = page.getByRole("region", {
+    name: "Related writing",
+    exact: true,
+  });
+  await expect(relatedSection.locator(".article-card-grid img")).toHaveCount(3);
+  for (const image of await relatedSection.locator(".article-card-grid img").all()) {
+    await loadedImage(image);
+  }
+  await centeredArticle(page, info.project.use.viewport!.width);
   const contents = page
     .locator("details")
     .filter({ has: page.getByText("On this page", { exact: true }) });
@@ -105,6 +157,10 @@ test("home to writing/article and projects/detail, metadata and optional composi
     page.getByRole("link", { name: "Source code", exact: true }),
   ).toHaveAttribute("href", "https://github.com/gojek/darkroom");
   await expect(page.locator('aside[aria-label="On this page"]')).toHaveCount(0);
+  await expect(page.locator(".article-card-grid img")).toHaveCount(4);
+  for (const image of await page.locator(".article-card-grid img").all()) {
+    await loadedImage(image);
+  }
   await page.goto("/about/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("About");
   await expect(page.locator("main")).toContainText("Kong");
@@ -167,6 +223,15 @@ test("representative media/code/table articles stay contained and load local res
     }
     if (path.includes("diy-sound")) {
       await expect(page.locator(".gallery")).toHaveCount(2);
+      if (info.project.use.viewport!.width >= 1000) {
+        const galleryWidth = await page.locator(".gallery").first().evaluate(
+          (gallery) => gallery.getBoundingClientRect().width,
+        );
+        const proseWidth = await page.locator(".prose > p").first().evaluate(
+          (paragraph) => paragraph.getBoundingClientRect().width,
+        );
+        expect(galleryWidth).toBeGreaterThan(proseWidth);
+      }
       expect(await page.locator("video").count()).toBe(2);
       for (const video of await page.locator("video").all()) {
         await expect(video).toHaveAttribute("controls", "");
@@ -250,6 +315,9 @@ test("core journeys and native article contents work with JavaScript disabled", 
   });
   const page = await context.newPage();
   await page.goto(process.env.PREVIEW_URL ?? "http://127.0.0.1:4321");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Ajat Prabha");
+  await loadedImage(page.locator(".home-hero img"));
+  await loadedImage(page.locator(".featured-article img"));
   await page.getByRole("link", { name: "All writing", exact: true }).click();
   await page
     .getByRole("link", { name: "Ferry: xload Learns to Write", exact: true })
@@ -268,4 +336,29 @@ test("core journeys and native article contents work with JavaScript disabled", 
   await page.getByRole("link", { name: "Darkroom", exact: true }).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Darkroom");
   await context.close();
+});
+test("image-less writing remains readable and navigable", async ({ page }) => {
+  const response = await page.request.get("/theme-reference/");
+  test.skip(
+    response.status() === 404,
+    "Reference fixture is excluded from production builds",
+  );
+  expect(response.ok()).toBe(true);
+  await page.goto("/theme-reference/");
+  const fallback = page.locator(".article-card").filter({
+    has: page.getByRole("heading", {
+      name: "Writing without a cover",
+      exact: true,
+    }),
+  });
+  await expect(fallback).toBeVisible();
+  await expect(fallback.locator("img")).toHaveCount(0);
+  const title = fallback.getByRole("link", {
+    name: "Writing without a cover",
+    exact: true,
+  });
+  await expect(title).toHaveAttribute("href", "/writing/");
+  await title.click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Writing");
+  await containment(page);
 });
