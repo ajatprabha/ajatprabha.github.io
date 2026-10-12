@@ -682,7 +682,7 @@ time,
   .toc-rail a {
     display: flex;
     align-items: center;
-    min-height: 22px;
+    min-height: 28px;
     position: relative;
     width: 3rem;
     text-decoration: none;
