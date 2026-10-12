@@ -66,9 +66,9 @@ test("home to writing/article and projects/detail, metadata and optional composi
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Ajat Prabha",
-  );
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Ajat Prabha", exact: true }),
+  ).toBeVisible();
   await expect(
     page.getByRole("heading", { level: 2, name: "Selected projects" }),
   ).toBeVisible();
@@ -315,7 +315,9 @@ test("core journeys and native article contents work with JavaScript disabled", 
   });
   const page = await context.newPage();
   await page.goto(process.env.PREVIEW_URL ?? "http://127.0.0.1:4321");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Ajat Prabha");
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Ajat Prabha", exact: true }),
+  ).toBeVisible();
   await loadedImage(page.locator(".home-hero img"));
   await loadedImage(page.locator(".featured-article img"));
   await page.getByRole("link", { name: "All writing", exact: true }).click();
