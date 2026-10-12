@@ -6,6 +6,7 @@ import { tagPath } from '../lib/routes';
 import { site, navigation } from '../data/site';
 import { SiteShell, ArticleLayout, ArticleRow } from '../theme';
 import { metadata, formatDate } from './_metadata';
+import { extractOutline } from './_outline';
 export async function getStaticPaths() {
   return (await getWriting()).map(entry => ({ params: { article: entry.data.route.slice(1) }, props: { entry } }));
 }
@@ -13,7 +14,7 @@ interface Props { entry: WritingEntry }
 const { entry } = Astro.props;
 const article = toArticleSummary(entry);
 const { Content, headings } = await render(entry);
-const outline = headings.filter(heading => heading.depth === 2);
+const outline = entry.rendered?.html ? extractOutline(entry.rendered.html) : headings.filter(heading => heading.depth === 2);
 const related = (await getWriting()).filter(other => other.id !== entry.id && other.data.tags.some(tag => entry.data.tags.includes(tag))).slice(0, 3);
 const pageMetadata = metadata(article.title, entry.data.description, article.href, { type: 'article', publishedAt: article.publishedAt, updatedAt: entry.data.updatedAt, image: article.cover });
 ---
