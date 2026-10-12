@@ -2,7 +2,8 @@
 
 Captured on 12 October 2026 from the published `gh-pages` commit `1d98a4360478f467a2dd2427418f295c059986ba`.
 `published-manifest.json` is actual generated output evidence, rather than routes inferred from Markdown filenames.
-The publication predates the planning tip and is the last-known production baseline; independent rebuilt output is recorded separately when available.
+The publication predates the planning tip and is the last-known production baseline.
+`rebuilt-manifest.json` independently captures the planning-tip source rebuild.
 
 ## Reproduction
 
@@ -33,6 +34,8 @@ Image digest: `sha256:bcaad4dfd52b4805e9f8c5205be5aadb8c206813199a9aeae13793a93f
 `bundle install` failed because dependency resolution selects `ffi 1.17.4`, which requires Ruby 3 or later.
 The legacy repository has no committed Gemfile.lock.
 A second attempt uses a throwaway copy with `gem "ffi", "< 1.17"` and Bundler's `force_ruby_platform`; this is a capture runtime adjustment, not a production change.
+The adjusted isolated rebuild succeeded with Jekyll `3.8.7`.
+Its 13 post metadata/heading/media records, both feed entry records, archive routes, and all image/video hashes exactly match the published capture.
 Existing Ruby/Jekyll source and production workflow remain untouched.
 Published-output evidence remains valid even when a current-source rebuild is blocked.
 
@@ -53,6 +56,7 @@ Sources: [main Pages API](https://api.github.com/repos/ajatprabha/ajatprabha.git
 All 13 published articles embed Disqus forum `ajat-prabha` with the same configured page URL `https://ajatprabha.in/` and identifier `Ajat Prabha`.
 These values were confirmed in generated HTML, including the Ferry article; they are not hypothetical source-only defaults.
 Comments may therefore belong to one shared thread, not independent article threads.
+The public forum embed script returned HTTP 200; an anonymous thread-list API request returned HTTP 403.
 No authenticated Disqus export or complete thread listing was available in this capture environment.
 Comment existence, count, and complete mappings remain unverified; do not interpret failed anonymous access as zero comments.
 No comments or third-party widget are added to the preview.
