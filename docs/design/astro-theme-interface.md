@@ -28,3 +28,8 @@ The coordinator-owned reference route is gated by `THEME_REFERENCE=1` during rev
 
 Image alt is required, with an empty string permitted for decorative images redundant with nearby context.
 Informative images require meaningful descriptions supplied by the content author.
+
+Identity layouts and PageIntro accept a finite `headingLevel: 1 | 2`, defaulting to 1 for ordinary pages.
+The review route provides its own single h1 and composes identity demos with level 2.
+ArticleRow and ProjectCard accept `headingLevel: 2 | 3`, defaulting to 3 for entries beneath titled sections.
+Index and archive callers use level 2 for entries immediately beneath the page introduction.
