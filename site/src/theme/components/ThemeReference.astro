@@ -80,7 +80,11 @@ const project: ProjectSummary = {
   </Section>
   <ArticleLayout article={article} headingLevel={2}>
     <Metadata slot="metadata" publishedAt={article.publishedAt}>
-      <TagLink tag="Fixture" href="#reference-controls" />
+      <ul aria-label="Tags">
+        <li>
+          <TagLink tag="Fixture" href="#reference-controls" />
+        </li>
+      </ul>
     </Metadata>
     <TableOfContents
       slot="outline"

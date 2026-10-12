@@ -171,7 +171,24 @@
   width: 100%;
 }
 .reading-body > blockquote {
+  width: min(100%, calc(var(--width-reading) + 4rem));
+  max-width: 100%;
+  margin: var(--space-8) auto;
+  padding: var(--space-6) var(--space-8);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-subtle);
+}
+.reading-body > blockquote > * {
+  max-width: var(--width-reading);
   margin-inline: auto;
+}
+.reading-body > blockquote > :last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 36rem) {
+  .reading-body > blockquote {
+    padding: var(--space-4) var(--space-6);
+  }
 }
 .reading-body > p > img:only-child {
   width: 100%;
