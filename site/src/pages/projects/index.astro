@@ -19,7 +19,7 @@ const projects = await getProjects();
   <IndexLayout
     ><div slot="intro">
       <h1>Projects</h1><p>Open-source tools and systems I've built.</p>
-    </div><div slot="entries">
+    </div><div slot="entries" class="project-grid">
       {
         projects.map((entry) => (
           <ProjectCard project={toProjectSummary(entry)} headingLevel={2} />
