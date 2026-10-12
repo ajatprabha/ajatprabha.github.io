@@ -29,6 +29,7 @@ Read these inputs before starting:
 | Publishing | Markdown committed to Git |
 | Hosting | GitHub Pages with the existing custom domain |
 | Theme | One compact, owned theme with documented interfaces |
+| Architecture | Composability across presentation, content, routing, integrations, and tooling |
 | Identity | Engineering field journal |
 | Homepage emphasis | Balanced writing and projects |
 | Delivery | Planning/design PR first, implementation afterward as a reviewed stack |
@@ -256,6 +257,9 @@ Minimum shared components and layouts:
 | Article styles | Code, tables, figures, galleries, callouts, native media and headings |
 
 Use the complete component and variant contracts from `docs/design/field-journal-theme.md` rather than treating this minimum list as a second API.
+Freeze documented named slots and normalized child-piece inputs alongside data types in F02.
+The listed layouts provide structural regions, while routes compose entry lists and optional controls into those regions.
+The `ContentEntry` inventory may be implemented as explicit article-row and project-card modules sharing primitives; do not force structurally distinct content into one switch-heavy module.
 Route adapters normalize collection entries into summary/view props before invoking theme components.
 Do not pass raw collection entries, arbitrary front matter, open-ended style props or collection-loading functions into the theme.
 Page composition controls which records appear and in what order.
@@ -265,6 +269,21 @@ Business/content selection belongs in `src/lib/` and typed site data, not CSS or
 Expose a theme reference page during development that shows every implemented variant, focus state, article content pattern, and approved color mode.
 Exclude this page from production output unless deliberately approved for publication.
 Document how to add variants, update tokens, publish content, and perform dependency upgrades.
+
+### Composability across the project
+
+Apply the composition requirements in the theme specification to every implementation agent's owned area.
+Content importers compose deterministic transformations with filesystem and network access handled by entry-point adapters.
+Routes, feeds, and sitemap adapters reuse the same normalized content and canonical helpers.
+Pages assemble focused pieces through layout slots instead of growing layout flags or duplicating page-specific systems.
+Interactions own state locally unless real coordination requires a shared owner; static composition must not require React or client hydration.
+Asset preparation, output validation, and CI reuse focused modules and the same command entry points rather than parallel implementations.
+Use explicit interfaces and imports, with replaceable adapters for actual variation; avoid speculative registries, configurable mega-components, and wrappers that add no behavior.
+
+F02's contract review includes named slots, permitted data/visual variants, and two representative compositions.
+T02's reference fixtures and R01's pages must demonstrate reuse across real contexts and omission of optional regions without structural boolean props.
+V02 reviews composability against those examples, including content/tooling seams, alongside visual consistency and migration fidelity.
+Record this criterion in each implementation agent's handoff so parallel work preserves one compositional system.
 
 ## Executable task DAG
 
@@ -462,6 +481,7 @@ Keep Ruby/Jekyll files and a documented restore workflow available until the sep
 | Accessibility | Keyboard navigation, visible focus, skip link, semantic landmarks, labels and selected mode contrast |
 | Responsive behavior | No horizontal page overflow; code/tables contain their own overflow; portrait and landscape media fit |
 | Progressive enhancement | Navigation and content work without JavaScript; reduced motion is respected |
+| Composability | Shared pieces work in actual article/project contexts; optional regions are assembled or omitted; processing and checks reuse explicit modules without duplicate implementations |
 | Artifact integrity | `CNAME`, all intended static routes, media and 404 are in the published directory |
 
 Validate representative pages for Ferry, Windows Registry, Kubernetes Operator, week-two Gojek, TDD and DIY Sound System.
