@@ -1,7 +1,7 @@
 import { z } from 'astro/zod';
 const timestamp = z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/).refine(value => Number.isFinite(Date.parse(value)), 'Invalid timestamp');
 const localPath = z.string().regex(/^\/(?!\/)[^?#]+$/).refine(value => !value.split('/').includes('..'), 'Unsafe local path');
-export const coverSchema = z.object({ src: localPath, alt: z.string().min(1), width: z.number().positive().optional(), height: z.number().positive().optional() });
+export const coverSchema = z.object({ src: localPath, alt: z.string(), width: z.number().positive().optional(), height: z.number().positive().optional() });
 export const writingSchema = z.object({ title: z.string().min(1), description: z.string().min(1), publishedAt: timestamp, route: localPath, tags: z.array(z.string().min(1)).default([]), author: z.literal('ajatprabha').default('ajatprabha'), updatedAt: timestamp.optional(), cover: coverSchema.optional(), draft: z.boolean().default(false), featured: z.boolean().default(false), projectIds: z.array(z.string()).default([]), legacySourceId: z.string().optional() });
 export const projectSchema = z.object({ title: z.string().min(1), description: z.string().min(1), status: z.enum(['active','maintained','archived','completed']).optional(), tags: z.array(z.string()).default([]), links: z.object({ source: z.url({ protocol: /^https$/ }).optional(), website: z.url({ protocol: /^https$/ }).optional(), documentation: z.url({ protocol: /^https$/ }).optional() }).default({}), cover: coverSchema.optional(), featured: z.boolean().default(false), startedAt: timestamp.optional(), updatedAt: timestamp.optional() });
 export const aboutSchema = z.object({ title: z.string().min(1), description: z.string().min(1) });

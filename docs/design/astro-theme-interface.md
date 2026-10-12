@@ -25,3 +25,6 @@ Contract changes require foundation owner coordination and affected callers must
 About is an ordinary Markdown collection with title and description, entry ID `profile`.
 The theme-owned reference fixture receives an article summary and the rendered Markdown body through its default slot.
 The coordinator-owned reference route is gated by `THEME_REFERENCE=1` during review builds and remains excluded from normal production output.
+
+Image alt is required, with an empty string permitted for decorative images redundant with nearby context.
+Informative images require meaningful descriptions supplied by the content author.
