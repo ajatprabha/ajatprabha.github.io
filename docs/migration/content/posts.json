@@ -1,0 +1,248 @@
+[
+  {
+    "source": "_posts/2017-12-12-sdlc-waterfall-vs-agile.md",
+    "route": "/2017/12/12/sdlc-waterfall-vs-agile",
+    "publishedAt": "2017-12-12T17:49:00+00:00",
+    "title": "Getting to know SDLC | Waterfall vs Agile Development",
+    "sourceBodySha256": "41768b972c41c01611e0ef4cbb6e22efe0f1612ad8977926e146a6ae3b155d91",
+    "convertedBodySha256": "9d5bf2cf8dc7e570f38af011ef737f590f53c706420065729fab06f30b58338c",
+    "headingIds": [
+      "requirement-analysis",
+      "design",
+      "development",
+      "testing",
+      "deployment",
+      "maintenance",
+      "sdlc-models",
+      "1-waterfall",
+      "2-agile-methodology",
+      "comparison"
+    ],
+    "liquidLinks": 1,
+    "gistOccurrences": 0
+  },
+  {
+    "source": "_posts/2017-12-20-tdd-why-bother.md",
+    "route": "/2017/12/20/tdd-why-bother",
+    "publishedAt": "2017-12-20T17:24:00+00:00",
+    "title": "TDD (Test Driven Development), why bother?",
+    "sourceBodySha256": "548cb0a4d9d1e9bf129e3098e32e85b99a4e706ede1dd2d98e9f4a2d2070d79a",
+    "convertedBodySha256": "0bee628e41bc002f5c945a84cc3369630b701c7c10a92e497184872b8fa127eb",
+    "headingIds": [
+      "what-is-tdd",
+      "the-three-laws-of-tdd",
+      "rgr-cycle",
+      "specificgeneric-cycle",
+      "now-lets-take-the-example-of-building-a-stack-class-using-tdd",
+      "stack-size-after-push-is-one",
+      "stack-size-is-zero-after-a-push-and-a-pop",
+      "stack-raises-underflow-error",
+      "stack-raises-overflow-error",
+      "pop-last-element-pushed-into-stack",
+      "true-lifo-operation",
+      "references"
+    ],
+    "liquidLinks": 1,
+    "gistOccurrences": 20
+  },
+  {
+    "source": "_posts/2018-05-27-first-week-at-gojek-bangalore.md",
+    "route": "/2018/05/27/first-week-at-gojek-bangalore",
+    "publishedAt": "2018-05-27T18:00:00+00:00",
+    "title": "Week 1 - Experience as an intern at GoJek",
+    "sourceBodySha256": "6c3ea3b8f407de26ef1877592366ccb62f6d43029c3f8bd57bc5dea9d24df3b0",
+    "convertedBodySha256": "8da094a999a86e531c7f6909da17730b962384b3ba74cfdf18a611ece0fe8795",
+    "headingIds": [
+      "day-1"
+    ],
+    "liquidLinks": 2,
+    "gistOccurrences": 0
+  },
+  {
+    "source": "_posts/2018-05-27-how-i-got-the-internship-at-gojek.md",
+    "route": "/2018/05/27/how-i-got-the-internship-at-gojek",
+    "publishedAt": "2018-05-27T16:00:00+00:00",
+    "title": "How I got the internship at GoJek",
+    "sourceBodySha256": "7e790928d3da5cffd82952dcae1dfdada6fe127d40e415528d4e0968625feb08",
+    "convertedBodySha256": "4059e5f1801e48275e9002f33a92abad1d0cb0ee88ff1b2727380831597df995",
+    "headingIds": [],
+    "liquidLinks": 1,
+    "gistOccurrences": 0
+  },
+  {
+    "source": "_posts/2018-06-03-second-week-at-gojek.md",
+    "route": "/2018/06/03/second-week-at-gojek",
+    "publishedAt": "2018-06-03T12:00:00+00:00",
+    "title": "Week 2 - Exploring Golang and the trip to Coorg",
+    "sourceBodySha256": "be0b53b85c02274605dc8e37cca886b4784718442dae1d4039e091c95a933304",
+    "convertedBodySha256": "3db39ec29602d65346938725482c492b12e86ff0edae75e1b680e931470859cd",
+    "headingIds": [
+      "day-1",
+      "weekend",
+      "rajas-seat",
+      "nisargadhama"
+    ],
+    "liquidLinks": 0,
+    "gistOccurrences": 2
+  },
+  {
+    "source": "_posts/2018-06-10-third-week-code-all-you-want.md",
+    "route": "/2018/06/10/third-week-code-all-you-want",
+    "publishedAt": "2018-06-10T12:00:00+00:00",
+    "title": "Week 3 - Lots of code and learning",
+    "sourceBodySha256": "80c6bedd044d0c5d7c37a6336cdca3b1a48eea932c3b551e4db77e15c7321601",
+    "convertedBodySha256": "156d8e0bdf85a6245893b40d7d14ab1942878c5fc19eadb86a6afac148b66731",
+    "headingIds": [
+      "day-1",
+      "day-2-3",
+      "day-4",
+      "learning-session",
+      "day-5"
+    ],
+    "liquidLinks": 2,
+    "gistOccurrences": 2
+  },
+  {
+    "source": "_posts/2018-06-17-load-testing-vegeta-and-trip-to-pudducherry.md",
+    "route": "/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry",
+    "publishedAt": "2018-06-17T12:00:00+00:00",
+    "title": "Week 4 - Load testing with Vegeta and trip to Puducherry",
+    "sourceBodySha256": "5a7e981482927d6105e1f70519bd74be36b327904cdc21a47e7dfab652ad910a",
+    "convertedBodySha256": "6f1ec3126079d859d19e2ee00977b1cc1884b407a3850a480d697150ce6bdf69",
+    "headingIds": [
+      "day-1",
+      "day-2-3",
+      "day-4-5",
+      "weekend"
+    ],
+    "liquidLinks": 2,
+    "gistOccurrences": 0
+  },
+  {
+    "source": "_posts/2020-06-24-k8s-operator-with-api-server-for-gui.md",
+    "route": "/2020/06/24/k8s-operator-with-api-server-for-gui",
+    "publishedAt": "2020-06-24T12:00:00+00:00",
+    "title": "Writing Kubernetes Operator with an API Server for Custom GUI",
+    "sourceBodySha256": "97a9c21e3d4bbcd59559468583f73c2b3324d95dc0e7658c3e78083c06d8517f",
+    "convertedBodySha256": "120e4cbe8252719e35b8b53d3674a7fa84a411c96a7d141f2a1316d5dfd3322e",
+    "headingIds": [
+      "background",
+      "why-make-an-operator",
+      "say-hello-to-operators-crd--controller",
+      "prepare-environment",
+      "setup",
+      "api-definition",
+      "modifying-resource",
+      "implementing-controller",
+      "api-server-and-gui"
+    ],
+    "liquidLinks": 0,
+    "gistOccurrences": 0
+  },
+  {
+    "source": "_posts/2020-10-06-diy-sound-system-minimalistic.md",
+    "route": "/2020/10/06/diy-sound-system-minimalistic",
+    "publishedAt": "2020-10-06T12:00:00+00:00",
+    "title": "Making a DIY Sound System that looks minimalistic",
+    "sourceBodySha256": "641b4fe685fd4fe9d4128b1efa6d652ad98a457783290853c5f61c1d1a3f83aa",
+    "convertedBodySha256": "e5d353d1d740af28bcf44ca846379eea7f37cab2a74e2f883f7d744e3081c29b",
+    "headingIds": [
+      "studying-about-sound-systems",
+      "the-diy-power-supply"
+    ],
+    "liquidLinks": 0,
+    "gistOccurrences": 0
+  },
+  {
+    "source": "_posts/2023-05-25-intro-xrun-package-managing-component-lifecycle-go.md",
+    "route": "/2023/05/24/intro-xrun-package-managing-component-lifecycle-go",
+    "publishedAt": "2023-05-24T01:00:00+00:00",
+    "title": "Introduction to xrun: A Flexible Package for Managing Component Lifecycles in Go",
+    "sourceBodySha256": "25b068c10d09c0038b657d924c9eb9847f2158a4105f5cd54c82a0bb72d1b73d",
+    "convertedBodySha256": "4a8de368ea6db1e679673d1a606e873e48062863dd049c888de7e58df6b6b2c5",
+    "headingIds": [
+      "introducing-xrun",
+      "getting-started",
+      "features-of-xrun",
+      "component",
+      "componentfunc",
+      "manager",
+      "creating-and-using-components",
+      "combining-components-with-xrunall",
+      "extending-xrun-custom-component-examples",
+      "http-server",
+      "grpc-server-experimental",
+      "conclusion"
+    ],
+    "liquidLinks": 0,
+    "gistOccurrences": 0
+  },
+  {
+    "source": "_posts/2024-07-07-xload-ultimate-data-loader-go-structs.md",
+    "route": "/2024/07/07/xload-ultimate-data-loader-go-structs",
+    "publishedAt": "2024-07-07T01:00:00+00:00",
+    "title": "Unleashing xLoad: Your Ultimate Data Loader for Go Structs!",
+    "sourceBodySha256": "0e349cd7ec81838b2e80304993c50f51e1489b32e94a2fc35e6f29d1dd139951",
+    "convertedBodySha256": "b389012256d46ad0c2128047435e2310bd04613d6d5df6e16f7d2c080e83a284",
+    "headingIds": [
+      "️-why-xload",
+      "getting-started-️",
+      "how-does-xload-work-its-magic-",
+      "-dive-into-examples--tutorials",
+      "-1-loading-from-environment-variables",
+      "-2-using-custom-types",
+      "-3-nested-structs",
+      "-4-inbuilt-loaders",
+      "️-5-custom-loaders",
+      "-spotlight-crud-based-list-api",
+      "before-xload",
+      "after-xload",
+      "-internationalization-with-lokalize-",
+      "-wrap-up"
+    ],
+    "liquidLinks": 0,
+    "gistOccurrences": 0
+  },
+  {
+    "source": "_posts/2026-08-12-ferry-xload-learns-to-write.md",
+    "route": "/2026/08/12/ferry-xload-learns-to-write",
+    "publishedAt": "2026-08-12T01:00:00+00:00",
+    "title": "Ferry: xload Learns to Write",
+    "sourceBodySha256": "dc58352aa972a5e8c5bc014949569bb3e1f9f99a3ebee74f8f7d3c3b39f91a65",
+    "convertedBodySha256": "df38930597d385562dd7ff8d1f5dc6d2afa3dca2f66e64c582442693f372db6a",
+    "headingIds": [
+      "-the-breaking-point",
+      "️-meet-ferry",
+      "-a-small-core-everything-else-is-a-driver",
+      "adding-your-own-word-to-the-tags",
+      "-what-it-does-differently",
+      "back-to-the-old-pain",
+      "the-collision-nobody-checks",
+      "️-performance-and-the-thing-i-found-while-measuring-it",
+      "nobody-fsyncs",
+      "-a-note-on-the-windows-driver",
+      "-built-in-10-days-with-claude",
+      "-wrap-up"
+    ],
+    "liquidLinks": 0,
+    "gistOccurrences": 0
+  },
+  {
+    "source": "_posts/2026-08-12-what-the-windows-registry-taught-me.md",
+    "route": "/2026/08/12/what-the-windows-registry-taught-me",
+    "publishedAt": "2026-08-12T00:30:00+00:00",
+    "title": "What the Windows Registry Taught Me",
+    "sourceBodySha256": "5fe85364157672b2ca5e039dd429c8666d91272f046c32d12f61298953b559bf",
+    "convertedBodySha256": "2aaae6855a0ee713a3327ae9ab8c52ae64ff81467c2ed588936ef7ff046530b2",
+    "headingIds": [
+      "-why-the-registry-at-all",
+      "️-the-registry-is-a-nicer-tree-than-it-looks",
+      "-reg_sz-is-better-at-numbers-than-the-number-types",
+      "️-encrypting-the-parts-that-need-it",
+      "️-where-the-registry-runs-out",
+      "-wrap-up"
+    ],
+    "liquidLinks": 0,
+    "gistOccurrences": 0
+  }
+]
