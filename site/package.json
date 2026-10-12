@@ -25,6 +25,7 @@
   "devDependencies": {
     "@astrojs/check": "0.9.10",
     "@playwright/test": "1.64.0",
+    "@types/node": "24.19.2",
     "cheerio": "1.2.0",
     "fast-xml-parser": "5.11.2",
     "fast-xml-validator": "1.4.2",
