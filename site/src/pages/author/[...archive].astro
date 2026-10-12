@@ -1,0 +1,14 @@
+---
+import { getWriting } from '../../lib/content';
+import type { WritingEntry } from '../../lib/content';
+import Archive from '../_Archive.astro';
+export async function getStaticPaths() {
+  const writing = (await getWriting()).filter(entry => entry.data.author === 'ajatprabha');
+  const pageCount = Math.ceil(writing.length / 10);
+  return Array.from({ length: pageCount }, (_, index) => ({ params: { archive: `ajatprabha${index ? `/page${index + 1}` : ''}` }, props: { entries: writing.slice(index * 10, (index + 1) * 10), page: index + 1, pageCount } }));
+}
+interface Props { entries: WritingEntry[]; page: number; pageCount: number }
+const { entries, page, pageCount } = Astro.props;
+const basePath = '/author/ajatprabha/';
+---
+<Archive title="Writing by Ajat Prabha" description="All entries by Ajat Prabha." path={page === 1 ? basePath : `${basePath}page${page}/`} entries={entries} page={page} pageCount={pageCount} basePath={basePath}/>
