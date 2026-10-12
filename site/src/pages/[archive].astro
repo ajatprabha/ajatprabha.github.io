@@ -1,13 +1,33 @@
 ---
-import { getWriting } from '../lib/content';
-import type { WritingEntry } from '../lib/content';
-import Archive from './_Archive.astro';
+import { getWriting } from "../lib/content";
+import type { WritingEntry } from "../lib/content";
+import Archive from "./_Archive.astro";
 export async function getStaticPaths() {
   const writing = await getWriting();
   const pageCount = Math.ceil(writing.length / 10);
-  return Array.from({ length: Math.max(0, pageCount - 1) }, (_, index) => ({ params: { archive: `page${index + 2}` }, props: { entries: writing.slice((index + 1) * 10, (index + 2) * 10), page: index + 2, pageCount } }));
+  return Array.from({ length: Math.max(0, pageCount - 1) }, (_, index) => ({
+    params: { archive: `page${index + 2}` },
+    props: {
+      entries: writing.slice((index + 1) * 10, (index + 2) * 10),
+      page: index + 2,
+      pageCount,
+    },
+  }));
 }
-interface Props { entries: WritingEntry[]; page: number; pageCount: number }
+interface Props {
+  entries: WritingEntry[];
+  page: number;
+  pageCount: number;
+}
 const { entries, page, pageCount } = Astro.props;
 ---
-<Archive title="Writing archive" description="Earlier entries from the field journal." path={`/page${page}/`} entries={entries} page={page} pageCount={pageCount} basePath="/"/>
+
+<Archive
+  title="Writing archive"
+  description="Earlier entries from the field journal."
+  path={`/page${page}/`}
+  entries={entries}
+  page={page}
+  pageCount={pageCount}
+  basePath="/"
+/>

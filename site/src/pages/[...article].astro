@@ -1,29 +1,105 @@
 ---
-import { render } from 'astro:content';
-import type { WritingEntry } from '../lib/content';
-import { getWriting, toArticleSummary } from '../lib/content';
-import { tagPath } from '../lib/routes';
-import { site, navigation } from '../data/site';
-import { SiteShell, ArticleLayout, ArticleRow, TableOfContents } from '../theme';
-import { metadata, formatDate } from './_metadata';
-import { extractOutline } from './_outline';
+import { render } from "astro:content";
+import type { WritingEntry } from "../lib/content";
+import { getWriting, toArticleSummary } from "../lib/content";
+import { tagPath } from "../lib/routes";
+import { site, navigation } from "../data/site";
+import {
+  SiteShell,
+  ArticleLayout,
+  ArticleRow,
+  TableOfContents,
+} from "../theme";
+import { metadata, formatDate } from "./_metadata";
+import { extractOutline } from "./_outline";
 export async function getStaticPaths() {
-  return (await getWriting()).map(entry => ({ params: { article: entry.data.route.slice(1) }, props: { entry } }));
+  return (await getWriting()).map((entry) => ({
+    params: { article: entry.data.route.slice(1) },
+    props: { entry },
+  }));
 }
-interface Props { entry: WritingEntry }
+interface Props {
+  entry: WritingEntry;
+}
 const { entry } = Astro.props;
 const article = toArticleSummary(entry);
 const { Content, headings } = await render(entry);
-const outline = entry.rendered?.html ? extractOutline(entry.rendered.html) : headings.filter(heading => heading.depth === 2);
-const related = (await getWriting()).filter(other => other.id !== entry.id && other.data.tags.some(tag => entry.data.tags.includes(tag))).slice(0, 3);
-const pageMetadata = metadata(article.title, entry.data.description, article.href, { type: 'article', publishedAt: article.publishedAt, updatedAt: entry.data.updatedAt, image: article.cover });
+const outline = entry.rendered?.html
+  ? extractOutline(entry.rendered.html)
+  : headings.filter((heading) => heading.depth === 2);
+const related = (await getWriting())
+  .filter(
+    (other) =>
+      other.id !== entry.id &&
+      other.data.tags.some((tag) => entry.data.tags.includes(tag)),
+  )
+  .slice(0, 3);
+const pageMetadata = metadata(
+  article.title,
+  entry.data.description,
+  article.href,
+  {
+    type: "article",
+    publishedAt: article.publishedAt,
+    updatedAt: entry.data.updatedAt,
+    image: article.cover,
+  },
+);
 ---
-<SiteShell site={site} navigation={navigation} activeSection="writing" metadata={pageMetadata}>
+
+<SiteShell
+  site={site}
+  navigation={navigation}
+  activeSection="writing"
+  metadata={pageMetadata}
+>
   <ArticleLayout article={article}>
-    <div slot="metadata"><time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time><span> by <a href="/author/ajatprabha/">Ajat Prabha</a></span><ul aria-label="Tags">{article.tags.map(tag => <li><a href={tagPath(tag)}>{tag}</a></li>)}</ul></div>
-    {outline.length > 1 && <TableOfContents slot="outline" headings={outline} variant="disclosure"/>}
-    {article.cover && <figure><img src={article.cover.src} alt={article.cover.alt} width={article.cover.width} height={article.cover.height}/></figure>}
-    <Content/>
-    {related.length > 0 && <div slot="related"><h2>Related writing</h2>{related.map(other => <ArticleRow article={toArticleSummary(other)}/>)}</div>}
+    <div slot="metadata">
+      <time datetime={article.publishedAt}
+        >{formatDate(article.publishedAt)}</time
+      ><span> by <a href="/author/ajatprabha/">Ajat Prabha</a></span><ul
+        aria-label="Tags"
+      >
+        {
+          article.tags.map((tag) => (
+            <li>
+              <a href={tagPath(tag)}>{tag}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    {
+      outline.length > 1 && (
+        <TableOfContents
+          slot="outline"
+          headings={outline}
+          variant="disclosure"
+        />
+      )
+    }
+    {
+      article.cover && (
+        <figure>
+          <img
+            src={article.cover.src}
+            alt={article.cover.alt}
+            width={article.cover.width}
+            height={article.cover.height}
+          />
+        </figure>
+      )
+    }
+    <Content />
+    {
+      related.length > 0 && (
+        <div slot="related">
+          <h2>Related writing</h2>
+          {related.map((other) => (
+            <ArticleRow article={toArticleSummary(other)} />
+          ))}
+        </div>
+      )
+    }
   </ArticleLayout>
 </SiteShell>
