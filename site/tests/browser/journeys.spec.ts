@@ -44,11 +44,16 @@ async function centeredArticle(page: Page, viewportWidth: number) {
         center: prose.x + prose.width / 2,
         width: prose.width,
         coverWidth: cover?.width,
+        quoteWidth: document
+          .querySelector(".reading-body > blockquote")
+          ?.getBoundingClientRect().width,
       };
     });
   expect(Math.abs(geometry.center - viewportWidth / 2)).toBeLessThanOrEqual(2);
   if (viewportWidth >= 1000) {
     expect(geometry.coverWidth).toBeGreaterThan(geometry.width);
+    expect(geometry.quoteWidth).toBeGreaterThan(geometry.width);
+    expect(geometry.quoteWidth).toBeLessThanOrEqual(geometry.coverWidth!);
   }
 }
 async function screenshot(page: Page, name: string) {
