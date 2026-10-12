@@ -6,5 +6,5 @@ import { metadata } from '../_metadata';
 const projects = await getProjects();
 ---
 <SiteShell site={site} navigation={navigation} activeSection="projects" metadata={metadata('Projects', 'Open-source tools and systems built by Ajat Prabha.', '/projects/')}>
-  <IndexLayout><div slot="intro"><h1>Projects</h1><p>Open-source tools and systems I've built.</p></div><div slot="entries">{projects.map(entry => <ProjectCard project={toProjectSummary(entry)}/>)}</div></IndexLayout>
+  <IndexLayout><div slot="intro"><h1>Projects</h1><p>Open-source tools and systems I've built.</p></div><div slot="entries">{projects.map(entry => <ProjectCard project={toProjectSummary(entry)} headingLevel={2}/>)}</div></IndexLayout>
 </SiteShell>

@@ -10,5 +10,5 @@ const previous = page === 2 ? basePath : `${basePath}page${page - 1}/`;
 const next = `${basePath}page${page + 1}/`;
 ---
 <SiteShell site={site} navigation={navigation} activeSection="writing" metadata={metadata(page > 1 ? `${title}, page ${page}` : title, description, path)}>
-  <IndexLayout><div slot="intro"><h1>{title}</h1><p>{description}</p></div><div slot="entries">{entries.map(entry => <ArticleRow article={toArticleSummary(entry)}/>)}</div>{pageCount > 1 && <nav slot="pagination" aria-label="Archive pagination">{page > 1 && <a href={previous}>Newer entries</a>}<span>Page {page} of {pageCount}</span>{page < pageCount && <a href={next}>Older entries</a>}</nav>}</IndexLayout>
+  <IndexLayout><div slot="intro"><h1>{title}</h1><p>{description}</p></div><div slot="entries">{entries.map(entry => <ArticleRow article={toArticleSummary(entry)} headingLevel={2}/>)}</div>{pageCount > 1 && <nav slot="pagination" aria-label="Archive pagination">{page > 1 && <a href={previous}>Newer entries</a>}<span>Page {page} of {pageCount}</span>{page < pageCount && <a href={next}>Older entries</a>}</nav>}</IndexLayout>
 </SiteShell>
