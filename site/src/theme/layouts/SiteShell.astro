@@ -1,12 +1,132 @@
 ---
-import type { SiteIdentity, NavigationItem, PageMetadata } from '../../lib/types';
-import ColorModeControl from '../components/ColorModeControl.astro';
-import '../styles/global.css';
-import '../styles/prose.css';
-interface Props { site: SiteIdentity; navigation: NavigationItem[]; metadata: PageMetadata; activeSection?: string }
+import type {
+  SiteIdentity,
+  NavigationItem,
+  PageMetadata,
+} from "../../lib/types";
+import ColorModeControl from "../components/ColorModeControl.astro";
+import "../styles/global.css";
+import "../styles/prose.css";
+interface Props {
+  site: SiteIdentity;
+  navigation: NavigationItem[];
+  metadata: PageMetadata;
+  activeSection?: string;
+}
 const { site, navigation, metadata, activeSection } = Astro.props;
-const title = metadata.title === site.name ? site.name : `${metadata.title} | ${site.name}`;
-const image = metadata.image ? new URL(metadata.image.src, site.url).href : undefined;
-const structured = metadata.type === 'article' ? { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: metadata.title, description: metadata.description, url: metadata.canonical, datePublished: metadata.publishedAt, dateModified: metadata.updatedAt ?? metadata.publishedAt, image, author: { '@type': 'Person', name: site.author }, publisher: { '@type': 'Person', name: site.author } } : { '@context': 'https://schema.org', '@type': 'WebPage', name: metadata.title, description: metadata.description, url: metadata.canonical };
+const title =
+  metadata.title === site.name ? site.name : `${metadata.title} | ${site.name}`;
+const image = metadata.image
+  ? new URL(metadata.image.src, site.url).href
+  : undefined;
+const structured =
+  metadata.type === "article"
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: metadata.title,
+        description: metadata.description,
+        url: metadata.canonical,
+        datePublished: metadata.publishedAt,
+        dateModified: metadata.updatedAt ?? metadata.publishedAt,
+        image,
+        author: { "@type": "Person", name: site.author },
+        publisher: { "@type": "Person", name: site.author },
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: metadata.title,
+        description: metadata.description,
+        url: metadata.canonical,
+      };
 ---
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><script is:inline>try{const mode=localStorage.getItem('color-mode');if(mode==='light'||mode==='dark')document.documentElement.dataset.mode=mode}catch{}document.documentElement.classList.add('js');</script><title>{title}</title><meta name="description" content={metadata.description}/><link rel="canonical" href={metadata.canonical}/>{metadata.noindex && <meta name="robots" content="noindex,nofollow"/>}<meta property="og:title" content={metadata.title}/><meta property="og:description" content={metadata.description}/><meta property="og:url" content={metadata.canonical}/><meta property="og:type" content={metadata.type ?? 'website'}/><meta property="og:site_name" content={site.name}/>{image && <meta property="og:image" content={image}/>}<meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'}/><meta name="twitter:title" content={metadata.title}/><meta name="twitter:description" content={metadata.description}/>{image && <meta name="twitter:image" content={image}/>}<link rel="alternate" type="application/atom+xml" title={`${site.name} Atom feed`} href="/feed.xml"/><link rel="alternate" type="application/rss+xml" title={`${site.name} RSS feed`} href="/atom.xml"/>{metadata.publishedAt && <meta property="article:published_time" content={metadata.publishedAt}/>}<script type="application/ld+json" set:html={JSON.stringify(structured).replace(/</g, '\u003c')}/><slot name="head"/></head><body><a class="skip-link" href="#main">Skip to content</a><header class="site-header container"><a class="site-name" href="/">{site.name}<span aria-hidden="true" style="color:var(--color-motif)">.</span></a><nav class="site-nav" aria-label="Main">{navigation.map(item => <a href={item.href} aria-current={activeSection === item.label.toLowerCase() ? 'page' : undefined}>{item.label}</a>)}<ColorModeControl/></nav></header><main class="container" id="main" tabindex="-1"><slot/></main><footer class="site-footer container"><span>Engineering, projects, and life.</span><div><a href="/feed.xml">Subscribe via RSS</a><slot name="footer"/></div></footer></body></html>
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <script is:inline>
+      try {
+        const mode = localStorage.getItem("color-mode");
+        if (mode === "light" || mode === "dark")
+          document.documentElement.dataset.mode = mode;
+      } catch {}
+      document.documentElement.classList.add("js");
+    </script>
+    <title>{title}</title>
+    <meta name="description" content={metadata.description} />
+    <link rel="canonical" href={metadata.canonical} />
+    {metadata.noindex && <meta name="robots" content="noindex,nofollow" />}
+    <meta property="og:title" content={metadata.title} />
+    <meta property="og:description" content={metadata.description} />
+    <meta property="og:url" content={metadata.canonical} />
+    <meta property="og:type" content={metadata.type ?? "website"} />
+    <meta property="og:site_name" content={site.name} />
+    {image && <meta property="og:image" content={image} />}
+    <meta
+      name="twitter:card"
+      content={image ? "summary_large_image" : "summary"}
+    />
+    <meta name="twitter:title" content={metadata.title} />
+    <meta name="twitter:description" content={metadata.description} />
+    {image && <meta name="twitter:image" content={image} />}
+    <link
+      rel="alternate"
+      type="application/atom+xml"
+      title={`${site.name} Atom feed`}
+      href="/feed.xml"
+    />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${site.name} RSS feed`}
+      href="/atom.xml"
+    />
+    {metadata.publishedAt && (
+      <meta property="article:published_time" content={metadata.publishedAt} />
+    )}
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structured).replace(/</g, "\u003c")}
+    />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
+    <header class="site-header container">
+      <a class="site-name" href="/">
+        {site.name}
+        <span aria-hidden="true" style="color:var(--color-motif)">
+          .
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        {navigation.map((item) => (
+          <a
+            href={item.href}
+            aria-current={
+              activeSection === item.label.toLowerCase() ? "page" : undefined
+            }
+          >
+            {item.label}
+          </a>
+        ))}
+        <ColorModeControl />
+      </nav>
+    </header>
+    <main class="container" id="main" tabindex="-1">
+      <slot />
+    </main>
+    <footer class="site-footer container">
+      <span>Engineering, projects, and life.</span>
+      <div>
+        <a href="/feed.xml">Subscribe via RSS</a>
+        <slot name="footer" />
+      </div>
+    </footer>
+  </body>
+</html>

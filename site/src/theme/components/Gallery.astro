@@ -1,5 +1,10 @@
 ---
-interface Props { variant?: 'two-column' | 'three-column' }
-const { variant = 'two-column' } = Astro.props;
+interface Props {
+  variant?: "two-column" | "three-column";
+}
+const { variant = "two-column" } = Astro.props;
 ---
-<div class:list={['gallery', variant === 'three-column' && 'gallery--three']}><slot/></div>
+
+<div class:list={["gallery", variant === "three-column" && "gallery--three"]}>
+  <slot />
+</div>

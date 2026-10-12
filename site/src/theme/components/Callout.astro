@@ -1,5 +1,15 @@
 ---
-interface Props { variant?: 'note' | 'warning' | 'tip'; title?: string }
-const { variant = 'note', title = variant.charAt(0).toUpperCase() + variant.slice(1) } = Astro.props;
+interface Props {
+  variant?: "note" | "warning" | "tip";
+  title?: string;
+}
+const {
+  variant = "note",
+  title = variant.charAt(0).toUpperCase() + variant.slice(1),
+} = Astro.props;
 ---
-<aside class:list={['callout', `callout--${variant}`]}><p class="callout-label">{title}</p><slot/></aside>
+
+<aside class:list={["callout", `callout--${variant}`]}>
+  <p class="callout-label">{title}</p>
+  <slot />
+</aside>

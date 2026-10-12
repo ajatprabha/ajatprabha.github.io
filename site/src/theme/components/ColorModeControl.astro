@@ -1,13 +1,25 @@
-<label class="mode-control">Appearance<select aria-label="Color mode" data-color-mode><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+<label class="mode-control">
+  Appearance
+  <select aria-label="Color mode" data-color-mode>
+    <option value="system">System</option>
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+  </select>
+</label>
 <script>
-const control = document.querySelector<HTMLSelectElement>('[data-color-mode]');
-if (control) {
- control.value = document.documentElement.dataset.mode ?? 'system';
- control.addEventListener('change', () => {
-  const mode = control.value;
-  if (mode === 'light' || mode === 'dark') document.documentElement.dataset.mode = mode;
-  else delete document.documentElement.dataset.mode;
-  try { if (mode === 'system') localStorage.removeItem('color-mode'); else localStorage.setItem('color-mode', mode); } catch {}
- });
-}
+  const control =
+    document.querySelector<HTMLSelectElement>("[data-color-mode]");
+  if (control) {
+    control.value = document.documentElement.dataset.mode ?? "system";
+    control.addEventListener("change", () => {
+      const mode = control.value;
+      if (mode === "light" || mode === "dark")
+        document.documentElement.dataset.mode = mode;
+      else delete document.documentElement.dataset.mode;
+      try {
+        if (mode === "system") localStorage.removeItem("color-mode");
+        else localStorage.setItem("color-mode", mode);
+      } catch {}
+    });
+  }
 </script>

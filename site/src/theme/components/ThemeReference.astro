@@ -1,8 +1,135 @@
 ---
-import { ArticleLayout, ProjectLayout, ArticleRow, ProjectCard, Section, Figure, Gallery, Callout, Action, Metadata, TagLink, CodeBlock, TableOfContents, ProjectPreview, Pagination } from '../index';
-import type { ArticleSummary, ProjectSummary } from '../../lib/types';
-interface Props { article: ArticleSummary }
+import {
+  ArticleLayout,
+  ProjectLayout,
+  ArticleRow,
+  ProjectCard,
+  Section,
+  Figure,
+  Gallery,
+  Callout,
+  Action,
+  Metadata,
+  TagLink,
+  CodeBlock,
+  TableOfContents,
+  ProjectPreview,
+  Pagination,
+} from "../index";
+import type { ArticleSummary, ProjectSummary } from "../../lib/types";
+interface Props {
+  article: ArticleSummary;
+}
 const { article } = Astro.props;
-const project: ProjectSummary = { id:'review-fixture',title:'Text-only review fixture',href:'#project-fixture',description:'A fixture demonstrating the project layout without a preview or related region.',tags:[] };
+const project: ProjectSummary = {
+  id: "review-fixture",
+  title: "Text-only review fixture",
+  href: "#project-fixture",
+  description:
+    "A fixture demonstrating the project layout without a preview or related region.",
+  tags: [],
+};
 ---
-<div class="reference-grid"><ArticleLayout article={article}><Metadata slot="metadata" publishedAt={article.publishedAt}><TagLink tag="Fixture" href="#reference-controls"/></Metadata><TableOfContents slot="outline" headings={[{depth:2,slug:'a-composed-reading-surface',text:'A composed reading surface'}]} variant="rail"/><slot/><Callout variant="note"><p>A note shares the prose surface with code and tables.</p></Callout><Callout variant="warning"><p>Warnings include a written label and a border.</p></Callout><Callout variant="tip"><p>Tips remain readable without color.</p></Callout><CodeBlock code={'const example = "A long unwrapped example stays within its own horizontally scrolling box. '.repeat(4)+'"'} language="javascript"/><CodeBlock code="Plain code has the same containment." variant="plain"/><div slot="related"><h2>Related fixture</h2><ArticleRow article={article}/></div></ArticleLayout><Section title="Entry compositions" variant="ruled"><div class="project-grid"><ProjectCard project={project}/><ProjectCard project={{...project,title:'A deliberately long project heading tests narrow card wrapping and reading order'}}/><ProjectCard project={{...project,title:'Metadata preview fixture',status:'completed'}}/></div></Section><ProjectLayout project={project}><Metadata slot="metadata" status="Review fixture"/><h2 id="project-fixture">A project with omitted optional regions</h2><p>The same metadata piece appears in both layouts. This project omits previews, outlines and related content.</p></ProjectLayout><Section title="Controls and surfaces" variant="surface"><div id="reference-controls"><Action href="#main" variant="primary">Primary action</Action> <Action href="#main">Quiet action</Action><TagLink tag="Active fixture" href="#main" active/><Pagination previous={{href:'#main',label:'Previous'}} next={{href:'#main',label:'Next'}}/></div></Section><Section title="Media fixtures"><div class="prose"><Gallery><Figure image={{src:'/assets/images/operator-diagram.svg',alt:'Kubernetes operator flow diagram'}} caption="Technical media retains its full aspect ratio."/><Figure image={{src:'/assets/images/operator-diagram.svg',alt:'The same operator diagram reused in a gallery'}} variant="wide"/></Gallery><ProjectPreview preview={{kind:'none'}}/></div></Section></div>
+
+<div class="reference-grid">
+  <ArticleLayout article={article}>
+    <Metadata slot="metadata" publishedAt={article.publishedAt}>
+      <TagLink tag="Fixture" href="#reference-controls" />
+    </Metadata>
+    <TableOfContents
+      slot="outline"
+      headings={[
+        {
+          depth: 2,
+          slug: "a-composed-reading-surface",
+          text: "A composed reading surface",
+        },
+      ]}
+      variant="rail"
+    />
+    <slot />
+    <Callout variant="note">
+      <p>A note shares the prose surface with code and tables.</p>
+    </Callout>
+    <Callout variant="warning">
+      <p>Warnings include a written label and a border.</p>
+    </Callout>
+    <Callout variant="tip">
+      <p>Tips remain readable without color.</p>
+    </Callout>
+    <CodeBlock
+      code={
+        'const example = "A long unwrapped example stays within its own horizontally scrolling box. '.repeat(
+          4,
+        ) + '"'
+      }
+      language="javascript"
+    />
+    <CodeBlock code="Plain code has the same containment." variant="plain" />
+    <div slot="related">
+      <h2>Related fixture</h2>
+      <ArticleRow article={article} />
+    </div>
+  </ArticleLayout>
+  <Section title="Entry compositions" variant="ruled">
+    <div class="project-grid">
+      <ProjectCard project={project} />
+      <ProjectCard
+        project={{
+          ...project,
+          title:
+            "A deliberately long project heading tests narrow card wrapping and reading order",
+        }}
+      />
+      <ProjectCard
+        project={{
+          ...project,
+          title: "Metadata preview fixture",
+          status: "completed",
+        }}
+      />
+    </div>
+  </Section>
+  <ProjectLayout project={project}>
+    <Metadata slot="metadata" status="Review fixture" />
+    <h2 id="project-fixture">A project with omitted optional regions</h2>
+    <p>
+      The same metadata piece appears in both layouts. This project omits
+      previews, outlines and related content.
+    </p>
+  </ProjectLayout>
+  <Section title="Controls and surfaces" variant="surface">
+    <div id="reference-controls">
+      <Action href="#main" variant="primary">
+        Primary action
+      </Action>{" "}
+      <Action href="#main">Quiet action</Action>
+      <TagLink tag="Active fixture" href="#main" active />
+      <Pagination
+        previous={{ href: "#main", label: "Previous" }}
+        next={{ href: "#main", label: "Next" }}
+      />
+    </div>
+  </Section>
+  <Section title="Media fixtures">
+    <div class="prose">
+      <Gallery>
+        <Figure
+          image={{
+            src: "/assets/images/operator-diagram.svg",
+            alt: "Kubernetes operator flow diagram",
+          }}
+          caption="Technical media retains its full aspect ratio."
+        />
+        <Figure
+          image={{
+            src: "/assets/images/operator-diagram.svg",
+            alt: "The same operator diagram reused in a gallery",
+          }}
+          variant="wide"
+        />
+      </Gallery>
+      <ProjectPreview preview={{ kind: "none" }} />
+    </div>
+  </Section>
+</div>

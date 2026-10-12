@@ -1,1 +1,160 @@
-.prose{font-family:var(--font-prose);font-optical-sizing:auto;font-size:clamp(1.125rem,1.4vw,1.25rem);line-height:1.65;overflow-wrap:anywhere}.prose h2,.prose h3,.prose h4{margin-top:var(--space-12);margin-bottom:var(--space-6)}.prose h2:first-child{margin-top:0}.prose li{margin-bottom:var(--space-2)}.prose pre{font-family:var(--font-code);font-size:.85rem;line-height:1.6;overflow:auto;max-width:100%;padding:var(--space-6);background:var(--color-surface-subtle);border:1px solid var(--color-border-subtle);border-radius:var(--radius-control);overflow-wrap:normal}.prose code{font-family:var(--font-code);font-size:.85em}.prose :not(pre)>code{background:var(--color-surface-subtle);padding:.1em .25em;border-radius:.2rem}.prose blockquote{border-left:3px solid var(--color-motif);margin-inline:0;padding-left:var(--space-6);color:var(--color-text-muted)}.prose img{display:block;margin:var(--space-8) auto;border-radius:var(--radius-control);object-fit:contain}.prose figure{margin:var(--space-8) 0}.prose figcaption{font: .9rem/1.5 var(--font-ui);color:var(--color-text-muted);margin-top:var(--space-3)}.prose table{display:block;width:100%;overflow:auto;border-collapse:collapse;margin-block:var(--space-8);font-size:.9em}.prose th,.prose td{padding:var(--space-3) var(--space-4);border:1px solid var(--color-border-subtle);text-align:left;min-width:6rem}.prose th{font-family:var(--font-ui);background:var(--color-surface-subtle)}.prose hr{border:0;border-top:1px solid var(--color-border-subtle);margin-block:var(--space-12)}.prose .gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4);margin-block:var(--space-8)}.prose .gallery.gallery--three{grid-template-columns:repeat(3,minmax(0,1fr))}.prose .gallery img{margin:0;width:100%;height:auto}.prose .gallery p{margin:0}.prose video{display:block;max-height:38rem;margin:var(--space-8) auto;background:var(--color-surface-subtle);border-radius:var(--radius-media);object-fit:contain}.prose video[height]{max-width:min(100%,42rem)}.prose .video--portrait{max-width:min(100%,24rem);max-height:36rem}.figure--wide{max-width:100%}.gist-attribution{font:.85rem/1.5 var(--font-ui);color:var(--color-text-muted)}.astro-code,.astro-code span{color:var(--shiki-light)!important;background-color:var(--shiki-light-bg)!important}:root[data-mode="dark"] .astro-code,:root[data-mode="dark"] .astro-code span{color:var(--shiki-dark)!important;background-color:var(--shiki-dark-bg)!important}@media(prefers-color-scheme:dark){:root:not([data-mode="light"]) .astro-code,:root:not([data-mode="light"]) .astro-code span{color:var(--shiki-dark)!important;background-color:var(--shiki-dark-bg)!important}}@media(max-width:36rem){.prose .gallery,.prose .gallery.gallery--three{grid-template-columns:1fr}.prose pre{padding:var(--space-4)}}
+.prose {
+  font-family: var(--font-prose);
+  font-optical-sizing: auto;
+  font-size: clamp(1.125rem, 1.4vw, 1.25rem);
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+.prose h2,
+.prose h3,
+.prose h4 {
+  margin-top: var(--space-12);
+  margin-bottom: var(--space-6);
+}
+.prose h2:first-child {
+  margin-top: 0;
+}
+.prose li {
+  margin-bottom: var(--space-2);
+}
+.prose pre {
+  font-family: var(--font-code);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  overflow: auto;
+  max-width: 100%;
+  padding: var(--space-6);
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-control);
+  overflow-wrap: normal;
+}
+.prose code {
+  font-family: var(--font-code);
+  font-size: 0.85em;
+}
+.prose :not(pre) > code {
+  background: var(--color-surface-subtle);
+  padding: 0.1em 0.25em;
+  border-radius: 0.2rem;
+}
+.prose blockquote {
+  border-left: 3px solid var(--color-motif);
+  margin-inline: 0;
+  padding-left: var(--space-6);
+  color: var(--color-text-muted);
+}
+.prose img {
+  display: block;
+  margin: var(--space-8) auto;
+  border-radius: var(--radius-control);
+  object-fit: contain;
+}
+.prose figure {
+  margin: var(--space-8) 0;
+}
+.prose figcaption {
+  font: 0.9rem/1.5 var(--font-ui);
+  color: var(--color-text-muted);
+  margin-top: var(--space-3);
+}
+.prose table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  border-collapse: collapse;
+  margin-block: var(--space-8);
+  font-size: 0.9em;
+}
+.prose th,
+.prose td {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border-subtle);
+  text-align: left;
+  min-width: 6rem;
+}
+.prose th {
+  font-family: var(--font-ui);
+  background: var(--color-surface-subtle);
+}
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--color-border-subtle);
+  margin-block: var(--space-12);
+}
+.prose .gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-block: var(--space-8);
+}
+.prose .gallery.gallery--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.prose .gallery img {
+  margin: 0;
+  width: 100%;
+  height: auto;
+}
+.prose .gallery p {
+  margin: 0;
+}
+.prose video {
+  display: block;
+  max-height: 38rem;
+  margin: var(--space-8) auto;
+  background: var(--color-surface-subtle);
+  border-radius: var(--radius-media);
+  object-fit: contain;
+}
+.prose video[height] {
+  max-width: min(100%, 42rem);
+}
+.prose .video--portrait {
+  max-width: min(100%, 24rem);
+  max-height: 36rem;
+}
+.figure--wide {
+  max-width: 100%;
+}
+.gist-attribution {
+  font: 0.85rem/1.5 var(--font-ui);
+  color: var(--color-text-muted);
+}
+.astro-code,
+.astro-code span {
+  color: var(--shiki-light) !important;
+  background-color: var(--shiki-light-bg) !important;
+}
+:root[data-mode="dark"] .astro-code,
+:root[data-mode="dark"] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-mode="light"]) .astro-code,
+  :root:not([data-mode="light"]) .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
+}
+@media (max-width: 36rem) {
+  .prose .gallery,
+  .prose .gallery.gallery--three {
+    grid-template-columns: 1fr;
+  }
+  .prose pre {
+    padding: var(--space-4);
+  }
+}
+.prose .table-scroll {
+  overflow: auto;
+  max-width: 100%;
+  margin-block: var(--space-8);
+}
+.prose .table-scroll table {
+  display: table;
+  overflow: visible;
+  margin: 0;
+  width: 100%;
+}
