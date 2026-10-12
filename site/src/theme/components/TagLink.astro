@@ -1,0 +1,12 @@
+---
+interface Props {
+  tag: string;
+  href: string;
+  active?: boolean;
+}
+const { tag, href, active } = Astro.props;
+---
+
+<a class="tag" href={href} aria-current={active ? "page" : undefined}>
+  {tag}
+</a>

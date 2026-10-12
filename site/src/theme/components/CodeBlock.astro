@@ -1,0 +1,33 @@
+---
+import { Code } from "astro:components";
+interface Props {
+  code: string;
+  language?: "go" | "javascript" | "yaml" | "text";
+  variant?: "plain" | "highlighted";
+  attribution?: { href: string; label: string };
+}
+const {
+  code,
+  language = "text",
+  variant = "highlighted",
+  attribution,
+} = Astro.props;
+---
+
+<div>
+  {variant === "highlighted" ? (
+    <Code
+      code={code}
+      lang={language}
+      themes={{ light: "github-light", dark: "github-dark" }}
+      defaultColor={false}
+    />
+  ) : (
+    <pre><code>{code}</code></pre>
+  )}
+  {attribution && (
+    <p class="gist-attribution">
+      Source: <a href={attribution.href}>{attribution.label}</a>
+    </p>
+  )}
+</div>

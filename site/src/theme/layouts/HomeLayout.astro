@@ -1,1 +1,14 @@
-<div><section><slot name="intro"/></section><section><slot name="projects"/></section><section><slot name="writing"/></section><section><slot name="note"/></section></div>
+<div class="home-layout">
+  <div class="home-intro">
+    <slot name="intro" />
+  </div>
+  <section aria-label="Selected projects">
+    <slot name="projects" />
+  </section>
+  <section aria-label="Recent writing">
+    <slot name="writing" />
+  </section>
+  <section>
+    <slot name="note" />
+  </section>
+</div>

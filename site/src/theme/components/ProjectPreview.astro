@@ -1,0 +1,19 @@
+---
+import type { ProjectPreviewData } from "../../lib/types";
+import Figure from "./Figure.astro";
+interface Props {
+  preview: ProjectPreviewData;
+}
+const { preview } = Astro.props;
+---
+
+{preview.kind === "image" && (
+  <Figure image={preview.image} caption={preview.caption} />
+)}
+{preview.kind === "diagram" && (
+  <Figure
+    image={{ src: preview.src, alt: preview.alt }}
+    caption={preview.caption}
+    variant="wide"
+  />
+)}

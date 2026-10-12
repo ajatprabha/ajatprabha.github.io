@@ -1,0 +1,22 @@
+---
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+  variant?: "rail" | "disclosure";
+}
+const { headings, variant = "disclosure" } = Astro.props;
+---
+
+<details open={variant === "rail"}>
+  <summary>On this page</summary>
+  <nav aria-label="Article outline">
+    <ol>
+      {headings
+        .filter((heading) => heading.depth === 2)
+        .map((heading) => (
+          <li>
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          </li>
+        ))}
+    </ol>
+  </nav>
+</details>
