@@ -4,6 +4,7 @@ import type {
   NavigationItem,
   PageMetadata,
 } from "../../lib/types";
+import SiteBrand from "../components/SiteBrand.astro";
 import ColorModeControl from "../components/ColorModeControl.astro";
 import "../styles/global.css";
 import "../styles/prose.css";
@@ -98,12 +99,7 @@ const structured =
       Skip to content
     </a>
     <header class="site-header container">
-      <a class="site-name" href="/">
-        {site.name}
-        <span aria-hidden="true" style="color:var(--color-motif)">
-          .
-        </span>
-      </a>
+      <SiteBrand name={site.name} />
       <nav class="site-nav" aria-label="Main">
         {navigation.map((item) => (
           <a

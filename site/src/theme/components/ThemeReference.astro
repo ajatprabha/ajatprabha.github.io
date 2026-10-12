@@ -26,6 +26,15 @@ interface Props {
   article: ArticleSummary;
 }
 const { article } = Astro.props;
+const imageArticle: ArticleSummary = {
+  ...article,
+  cover: {
+    src: "/assets/images/ferry-hero.jpg",
+    alt: "",
+    width: 1440,
+    height: 900,
+  },
+};
 const project: ProjectSummary = {
   id: "review-fixture",
   title: "Text-only review fixture",
@@ -49,9 +58,9 @@ const project: ProjectSummary = {
     </Action>
   </HomeHero>
   <Section title="Image-led writing compositions">
-    <FeaturedArticle article={article} />
+    <FeaturedArticle article={imageArticle} />
     <div class="article-card-grid">
-      <ArticleCard article={article} />
+      <ArticleCard article={imageArticle} />
       <ArticleCard
         article={{
           ...article,
@@ -62,7 +71,7 @@ const project: ProjectSummary = {
       />
       <ArticleCard
         article={{
-          ...article,
+          ...imageArticle,
           title:
             "A deliberately long article heading tests narrow image card wrapping and reading order",
         }}
@@ -106,7 +115,7 @@ const project: ProjectSummary = {
     <div slot="related">
       <h3>Related fixture</h3>
       <div class="article-card-grid">
-        <ArticleCard article={article} />
+        <ArticleCard article={imageArticle} />
         <ArticleCard
           article={{
             ...article,
@@ -118,7 +127,7 @@ const project: ProjectSummary = {
     </div>
   </ArticleLayout>
   <Section title="Archive row compositions">
-    <ArticleRow article={article} />
+    <ArticleRow article={imageArticle} />
     <ArticleRow
       article={{
         ...article,

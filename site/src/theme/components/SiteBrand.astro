@@ -1,0 +1,11 @@
+---
+import logo from "../../../../assets/images/ajat-prabha-logo.svg?raw";
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+---
+
+<a class="site-name site-brand" href="/" aria-label={name}>
+  <span aria-hidden="true" set:html={logo} />
+</a>
