@@ -6,7 +6,7 @@ route: "/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry"
 tags: ["gojek","internship","travel"]
 projectIds: ["darkroom"]
 author: "ajatprabha"
-cover: {"src":"/assets/images/IMG_20180617_083757.jpg","alt":"","height":864,"width":1536}
+cover: {"height":864,"width":1536,"alt":"","src":"/assets/images/IMG_20180617_083757.jpg"}
 legacySourceId: "2018-06-17-load-testing-vegeta-and-trip-to-pudducherry"
 ---
 
@@ -18,7 +18,7 @@ To know what service I'm testing head over to week 2's post [here](/2018/06/03/s
 <h2 id="day-1">Day 1</h2>
 
 
-We had to load test the image manipulation service that we built until now. My mentor asked us to get our hands dirty with a Golang based HTTP load testing tool called [Vegeta](https://github.com/tsenart/vegeta), yes the grumpy character from Dragon Ball obsessed with surpassing Goku. <img src="/assets/images/vegeta-blue.png" alt="" width="225" height="310" loading="lazy" decoding="async"> It is quite a good load testing tool that I've come across. I also tried a python tool called Locust. While it provides a nice UI and other options, I liked Vegeta more because it's more reliable. We now had to validate our service's performance and make sure that it can survive the load. The day went mostly around getting to know Vegeta and doing a few load tests locally.  
+We had to load test the image manipulation service that we built until now. My mentor asked us to get our hands dirty with a Golang based HTTP load testing tool called [Vegeta](https://github.com/tsenart/vegeta), yes the grumpy character from Dragon Ball obsessed with surpassing Goku. <img src="/assets/images/vegeta-blue.png" alt="Illustration of blue-haired Vegeta accompanying the discussion of the Vegeta load-testing tool." width="225" height="310" loading="lazy" decoding="async"> It is quite a good load testing tool that I've come across. I also tried a python tool called Locust. While it provides a nice UI and other options, I liked Vegeta more because it's more reliable. We now had to validate our service's performance and make sure that it can survive the load. The day went mostly around getting to know Vegeta and doing a few load tests locally.  
 
 
 <h2 id="day-2-3">Day 2-3</h2>
@@ -47,10 +47,10 @@ The service was now able to handle 2K rpm of traffic and with 4 application VMs 
 For the weekend, I went to Puducherry along with my seniors from college. We were 13 people in two cars. The trip started with a car that had no central locking remote and the electronics were behaving weird because of that. After wasting an hour in getting the correct key, the journey began. Our first stop was McDonald's for the breakfast. I was driving one of the cars and the other car missed the service road, so we took there order too and later met alongside the highway and had our meal.
 <div class="gallery">
     <div>
-        <img src="/assets/images/IMG_20180616_110649.jpg" alt="" width="300" height="400" loading="lazy" decoding="async">
+        <img src="/assets/images/IMG_20180616_110649.jpg" alt="A selfie at the McDonald's breakfast stop on the drive to Puducherry." width="300" height="400" loading="lazy" decoding="async">
     </div>
     <div>
-        <img src="/assets/images/IMG_20180616_114501.jpg" alt="" width="300" height="400" loading="lazy" decoding="async">
+        <img src="/assets/images/IMG_20180616_114501.jpg" alt="Breakfast in the car: a burger and McDonald's drinks, with the other car parked ahead." width="300" height="400" loading="lazy" decoding="async">
     </div>
 </div>  
 
@@ -58,7 +58,7 @@ We refueled, put on some music and headed straight towards Puducherry. The road 
 
 There is this one incident that took place, we were crossing a town and a person out of nowhere came in the middle of the road with his hands wide open, said something, all of us were shocked and then he just went away.🤣 After crossing the town, we stopped near a lake to take a group photo!  
 
-<img src="/assets/images/IMG_20180616_135555469.jpg" alt="" width="1040" height="585" loading="lazy" decoding="async">  
+<img src="/assets/images/IMG_20180616_135555469.jpg" alt="The road-trip group posing beside a lake, with trees and hills behind them." width="1040" height="585" loading="lazy" decoding="async">  
 
 It took us roughly 6 hours to reach Puducherry and as soon as we reached, we went to the beach. To be honest, it was not what I expected! I've not been to Goa yet but every other beach is just okay, not anything like what is shown in movies/videos.  
 
@@ -66,6 +66,6 @@ Late in the evening, we went to Promenade Beach and the White Town, it was a goo
 
 Next morning, we went to Serenity beach, it was good but not as good as what it is shown in images. I spent an hour or two there. Next stop was again the Puducherry city. After visiting the city in daylight, we thought to visit Paradise beach but seeing the waiting line we decided to not go there and head back to Bangalore.  
 
-<img src="/assets/images/IMG_20180617_080512_1.jpg" alt="" width="1040" height="585" loading="lazy" decoding="async">  
+<img src="/assets/images/IMG_20180617_080512_1.jpg" alt="Four friends splashing and jumping in the surf during the Puducherry beach visit." width="1040" height="585" loading="lazy" decoding="async">  
 
 Around late evening we reached the suburbs of Bangalore. This was a good road trip but I liked the [Coorg trip](/2018/06/03/second-week-at-gojek#weekend) more! Pro tip: Always travel with fewer people!😜

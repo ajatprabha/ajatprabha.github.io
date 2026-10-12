@@ -6,7 +6,7 @@ route: "/2018/05/27/how-i-got-the-internship-at-gojek"
 tags: ["gojek","internship"]
 projectIds: []
 author: "ajatprabha"
-cover: {"src":"/assets/images/IMG_20171015_170057.jpg","alt":"","height":1034,"width":1838}
+cover: {"height":1034,"width":1838,"alt":"","src":"/assets/images/IMG_20171015_170057.jpg"}
 legacySourceId: "2018-05-27-how-i-got-the-internship-at-gojek"
 ---
 

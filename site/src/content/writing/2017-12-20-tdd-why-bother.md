@@ -6,7 +6,7 @@ route: "/2017/12/20/tdd-why-bother"
 tags: ["tdd"]
 projectIds: []
 author: "ajatprabha"
-cover: {"src":"/assets/images/tdd-why-bother.jpg","alt":"","height":945,"width":2160}
+cover: {"height":945,"width":2160,"alt":"","src":"/assets/images/tdd-why-bother.jpg"}
 legacySourceId: "2017-12-20-tdd-why-bother"
 ---
 

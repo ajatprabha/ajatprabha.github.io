@@ -42,14 +42,19 @@ function transformProse(source, routes, gistSources, images) {
   if (depth !== 0) throw new Error('Unbalanced legacy gallery');
   text = text.replace(/\sstyle="[^"]*"/g, '');
   text = text.replace(/<p>(Original|Resized image|Cropped image)<\/p>/g, '<p><em>$1</em></p>');
-  text = text.replace(/<video\b(?![^>]*preload)([^>]*)>/g, '<video$1 preload="metadata">');
+  text = text.replace(/<video\b([^>]*)>/g, (_, attrs) => `<video${attrs}${/\bpreload=/.test(attrs) ? '' : ' preload="metadata"'}${/\bplaysinline\b/.test(attrs) ? '' : ' playsinline'}>`);
   text = text.replace(/!\[([^\]]*)\]\((\/assets\/[^)]+)\)/g, (_, alt, src) => `<img src="${src}" alt="${alt.replace(/\s+/g, ' ').replace(/"/g, '&quot;')}">`);
   text = text.replace(/<img\b([^>]*)>/g, (_, attrs) => {
     const tail = attrs.replace(/\s*\/$/, '');
     const src = tail.match(/src="([^"]+)"/)?.[1];
     const dimensions = images[src];
     if (!dimensions) throw new Error(`Missing image dimensions: ${src}`);
-    return `<img${tail}${/\balt=/.test(tail) ? '' : ' alt=""'} width="${dimensions.width}" height="${dimensions.height}" loading="lazy" decoding="async">`;
+    let accessibleAttrs = tail;
+    if (!/\balt="[^"]+"/.test(tail)) {
+      if (typeof dimensions.alt !== 'string' || !dimensions.alt) throw new Error(`Unaudited image alternative: ${src}`);
+      accessibleAttrs = tail.replace(/\s+alt=""/, '') + ` alt="${dimensions.alt.replace(/&/g, '&amp;').replace(/"/g, '&quot;')}"`;
+    }
+    return `<img${accessibleAttrs} width="${dimensions.width}" height="${dimensions.height}" loading="lazy" decoding="async">`;
   });
   return text;
 }

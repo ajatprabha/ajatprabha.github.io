@@ -6,7 +6,7 @@ route: "/2018/06/03/second-week-at-gojek"
 tags: ["gojek","internship","travel","golang"]
 projectIds: ["darkroom"]
 author: "ajatprabha"
-cover: {"src":"/assets/images/IMG_20180603_095731.jpg","alt":"","height":864,"width":1536}
+cover: {"height":864,"width":1536,"alt":"","src":"/assets/images/IMG_20180603_095731.jpg"}
 legacySourceId: "2018-06-03-second-week-at-gojek"
 ---
 
@@ -25,15 +25,15 @@ Let me explain a bit, suppose a request comes for an image at URL `host[dot]com/
 Now the handler has to figure out what to do with the image based on the query parameters in the URL. Since we have to implement resize, crop and grayscale functionality, for now, I decided to work on individual image processing parts first. It'll be easier to test also. But it was not that easier first because we used a [Go wrapper](https://github.com/gographics/imagick) on ImageMagick library for image manipulation and the version was missing some features that we wanted to use. The solution was to create our own logic.  
 
 <div class="gallery">
-    <img src="/assets/images/base_image.jpg" alt="" width="1280" height="517" loading="lazy" decoding="async">
+    <img src="/assets/images/base_image.jpg" alt="Original 600 by 400 pixel photo of strawberry pastries, beside a target frame measuring 320 by 240 pixels." width="1280" height="517" loading="lazy" decoding="async">
     <p><em>Original</em></p>
     <div>
         <div>
-            <img src="/assets/images/base_resized.jpg" alt="" width="505" height="380" loading="lazy" decoding="async">
+            <img src="/assets/images/base_resized.jpg" alt="The full pastry photo resized to fit a 320 by 240 pixel frame, preserving its proportions with space above and below." width="505" height="380" loading="lazy" decoding="async">
             <p><em>Resized image</em></p>
         </div>
         <div>
-            <img src="/assets/images/base_cropped.jpg" alt="" width="640" height="451" loading="lazy" decoding="async">
+            <img src="/assets/images/base_cropped.jpg" alt="The pastry photo cropped to fill a 320 by 240 pixel frame, with the excluded right edge faded out." width="640" height="451" loading="lazy" decoding="async">
             <p><em>Cropped image</em></p>
         </div>
     </div>
@@ -113,16 +113,16 @@ It's not as easy as it seems to write code along with TDD while you've to unders
 
 It was 0400 hours in the morning, I woke to pick the car we booked for our trip to Coorg. Krishna took the car, picked up Riya and Anugrah, we were next in line, and then we were off to Coorg probably around 0600 hours. The weather was awesome, there was music playing in the car and we were enjoying the drive. Around 0930 hours we pulled over the car to have breakfast and it was great to find such south Indian food on the highway in the middle of nowhere.  
 
-<img src="/assets/images/IMG_20180602_082543.jpg" alt="" width="720" height="960" loading="lazy" decoding="async">  
+<img src="/assets/images/IMG_20180602_082543.jpg" alt="Friends eating dosas and other breakfast dishes at a roadside restaurant on the way to Coorg." width="720" height="960" loading="lazy" decoding="async">  
 
 We continued the trip and it would take us 4 more hours to reach our destination. The road was great, people were awesome. You can't get bored when you've Anugrah with you. Stories from college, previous road trip experiences, etc everything was talked about. Our playlist included songs from the year as old as 1970s to 2018, from _Mere mehboob qayamat hogi_ to the latest _Tareefan_, from _Aao milo chalein_ to _Mi Gente_. It was already the best trip ever.  
 
 <div class="gallery">
     <div>
-        <img src="/assets/images/IMG_20180602_103608558_HDR.jpg" alt="" width="720" height="720" loading="lazy" decoding="async">
+        <img src="/assets/images/IMG_20180602_103608558_HDR.jpg" alt="Three friends posing around a red rental car during a roadside stop on the Coorg trip." width="720" height="720" loading="lazy" decoding="async">
     </div>
     <div>
-        <img src="/assets/images/IMG_20180602_103745892.jpg" alt="" width="720" height="720" loading="lazy" decoding="async">
+        <img src="/assets/images/IMG_20180602_103745892.jpg" alt="Four friends posing around the red rental car, with one sitting above the windshield." width="720" height="720" loading="lazy" decoding="async">
     </div>
 </div>
 
@@ -130,10 +130,10 @@ We decided to go river rafting but unfortunately, the sport was closed for some 
 
 <div class="gallery">
     <div>
-        <img src="/assets/images/IMG_7152.jpg" alt="" width="600" height="450" loading="lazy" decoding="async">
+        <img src="/assets/images/IMG_7152.jpg" alt="A group selfie with Abbey Falls cascading over rocks in the background." width="600" height="450" loading="lazy" decoding="async">
     </div>
     <div>
-        <img src="/assets/images/IMG_20180602_150644.jpg" alt="" width="500" height="500" loading="lazy" decoding="async">
+        <img src="/assets/images/IMG_20180602_150644.jpg" alt="Abbey Falls cascading down a rocky face into a pool surrounded by dense greenery." width="500" height="500" loading="lazy" decoding="async">
     </div>
 </div>  
 
@@ -142,10 +142,10 @@ We drove back to Madikeri from Talakaveri, it was around 2200 hours and we looke
 
 <div class="gallery">
     <div>
-        <img src="/assets/images/IMG_20180603_080640.jpg" alt="" width="600" height="600" loading="lazy" decoding="async">
+        <img src="/assets/images/IMG_20180603_080640.jpg" alt="A balcony view across the homestay's garden and nearby red-tiled roofs in Madikeri." width="600" height="600" loading="lazy" decoding="async">
     </div>
     <div>
-        <img src="/assets/images/IMG_20180603_080548.jpg" alt="" width="600" height="600" loading="lazy" decoding="async">
+        <img src="/assets/images/IMG_20180603_080548.jpg" alt="Misty morning over red-tiled roofs, gardens, and trees near the Madikeri homestay." width="600" height="600" loading="lazy" decoding="async">
     </div>
 </div>  
 
@@ -158,7 +158,7 @@ Rajat was our travel planner, he picked a few places that we had to visit before
 Filled with seasonal flowers and artificial fountains, it was really some kind of a King's seat. The mountain ranges, the valley below and the greenery were so damn refreshing. The weather was as usual very pleasant. We had our breakfast and zoomed to our next destination.  
 
 <div class="gallery">
-    <img src="/assets/images/PANO_20180603_093929.jpg" alt="" width="1200" height="426" loading="lazy" decoding="async">
+    <img src="/assets/images/PANO_20180603_093929.jpg" alt="Panoramic view from Raja's Seat over wooded hills and fields, with visitors gathered at the lookout." width="1200" height="426" loading="lazy" decoding="async">
 </div>  
 
 
@@ -167,17 +167,17 @@ Filled with seasonal flowers and artificial fountains, it was really some kind o
 
 This was some kind of island which was surrounded by a river! I know, seems a little odd to imagine an island in Coorg. We had to walk over a hanging bridge to get to the island. There were deer on the island. We found a way to get to the river bank and removed our shoes to get into the water. It was cold! We spent almost an hour there and decided to head back to Bangalore. The whole time it was raining when we were coming back. But it was a nice drive back in the rain.  
 
-<video width="640" height="360" controls preload="metadata">
+<video width="640" height="360" controls preload="metadata" playsinline>
     <source src="/assets/videos/VID_20180603_111153.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>  
 
 <div class="gallery">
     <div>
-        <img src="/assets/images/IMG_20180603_123229_BURST2.jpg" alt="" width="600" height="600" loading="lazy" decoding="async">
+        <img src="/assets/images/IMG_20180603_123229_BURST2.jpg" alt="A friend jumping above a large rock beside the river at Nisargadhama." width="600" height="600" loading="lazy" decoding="async">
     </div>
     <div>
-        <img src="/assets/images/IMG_20180603_123841.jpg" alt="" width="650" height="488" loading="lazy" decoding="async">
+        <img src="/assets/images/IMG_20180603_123841.jpg" alt="A group selfie standing barefoot in shallow river water at Nisargadhama." width="650" height="488" loading="lazy" decoding="async">
     </div>
 </div>  
 

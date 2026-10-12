@@ -6,7 +6,7 @@ route: "/2020/06/24/k8s-operator-with-api-server-for-gui"
 tags: ["kubernetes","golang"]
 projectIds: ["darkroom"]
 author: "ajatprabha"
-cover: {"src":"/assets/images/k8s-banner.jpg","alt":"","height":900,"width":1440}
+cover: {"height":900,"width":1440,"alt":"","src":"/assets/images/k8s-banner.jpg"}
 legacySourceId: "2020-06-24-k8s-operator-with-api-server-for-gui"
 ---
 
@@ -390,7 +390,7 @@ The above code might feel repitive since we want to achieve idempotency. However
 The actual implementation of `desiredConfigMap`, `desiredDeployment`, `desiredService` and `desiredIngress` can be found in [helpers.go](https://github.com/ajatprabha/operator-example/blob/master/controllers/helpers.go)  
 We can now run the controller and it will work as expected.  
 
-<video width="720" controls preload="metadata">
+<video width="720" controls preload="metadata" playsinline>
     <source src="/assets/videos/operator-ex-01.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>  
@@ -676,7 +676,7 @@ curl localhost:5000/darkrooms
 
 The new API server can also be used to create new Darkroom instances.  
 
-<video width="720" controls preload="metadata">
+<video width="720" controls preload="metadata" playsinline>
     <source src="/assets/videos/operator-ex-02.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>  

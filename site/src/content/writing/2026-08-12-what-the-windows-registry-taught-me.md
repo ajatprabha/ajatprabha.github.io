@@ -6,7 +6,7 @@ route: "/2026/08/12/what-the-windows-registry-taught-me"
 tags: ["golang"]
 projectIds: ["ferry"]
 author: "ajatprabha"
-cover: {"src":"/assets/images/ferry-windows-hero.jpg","alt":"","height":900,"width":1440}
+cover: {"height":900,"width":1440,"alt":"","src":"/assets/images/ferry-windows-hero.jpg"}
 legacySourceId: "2026-08-12-what-the-windows-registry-taught-me"
 ---
 

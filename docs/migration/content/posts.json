@@ -75,7 +75,7 @@
     "publishedAt": "2018-06-03T12:00:00+00:00",
     "title": "Week 2 - Exploring Golang and the trip to Coorg",
     "sourceBodySha256": "be0b53b85c02274605dc8e37cca886b4784718442dae1d4039e091c95a933304",
-    "convertedBodySha256": "11b54ae6c916868055a7235d79a308147e1ac2640267d13124a1baaa561452c3",
+    "convertedBodySha256": "3db39ec29602d65346938725482c492b12e86ff0edae75e1b680e931470859cd",
     "headingIds": [
       "day-1",
       "weekend",
@@ -91,7 +91,7 @@
     "publishedAt": "2018-06-10T12:00:00+00:00",
     "title": "Week 3 - Lots of code and learning",
     "sourceBodySha256": "80c6bedd044d0c5d7c37a6336cdca3b1a48eea932c3b551e4db77e15c7321601",
-    "convertedBodySha256": "3cc28f356fe3dd26fbd1c560ffb350325e4ecb5cfbdd480c8ecc1e36b9a83758",
+    "convertedBodySha256": "156d8e0bdf85a6245893b40d7d14ab1942878c5fc19eadb86a6afac148b66731",
     "headingIds": [
       "day-1",
       "day-2-3",
@@ -108,7 +108,7 @@
     "publishedAt": "2018-06-17T12:00:00+00:00",
     "title": "Week 4 - Load testing with Vegeta and trip to Puducherry",
     "sourceBodySha256": "5a7e981482927d6105e1f70519bd74be36b327904cdc21a47e7dfab652ad910a",
-    "convertedBodySha256": "228262c0f57cee93b8a511e49234c01a365c537a8ba76aac30a433a983485327",
+    "convertedBodySha256": "6f1ec3126079d859d19e2ee00977b1cc1884b407a3850a480d697150ce6bdf69",
     "headingIds": [
       "day-1",
       "day-2-3",
@@ -124,7 +124,7 @@
     "publishedAt": "2020-06-24T12:00:00+00:00",
     "title": "Writing Kubernetes Operator with an API Server for Custom GUI",
     "sourceBodySha256": "97a9c21e3d4bbcd59559468583f73c2b3324d95dc0e7658c3e78083c06d8517f",
-    "convertedBodySha256": "1510fe5926b2a10566236e6e18c8b7c5d89be1ee4d9d5b3f52b1a9385951301c",
+    "convertedBodySha256": "120e4cbe8252719e35b8b53d3674a7fa84a411c96a7d141f2a1316d5dfd3322e",
     "headingIds": [
       "background",
       "why-make-an-operator",
@@ -145,7 +145,7 @@
     "publishedAt": "2020-10-06T12:00:00+00:00",
     "title": "Making a DIY Sound System that looks minimalistic",
     "sourceBodySha256": "641b4fe685fd4fe9d4128b1efa6d652ad98a457783290853c5f61c1d1a3f83aa",
-    "convertedBodySha256": "c21f066bb4ac12e7f161a1cadc47eb6c34968b44b0a85a5dc9f6333cdf0762e7",
+    "convertedBodySha256": "e5d353d1d740af28bcf44ca846379eea7f37cab2a74e2f883f7d744e3081c29b",
     "headingIds": [
       "studying-about-sound-systems",
       "the-diy-power-supply"

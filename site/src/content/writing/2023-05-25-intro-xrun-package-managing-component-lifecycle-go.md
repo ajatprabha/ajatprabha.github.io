@@ -6,7 +6,7 @@ route: "/2023/05/24/intro-xrun-package-managing-component-lifecycle-go"
 tags: ["golang"]
 projectIds: ["xrun"]
 author: "ajatprabha"
-cover: {"src":"/assets/images/gophers.jpg","alt":"","height":900,"width":1440}
+cover: {"height":900,"width":1440,"alt":"","src":"/assets/images/gophers.jpg"}
 legacySourceId: "2023-05-25-intro-xrun-package-managing-component-lifecycle-go"
 ---
 

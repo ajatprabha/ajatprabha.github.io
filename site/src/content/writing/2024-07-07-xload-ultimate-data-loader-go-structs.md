@@ -6,7 +6,7 @@ route: "/2024/07/07/xload-ultimate-data-loader-go-structs"
 tags: ["golang"]
 projectIds: []
 author: "ajatprabha"
-cover: {"src":"/assets/images/xload-gophers.jpg","alt":"","height":900,"width":1440}
+cover: {"height":900,"width":1440,"alt":"","src":"/assets/images/xload-gophers.jpg"}
 legacySourceId: "2024-07-07-xload-ultimate-data-loader-go-structs"
 ---
 

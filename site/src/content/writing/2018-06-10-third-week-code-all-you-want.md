@@ -6,7 +6,7 @@ route: "/2018/06/10/third-week-code-all-you-want"
 tags: ["gojek","internship"]
 projectIds: ["darkroom"]
 author: "ajatprabha"
-cover: {"src":"/assets/images/IMG_20180605_164123_1.jpg","alt":"","height":864,"width":1536}
+cover: {"height":864,"width":1536,"alt":"","src":"/assets/images/IMG_20180605_164123_1.jpg"}
 legacySourceId: "2018-06-10-third-week-code-all-you-want"
 ---
 
@@ -27,10 +27,10 @@ The actual rollout is very easy because it is all automated. You just click a bu
 
 <div class="gallery">
     <div>
-        <img src="/assets/images/IMG_20180604_125819.jpg" alt="" width="720" height="720" loading="lazy" decoding="async">
+        <img src="/assets/images/IMG_20180604_125819.jpg" alt="A monitor and laptop displaying service monitoring dashboards with line charts and pink bars during a deployment." width="720" height="720" loading="lazy" decoding="async">
     </div>
     <div>
-        <img src="/assets/images/IMG_20180604_125835.jpg" alt="" width="720" height="720" loading="lazy" decoding="async">
+        <img src="/assets/images/IMG_20180604_125835.jpg" alt="A second view of the deployment monitoring dashboard, showing several time-series charts on an external monitor." width="720" height="720" loading="lazy" decoding="async">
     </div>
 </div>  
 
@@ -98,7 +98,7 @@ I was writing tests for a function and had to call the same function twice insid
 
 
 Puneet held a learning session in which I learned how actually the deploying process works, what happens inside all this one click `voodoo` that deploys your app automatically. There's a Chef, a knife, a cookbook, and many recipes. Yes, they're actually named like this.  
-<img src="/assets/images/IMG_20180606_115642.jpg" alt="" width="720" height="405" loading="lazy" decoding="async">  A chef knows everything, it is a server which is used to communicate during the deployment process and tells the chef-clients what to do. Every VM has a chef-client which is instructed to pick up a cookbook and start the deployment. A cookbook is nothing but contains the information on how to build an application, just like an actual cookbook has recipes for dishes. Now the individual recipes are analogous to applications.  
+<img src="/assets/images/IMG_20180606_115642.jpg" alt="Colleagues gathered around a meeting-room display while a presenter points to code on screen." width="720" height="405" loading="lazy" decoding="async">  A chef knows everything, it is a server which is used to communicate during the deployment process and tells the chef-clients what to do. Every VM has a chef-client which is instructed to pick up a cookbook and start the deployment. A cookbook is nothing but contains the information on how to build an application, just like an actual cookbook has recipes for dishes. Now the individual recipes are analogous to applications.  
 
 Let's say your application needs database. You can avoid all the pain to set up the database server and just include the `postgresql` or `mysql` recipe and voila, chef-client does it for you. Same happens with your own application, you just need to specify a recipe on how to build the app.  
 

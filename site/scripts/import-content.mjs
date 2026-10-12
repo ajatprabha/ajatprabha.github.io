@@ -15,9 +15,10 @@ for (const occurrence of capture.occurrences) {
   if (createHash('sha256').update(content).digest('hex') !== occurrence.sha256) throw new Error(`Gist hash differs: ${occurrence.path}`);
   gistSources[occurrence.scriptUrl] = { ...occurrence, content };
 }
+const alternatives = JSON.parse(await readFile(path.join(root, 'site/scripts/content/media-alternatives.json'), 'utf8'));
 const images = {};
 for (const filename of await readdir(path.join(root, 'assets/images'))) {
-  if (/\.(jpg|png|svg)$/.test(filename)) images[`/assets/images/${filename}`] = imageDimensions(await readFile(path.join(root, 'assets/images', filename)), filename);
+  if (/\.(jpg|png|svg)$/.test(filename)) images[`/assets/images/${filename}`] = { ...imageDimensions(await readFile(path.join(root, 'assets/images', filename)), filename), alt: alternatives[`/assets/images/${filename}`] };
 }
 const posts = [];
 for (const filename of (await readdir(path.join(root, '_posts'))).sort()) {
@@ -42,7 +43,7 @@ for (const post of posts) {
   const body = convertBody(post.body, { routes, gistSources, headings: evidence.headings, images });
   const firstParagraph = post.body.trim().split(/\n\s*\n/)[0].replace(/^>\s*/gm, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/[*`_]/g, '').replace(/\s+/g, ' ').trim();
   const metadata = { title: post.title, description: firstParagraph.length > 190 ? `${firstParagraph.slice(0, 187).trimEnd()}...` : firstParagraph,
-    publishedAt: post.publishedAt, route: post.route, tags: post.tags, projectIds: relatedProjects[post.id] ?? [], author: 'ajatprabha', cover: { ...post.cover, ...images[post.cover.src] }, legacySourceId: post.id };
+    publishedAt: post.publishedAt, route: post.route, tags: post.tags, projectIds: relatedProjects[post.id] ?? [], author: 'ajatprabha', cover: { ...images[post.cover.src], ...post.cover }, legacySourceId: post.id };
   const frontmatter = Object.entries(metadata).map(([key, value]) => `${key}: ${JSON.stringify(value)}`).join('\n');
   await writeFile(path.join(target, `${post.id}.md`), `---\n${frontmatter}\n---\n${body}`);
   audit.push({ source: `_posts/${post.id}.md`, route: post.route, publishedAt: post.publishedAt, title: post.title,

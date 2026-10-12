@@ -6,7 +6,7 @@ route: "/2018/05/27/first-week-at-gojek-bangalore"
 tags: ["gojek","internship","travel"]
 projectIds: []
 author: "ajatprabha"
-cover: {"src":"/assets/images/IMG_20180528_084003.jpg","alt":"","height":1635,"width":2160}
+cover: {"height":1635,"width":2160,"alt":"","src":"/assets/images/IMG_20180528_084003.jpg"}
 legacySourceId: "2018-05-27-first-week-at-gojek-bangalore"
 ---
 

@@ -6,7 +6,7 @@ route: "/2017/12/12/sdlc-waterfall-vs-agile"
 tags: ["sdlc","agile development","waterfall"]
 projectIds: []
 author: "ajatprabha"
-cover: {"src":"/assets/images/getting-to-know.jpg","alt":"","height":1350,"width":2160}
+cover: {"height":1350,"width":2160,"alt":"","src":"/assets/images/getting-to-know.jpg"}
 legacySourceId: "2017-12-12-sdlc-waterfall-vs-agile"
 ---
 

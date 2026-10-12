@@ -85,3 +85,26 @@ test('each pinned Gist hash matches captured source and every occurrence appears
   }
   assert.equal((await readdir(path.join(root, 'site/src/content/projects'))).filter((file) => file.endsWith('.md')).length, 6);
 });
+
+test('informative media alternatives and inline playback survive actual import', async () => {
+  const alternatives = JSON.parse(await readFile(path.join(root, 'site/scripts/content/media-alternatives.json'), 'utf8'));
+  assert.equal(Object.keys(alternatives).length, 23);
+  let videos = 0; let reviewedImages = 0;
+  for (const filename of (await readdir(path.join(root, 'site/src/content/writing'))).filter((file) => file.endsWith('.md'))) {
+    const source = await readFile(path.join(root, `site/src/content/writing/${filename}`), 'utf8');
+    const metadata = parse(source.match(/^---\n([\s\S]*?)\n---/)[1]);
+    assert.equal(metadata.cover.alt, '', 'Decorative covers remain explicitly decorative');
+    for (const video of source.matchAll(/<video\b[^>]*>/g)) {
+      assert.match(video[0], /\bplaysinline\b/); assert.match(video[0], /\bcontrols\b/); assert.match(video[0], /preload="metadata"/); videos++;
+    }
+    for (const image of source.matchAll(/<img\b[^>]*>/g)) {
+      const src = image[0].match(/src="([^"]+)"/)[1];
+      assert.match(image[0], /alt="[^"]+"/, `Informative body image requires an alternative: ${src}`);
+      if (alternatives[src]) { assert.ok(image[0].includes(alternatives[src])); reviewedImages++; }
+    }
+  }
+  assert.equal(videos, 5); assert.equal(reviewedImages, 23);
+  assert.throws(() => convertBody('<img src="/assets/images/unreviewed.jpg">', {
+    ...empty, images: { '/assets/images/unreviewed.jpg': { width: 100, height: 100 } },
+  }), /Unaudited image alternative/);
+});

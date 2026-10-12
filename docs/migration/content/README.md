@@ -57,3 +57,17 @@ npm --prefix site run validate:content
 ```
 
 The five fidelity checks cover unchanged fenced source code and ordinary prose, exact metadata and heading IDs, accessible heading levels, all five native videos, all Gist source hashes and attribution, and explicit failures for unavailable sources or unknown article links.
+
+## Accessibility review corrections
+
+All 23 originally alt-less body images were opened individually and reviewed against their surrounding source paragraphs on 12 October 2026.
+Their visual and caption-backed alternatives are recorded in `site/scripts/content/media-alternatives.json` and supplied explicitly to the pure converter alongside image dimensions.
+The alternatives describe the resize/crop comparison, DIY power supply assembly, monitoring displays, team presentation, and travel photographs without inferring people's identities.
+No uncertain image alternative remains from this audit.
+Decorative article covers retain an explicit empty alternative because the adjacent title provides their context.
+An informative body image without an audited alternative now fails conversion instead of silently receiving an empty alternative.
+
+All five historical video elements now preserve inline playback through `playsinline`, alongside native controls and conservative metadata preloading.
+No video captions or transcripts were invented.
+Accessible text alternatives for the original videos still require review of their audio and visual content before production cutover; the retained browser fallback text is not a transcript.
+The sixth fidelity check verifies the audited alternatives, explicit failure for an unaudited image, decorative cover treatment, and all five inline video attributes.

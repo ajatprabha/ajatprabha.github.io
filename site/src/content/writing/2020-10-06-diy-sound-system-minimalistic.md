@@ -6,7 +6,7 @@ route: "/2020/10/06/diy-sound-system-minimalistic"
 tags: ["DIY","sound"]
 projectIds: []
 author: "ajatprabha"
-cover: {"src":"/assets/images/IMG_20201007_235240.jpg","alt":"","height":3000,"width":4000}
+cover: {"height":3000,"width":4000,"alt":"","src":"/assets/images/IMG_20201007_235240.jpg"}
 legacySourceId: "2020-10-06-diy-sound-system-minimalistic"
 ---
 
@@ -45,10 +45,10 @@ In basic electronics, we have learnt that if you connect these ICs in parallel, 
 
 <div class="gallery">
     <div>
-        <img src="/assets/images/IMG_20200828_110823.jpg" alt="" width="1440" height="762" loading="lazy" decoding="async">
+        <img src="/assets/images/IMG_20200828_110823.jpg" alt="Power supply assembly parts on a workbench: a perforated circuit board, voltage regulators, an aluminum heat sink, and thermal paste." width="1440" height="762" loading="lazy" decoding="async">
     </div>
     <div>
-		<img src="/assets/images/IMG_20200925_104125.jpg" alt="" width="681" height="1080" loading="lazy" decoding="async">
+		<img src="/assets/images/IMG_20200925_104125.jpg" alt="Transformer and power supply wiring connected to a multimeter displaying 36.46 volts." width="681" height="1080" loading="lazy" decoding="async">
     </div>
 </div>  
 
@@ -56,13 +56,13 @@ I can go into more details about how exactly I did this but I think that would m
 
 <div class="gallery">
     <div>
-		<video width="360" height="736" controls preload="metadata">
+		<video width="360" height="736" controls preload="metadata" playsinline>
 			<source src="/assets/videos/Snapchat-1775669112.mp4" type="video/mp4">
 			Your browser does not support the video tag.
 		</video>
     </div>
     <div>
-		<video width="360" height="736" controls preload="metadata">
+		<video width="360" height="736" controls preload="metadata" playsinline>
 			<source src="/assets/videos/Snapchat-1169001711.mp4" type="video/mp4">
 			Your browser does not support the video tag.
 		</video>
