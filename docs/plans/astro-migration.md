@@ -55,13 +55,13 @@ The launch decision record distinguishes those choices from architecture default
 | Comments | No public comments; preserve an archive if any existing comments exist | Audit actual threads and archive before cutover |
 | External code embeds | Local syntax-highlighted blocks with source links and attribution | Selected; capture and compare available Gist files |
 | Projects | Darkroom, Tempogate, Ferry, Dagger, xrun, GSoC Kubernetes Dashboard work, in that order | Selection and authorship supplied by user; verify technical descriptions |
-| About | Resume-sourced, role-neutral biography as recorded in launch decisions | Current-role wording optional; do not infer a present role from ended positions |
+| About | Resume-sourced, role-neutral biography as recorded in launch decisions | Explicitly selected; do not infer a present role from ended positions |
 | App location | Permanent `site/` directory | Architecture default, chosen to support safe coexistence |
 | Deployment | Keep branch-based `gh-pages` publishing for this migration | Verify existing Pages settings before implementation |
 
 Feature decisions are settled; actual comment preservation and source/content parity remain cutover gates.
 All 23 referenced Gist files were available in the follow-up audit, but code capture is still required.
-The sourced biography and six selected projects are enough for the first preview; current-role wording may be added when supplied.
+The sourced biography and six selected projects are enough for the first preview; no biography decision remains.
 
 ## Repository architecture
 
