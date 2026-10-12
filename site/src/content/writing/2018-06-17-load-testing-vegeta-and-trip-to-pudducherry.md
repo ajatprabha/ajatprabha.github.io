@@ -4,6 +4,7 @@ description: "This week, I acknowledged the importance of load testing before de
 publishedAt: "2018-06-17T12:00:00+00:00"
 route: "/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry"
 tags: ["gojek","internship","travel"]
+projectIds: ["darkroom"]
 author: "ajatprabha"
 cover: {"src":"/assets/images/IMG_20180617_083757.jpg","alt":"","height":864,"width":1536}
 legacySourceId: "2018-06-17-load-testing-vegeta-and-trip-to-pudducherry"

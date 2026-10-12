@@ -4,6 +4,7 @@ description: "I was always curious to know, how a professional business software
 publishedAt: "2017-12-12T17:49:00+00:00"
 route: "/2017/12/12/sdlc-waterfall-vs-agile"
 tags: ["sdlc","agile development","waterfall"]
+projectIds: []
 author: "ajatprabha"
 cover: {"src":"/assets/images/getting-to-know.jpg","alt":"","height":1350,"width":2160}
 legacySourceId: "2017-12-12-sdlc-waterfall-vs-agile"
@@ -22,13 +23,13 @@ I was always curious to know, how a professional business software is developed 
 Source: Self-created
 
 
-<h4 id="requirement-analysis">Requirement Analysis</h4>
+<h2 id="requirement-analysis">Requirement Analysis</h2>
 
 
 This is the first step of SDLC in which the Product/Software owner analyses the problem at hand and the requirements needed to solve it, the features needed to be fulfilled by the end product. The analyst shall also look at the feasibility of the features in terms of Operational, Economical, Technical and Legal situations. The problem is then broken down into smaller requirements to simplify the goals that need to be achieved. Once this is done, the process moves to the next step.
 
 
-<h4 id="design">Design</h4>
+<h2 id="design">Design</h2>
 
 
 When all the features requirements and goals are documented, then a team of developers decides and describes various aspects of the software design viz.
@@ -42,13 +43,13 @@ When all the features requirements and goals are documented, then a team of deve
 The end result of this stage will result in a well-documented requirement of modules and/or subsystems upon which the next step will continue.
 
 
-<h4 id="development">Development</h4>
+<h2 id="development">Development</h2>
 
 
 This is the step where all the documented requirements are converted into actual code. Several developers work on their assigned features on their own development environments. Once they complete their work, it is merged using [VCS](https://en.wikipedia.org/wiki/Version_control) and then it moves to the next step.
 
 
-<h4 id="testing">Testing</h4>
+<h2 id="testing">Testing</h2>
 
 
 This is one of the most important steps of SDLC. During the past 2-3 decades, testing has become very important in SDLC. To simply put it:
@@ -58,13 +59,13 @@ This is one of the most important steps of SDLC. During the past 2-3 decades, te
 Once the code is developed, then various types of tests are written and run on the code to find bugs and reassure the functioning of the software. It also helps in future quality assurance when refactoring is done, or a new feature is added, or an old one is removed. Tests will make sure that you don’t violate the contract that a function is bound to fulfil. There are [unit tests](/2017/12/20/tdd-why-bother), integration tests, automation tests, and performance tests, to name a few.
 
 
-<h4 id="deployment">Deployment</h4>
+<h2 id="deployment">Deployment</h2>
 
 
 Once testing is done and the quality is assured, then the software/product is deployed on a physical machine. This machine can be either a dedicated enterprise machine, say a data-centre or a client’s own machine.
 
 
-<h4 id="maintenance">Maintenance</h4>
+<h2 id="maintenance">Maintenance</h2>
 
 
 Finally, the last step kicks in. In this, once deployed, the product is constantly reviewed for any bugs and other issues, if it can troubleshoot easily, then it’s okay otherwise it moves back again to Design step and the cycle is repeated. Now that we know what an SDLC is, let us discuss the SDLC models!

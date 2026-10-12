@@ -4,6 +4,7 @@ description: "Hello, Go community! Today, I am excited to announce a Golang pack
 publishedAt: "2023-05-24T01:00:00+00:00"
 route: "/2023/05/24/intro-xrun-package-managing-component-lifecycle-go"
 tags: ["golang"]
+projectIds: ["xrun"]
 author: "ajatprabha"
 cover: {"src":"/assets/images/gophers.jpg","alt":"","height":900,"width":1440}
 legacySourceId: "2023-05-25-intro-xrun-package-managing-component-lifecycle-go"
@@ -12,7 +13,7 @@ legacySourceId: "2023-05-25-intro-xrun-package-managing-component-lifecycle-go"
 Hello, Go community! Today, I am excited to announce a Golang package I have been working on named `xrun`. This package provides a streamlined way of running multiple components, specifically long-running components like an HTTP server or background worker. In this blog post, I will walk you through the basic functionality of `xrun` and how it can help you manage your long-running components more efficiently.
 
 
-<h1 id="introducing-xrun">Introducing xrun</h1>
+<h2 id="introducing-xrun">Introducing xrun</h2>
 
 
 As the size and complexity of a Go service increase, managing the lifecycles of its various components becomes a daunting task. This post introduces `xrun`, a flexible and versatile Go package that simplifies this process, making it easier to reason about and manage your application's components.
@@ -24,7 +25,7 @@ The `Manager` works by starting each component in its own goroutine and waiting 
 `xrun` is available at [github.com/gojekfarm/xrun](https://github.com/gojekfarm/xrun), and you can read the full documentation on [pkg.go.dev](https://pkg.go.dev/github.com/gojekfarm/xrun).
 
 
-<h2 id="getting-started">Getting Started</h2>
+<h3 id="getting-started">Getting Started</h3>
 
 
 Let's start by importing the `xrun` package:
@@ -70,13 +71,13 @@ if err := m.Run(ctx); err != nil {
 ```
 
 
-<h2 id="features-of-xrun">Features of <code>xrun</code></h2>
+<h3 id="features-of-xrun">Features of <code>xrun</code></h3>
 
 
 Now, let's dive into some features of `xrun`.
 
 
-<h5 id="component">Component</h5>
+<h4 id="component">Component</h4>
 
 
 The `Component` interface is the foundation of `xrun`. It allows you to start a component that will run until the context is closed or an error occurs:
@@ -90,7 +91,7 @@ type Component interface {
 ___
 
 
-<h5 id="componentfunc">ComponentFunc</h5>
+<h4 id="componentfunc">ComponentFunc</h4>
 
 
 `ComponentFunc` is a helper that allows you to implement `Component` inline. It's perfect for writing custom components on the fly:
@@ -102,7 +103,7 @@ type ComponentFunc func(ctx context.Context) error
 ___
 
 
-<h5 id="manager">Manager</h5>
+<h4 id="manager">Manager</h4>
 
 
 The `Manager` type helps you to run multiple components and waits for them to complete. You can add components with the `Add()` method and run them with the `Run()` method:
@@ -119,7 +120,7 @@ func (m *Manager) Run(ctx context.Context) (err error) {...}
 > Note: Since `Manager` has a `Run(context.Context) error` method, it is a `Component` in itself, and hence, it is possible to nest multiple `Manager(s)`.
 
 
-<h2 id="creating-and-using-components">Creating and Using Components</h2>
+<h3 id="creating-and-using-components">Creating and Using Components</h3>
 
 
 A component in `xrun` is anything that implements the `Component` interface. This interface only requires a single method: `Run(context.Context) error`.
@@ -189,19 +190,19 @@ if err := xrun.All(xrun.NoTimeout, s1, s2).Run(ctx); err != nil {
 ```
 
 
-<h2 id="extending-xrun-custom-component-examples">Extending xrun: Custom Component Examples</h2>
+<h3 id="extending-xrun-custom-component-examples">Extending xrun: Custom Component Examples</h3>
 
 
 While `xrun` provides some built-in components, you can create your own to suit your specific needs.
 
 
-<h3 id="http-server">HTTP Server</h3>
+<h4 id="http-server">HTTP Server</h4>
 
 
 The `xrun` package includes an HTTP server component out of the box. It is available in the `xrun/component` subpackage.
 
 
-<h3 id="grpc-server-experimental">gRPC Server (Experimental)</h3>
+<h4 id="grpc-server-experimental">gRPC Server (Experimental)</h4>
 
 
 For more advanced use cases, you can create custom components like a gRPC server. An experimental gRPC server component is available in the `component/x/grpc` subpackage.
@@ -305,7 +306,7 @@ func main() {
 ```
 
 
-<h2 id="conclusion">Conclusion</h2>
+<h3 id="conclusion">Conclusion</h3>
 
 
 The `xrun` package makes it easier to manage component lifecycles in your Go applications. By allowing you to define and control how each component starts and stops, you can make your application more maintainable and robust.

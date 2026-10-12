@@ -4,6 +4,7 @@ description: "I'm a huge music enthusiast and I listen to music almost half the 
 publishedAt: "2020-10-06T12:00:00+00:00"
 route: "/2020/10/06/diy-sound-system-minimalistic"
 tags: ["DIY","sound"]
+projectIds: []
 author: "ajatprabha"
 cover: {"src":"/assets/images/IMG_20201007_235240.jpg","alt":"","height":3000,"width":4000}
 legacySourceId: "2020-10-06-diy-sound-system-minimalistic"
@@ -19,7 +20,7 @@ I really liked the second idea because I wanted the speaker system to be as mini
 > > Demo at the end!
 
 
-<h3 id="studying-about-sound-systems">Studying about sound systems</h3>
+<h2 id="studying-about-sound-systems">Studying about sound systems</h2>
 
 
 Now the problem was that I have never done it before! So how do I go about it? As anyone would do, I Googled `how to make DIY sound system` and it flooded me with lots of DIY videos and information around how to decide the characteristics of the sound that the system will produce or how to design the closure for the subwoofer.  
@@ -35,7 +36,7 @@ Digging in a little deeper I found an IC, TPA3116D2, which is a dual channel cla
 In order to supply it with exactly 21 volts of voltage and around 7.5 amperes of maximum current, I tried to find a few power supplies with that exact description but wasn't able to find any. So the last resort that I had was to build that power supply myself and I did exactly that. 
 
 
-<h3 id="the-diy-power-supply">The DIY Power Supply</h3>
+<h2 id="the-diy-power-supply">The DIY Power Supply</h2>
 
 
 I again went back to Google and started looking for `how can I make a power supply myself`. I had a few requirements that the voltage should be constant at 21 volts and the maximum current that can flow through the circuit should be up to 7.5 ampere, because 200W/21V ~ 9.5 Amps and 7.5 Amps should be enough to produce good quality sound without the amplified being shut-off.  

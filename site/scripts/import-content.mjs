@@ -24,6 +24,15 @@ for (const filename of (await readdir(path.join(root, '_posts'))).sort()) {
   if (filename.endsWith('.md')) posts.push(readLegacy(await readFile(path.join(root, '_posts', filename), 'utf8'), filename));
 }
 const routes = Object.fromEntries(posts.map((post) => [post.id, post.route]));
+const relatedProjects = {
+  '2018-06-03-second-week-at-gojek': ['darkroom'],
+  '2018-06-10-third-week-code-all-you-want': ['darkroom'],
+  '2018-06-17-load-testing-vegeta-and-trip-to-pudducherry': ['darkroom'],
+  '2020-06-24-k8s-operator-with-api-server-for-gui': ['darkroom'],
+  '2023-05-25-intro-xrun-package-managing-component-lifecycle-go': ['xrun'],
+  '2026-08-12-ferry-xload-learns-to-write': ['ferry'],
+  '2026-08-12-what-the-windows-registry-taught-me': ['ferry'],
+};
 const target = path.join(root, 'site/src/content/writing');
 await mkdir(target, { recursive: true });
 const audit = [];
@@ -33,7 +42,7 @@ for (const post of posts) {
   const body = convertBody(post.body, { routes, gistSources, headings: evidence.headings, images });
   const firstParagraph = post.body.trim().split(/\n\s*\n/)[0].replace(/^>\s*/gm, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/[*`_]/g, '').replace(/\s+/g, ' ').trim();
   const metadata = { title: post.title, description: firstParagraph.length > 190 ? `${firstParagraph.slice(0, 187).trimEnd()}...` : firstParagraph,
-    publishedAt: post.publishedAt, route: post.route, tags: post.tags, author: 'ajatprabha', cover: { ...post.cover, ...images[post.cover.src] }, legacySourceId: post.id };
+    publishedAt: post.publishedAt, route: post.route, tags: post.tags, projectIds: relatedProjects[post.id] ?? [], author: 'ajatprabha', cover: { ...post.cover, ...images[post.cover.src] }, legacySourceId: post.id };
   const frontmatter = Object.entries(metadata).map(([key, value]) => `${key}: ${JSON.stringify(value)}`).join('\n');
   await writeFile(path.join(target, `${post.id}.md`), `---\n${frontmatter}\n---\n${body}`);
   audit.push({ source: `_posts/${post.id}.md`, route: post.route, publishedAt: post.publishedAt, title: post.title,

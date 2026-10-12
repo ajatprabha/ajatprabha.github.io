@@ -5,7 +5,7 @@
     "publishedAt": "2017-12-12T17:49:00+00:00",
     "title": "Getting to know SDLC | Waterfall vs Agile Development",
     "sourceBodySha256": "41768b972c41c01611e0ef4cbb6e22efe0f1612ad8977926e146a6ae3b155d91",
-    "convertedBodySha256": "e3ce2196976f06b08703b436a66910bced432cfafb3dfbda35de73e5c2fc22d8",
+    "convertedBodySha256": "9d5bf2cf8dc7e570f38af011ef737f590f53c706420065729fab06f30b58338c",
     "headingIds": [
       "requirement-analysis",
       "design",
@@ -27,7 +27,7 @@
     "publishedAt": "2017-12-20T17:24:00+00:00",
     "title": "TDD (Test Driven Development), why bother?",
     "sourceBodySha256": "548cb0a4d9d1e9bf129e3098e32e85b99a4e706ede1dd2d98e9f4a2d2070d79a",
-    "convertedBodySha256": "e45444d8350ce52cd2017f119a53faff19c39d5b0a0d91c91632e62311548f9b",
+    "convertedBodySha256": "0bee628e41bc002f5c945a84cc3369630b701c7c10a92e497184872b8fa127eb",
     "headingIds": [
       "what-is-tdd",
       "the-three-laws-of-tdd",
@@ -51,7 +51,7 @@
     "publishedAt": "2018-05-27T18:00:00+00:00",
     "title": "Week 1 - Experience as an intern at GoJek",
     "sourceBodySha256": "6c3ea3b8f407de26ef1877592366ccb62f6d43029c3f8bd57bc5dea9d24df3b0",
-    "convertedBodySha256": "39015dc3d31e3e60ada99ca7e9c1ed30258b4f30ba7625fc6859d3687500c556",
+    "convertedBodySha256": "8da094a999a86e531c7f6909da17730b962384b3ba74cfdf18a611ece0fe8795",
     "headingIds": [
       "day-1"
     ],
@@ -75,7 +75,7 @@
     "publishedAt": "2018-06-03T12:00:00+00:00",
     "title": "Week 2 - Exploring Golang and the trip to Coorg",
     "sourceBodySha256": "be0b53b85c02274605dc8e37cca886b4784718442dae1d4039e091c95a933304",
-    "convertedBodySha256": "d8a47d95e1db6c544be67f53af739b46b684a92c6464043e7a235705666cb2b7",
+    "convertedBodySha256": "11b54ae6c916868055a7235d79a308147e1ac2640267d13124a1baaa561452c3",
     "headingIds": [
       "day-1",
       "weekend",
@@ -91,7 +91,7 @@
     "publishedAt": "2018-06-10T12:00:00+00:00",
     "title": "Week 3 - Lots of code and learning",
     "sourceBodySha256": "80c6bedd044d0c5d7c37a6336cdca3b1a48eea932c3b551e4db77e15c7321601",
-    "convertedBodySha256": "41a9dbc296dcc6e7119cba5759bf187428bb3d28c96a43ef30a0b9305b4cb35b",
+    "convertedBodySha256": "3cc28f356fe3dd26fbd1c560ffb350325e4ecb5cfbdd480c8ecc1e36b9a83758",
     "headingIds": [
       "day-1",
       "day-2-3",
@@ -124,7 +124,7 @@
     "publishedAt": "2020-06-24T12:00:00+00:00",
     "title": "Writing Kubernetes Operator with an API Server for Custom GUI",
     "sourceBodySha256": "97a9c21e3d4bbcd59559468583f73c2b3324d95dc0e7658c3e78083c06d8517f",
-    "convertedBodySha256": "9eb895e31e29b49919ff32b9c02312b2741a7bcd27d9b0784e3ff6c865cbb932",
+    "convertedBodySha256": "1510fe5926b2a10566236e6e18c8b7c5d89be1ee4d9d5b3f52b1a9385951301c",
     "headingIds": [
       "background",
       "why-make-an-operator",
@@ -145,7 +145,7 @@
     "publishedAt": "2020-10-06T12:00:00+00:00",
     "title": "Making a DIY Sound System that looks minimalistic",
     "sourceBodySha256": "641b4fe685fd4fe9d4128b1efa6d652ad98a457783290853c5f61c1d1a3f83aa",
-    "convertedBodySha256": "c30a040fb35a4ba9a93f7aa965ec624568e53a0962eb0565d8d3369bc66d368e",
+    "convertedBodySha256": "c21f066bb4ac12e7f161a1cadc47eb6c34968b44b0a85a5dc9f6333cdf0762e7",
     "headingIds": [
       "studying-about-sound-systems",
       "the-diy-power-supply"
@@ -159,7 +159,7 @@
     "publishedAt": "2023-05-24T01:00:00+00:00",
     "title": "Introduction to xrun: A Flexible Package for Managing Component Lifecycles in Go",
     "sourceBodySha256": "25b068c10d09c0038b657d924c9eb9847f2158a4105f5cd54c82a0bb72d1b73d",
-    "convertedBodySha256": "d0f92a0a245ee6c9d0e209a1356626bab414449d33af082a9f28d81eb2d44673",
+    "convertedBodySha256": "4a8de368ea6db1e679673d1a606e873e48062863dd049c888de7e58df6b6b2c5",
     "headingIds": [
       "introducing-xrun",
       "getting-started",
@@ -183,7 +183,7 @@
     "publishedAt": "2024-07-07T01:00:00+00:00",
     "title": "Unleashing xLoad: Your Ultimate Data Loader for Go Structs!",
     "sourceBodySha256": "0e349cd7ec81838b2e80304993c50f51e1489b32e94a2fc35e6f29d1dd139951",
-    "convertedBodySha256": "478a04536b1993dd1982122c6396bed7a7f005fd726a8c3c62f595e0027ca032",
+    "convertedBodySha256": "b389012256d46ad0c2128047435e2310bd04613d6d5df6e16f7d2c080e83a284",
     "headingIds": [
       "️-why-xload",
       "getting-started-️",

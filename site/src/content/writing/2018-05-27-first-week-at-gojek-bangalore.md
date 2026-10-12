@@ -4,6 +4,7 @@ description: "It began, the week I've been waiting for since months! I was final
 publishedAt: "2018-05-27T18:00:00+00:00"
 route: "/2018/05/27/first-week-at-gojek-bangalore"
 tags: ["gojek","internship","travel"]
+projectIds: []
 author: "ajatprabha"
 cover: {"src":"/assets/images/IMG_20180528_084003.jpg","alt":"","height":1635,"width":2160}
 legacySourceId: "2018-05-27-first-week-at-gojek-bangalore"
@@ -24,7 +25,7 @@ I reached the airport at around 0800 hours and my flight landed in Bangalore at 
 I did nothing that day except unpack my bag and I was so tired that I went to straight to take a nap. When I woke up I got a treat by my seniors.😁  
 
 
-<h3 id="day-1">Day 1</h3>
+<h2 id="day-1">Day 1</h2>
 
 
 <img src="/assets/images/IMG_20180528_084023.jpg" alt="GoJek office" width="1536" height="864" loading="lazy" decoding="async">  

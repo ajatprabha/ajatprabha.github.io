@@ -26,6 +26,7 @@ Running the adapter again overwrites those historical entries, so use it only wh
 ## Rich content conventions
 
 Historical heading IDs are explicit HTML headings, preserving inline strong and code semantics.
+Body heading levels begin at h2 and follow the source hierarchy without skipping levels; each page owns its h1 title.
 New writing can use ordinary Markdown headings.
 Gallery containers use `<div class="gallery">` and native image or video elements, with no article-specific CSS.
 Captions preserve real emphasis.
@@ -47,3 +48,12 @@ The xrun page preserves the README's controller-runtime manager credit.
 The About entry follows the role-neutral introduction and resume-backed timeline recorded in `docs/design/launch-decisions.md`.
 Public professional links are GitHub and LinkedIn.
 The preview introduces no contact details or unreconfirmed personal-interest copy from the old biography.
+
+## Verification
+
+```sh
+node --test site/scripts/content/convert.test.mjs
+npm --prefix site run validate:content
+```
+
+The five fidelity checks cover unchanged fenced source code and ordinary prose, exact metadata and heading IDs, accessible heading levels, all five native videos, all Gist source hashes and attribution, and explicit failures for unavailable sources or unknown article links.

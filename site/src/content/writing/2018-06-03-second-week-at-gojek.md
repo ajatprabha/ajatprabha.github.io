@@ -4,6 +4,7 @@ description: "It's been great till now and our mentor came back from Jakarta. It
 publishedAt: "2018-06-03T12:00:00+00:00"
 route: "/2018/06/03/second-week-at-gojek"
 tags: ["gojek","internship","travel","golang"]
+projectIds: ["darkroom"]
 author: "ajatprabha"
 cover: {"src":"/assets/images/IMG_20180603_095731.jpg","alt":"","height":864,"width":1536}
 legacySourceId: "2018-06-03-second-week-at-gojek"
@@ -12,7 +13,7 @@ legacySourceId: "2018-06-03-second-week-at-gojek"
 > It's been great till now and our mentor came back from Jakarta. It's time to start building the service that will handle 50K+ image requests per minute. I also went on a road trip to Coorg at the weekend, the scenes were jaw-dropping, one of the best trips I went on.  
 
 
-<h3 id="day-1">Day 1</h3>
+<h2 id="day-1">Day 1</h2>
 
 
 I reached the office at around 1000 hours and joined Puneet and Deepesh a few moments later. Puneet briefed us about the project that we are assigned to and how it should be able to serve at 50K+ rpm(requests/minute) at normal load and up to 80K rpm during peak times.  
@@ -107,7 +108,7 @@ It's not as easy as it seems to write code along with TDD while you've to unders
 > That's all for the work part, wanna know how the weekend went?
 
 
-<h3 id="weekend">Weekend</h3>
+<h2 id="weekend">Weekend</h2>
 
 
 It was 0400 hours in the morning, I woke to pick the car we booked for our trip to Coorg. Krishna took the car, picked up Riya and Anugrah, we were next in line, and then we were off to Coorg probably around 0600 hours. The weather was awesome, there was music playing in the car and we were enjoying the drive. Around 0930 hours we pulled over the car to have breakfast and it was great to find such south Indian food on the highway in the middle of nowhere.  
@@ -151,7 +152,7 @@ We drove back to Madikeri from Talakaveri, it was around 2200 hours and we looke
 Rajat was our travel planner, he picked a few places that we had to visit before 1400 hours, but sadly, we could only make it to two of them.  
 
 
-<h6 id="rajas-seat">Raja's Seat</h6>
+<h3 id="rajas-seat">Raja's Seat</h3>
 
 
 Filled with seasonal flowers and artificial fountains, it was really some kind of a King's seat. The mountain ranges, the valley below and the greenery were so damn refreshing. The weather was as usual very pleasant. We had our breakfast and zoomed to our next destination.  
@@ -161,7 +162,7 @@ Filled with seasonal flowers and artificial fountains, it was really some kind o
 </div>  
 
 
-<h6 id="nisargadhama">Nisargadhama</h6>
+<h3 id="nisargadhama">Nisargadhama</h3>
 
 
 This was some kind of island which was surrounded by a river! I know, seems a little odd to imagine an island in Coorg. We had to walk over a hanging bridge to get to the island. There were deer on the island. We found a way to get to the river bank and removed our shoes to get into the water. It was cold! We spent almost an hour there and decided to head back to Bangalore. The whole time it was raining when we were coming back. But it was a nice drive back in the rain.  

@@ -59,17 +59,25 @@ export function convertBody(body, { routes, gistSources, headings, images }) {
   const chunks = body.split(/(^\s*(`{3,}|~{3,})[^\n]*\n[\s\S]*?^\s*\2\s*$)/m);
   // Capturing delimiters introduce fence-marker captures; ignore them explicitly.
   let headingIndex = 0;
+  const hierarchy = [];
   const output = chunks.filter((chunk) => chunk && !/^(`{3,}|~{3,})$/.test(chunk)).map((chunk) => {
     if (/^\s*(`{3,}|~{3,})/.test(chunk)) return chunk;
     let text = transformProse(chunk, routes, gistSources, images);
     text = text.replace(/^(#{1,6})\s+(.+?)\s*$/gm, (_, marks, title) => {
       const heading = headings[headingIndex++];
       if (!heading) throw new Error(`Missing baseline heading: ${title}`);
+      while (hierarchy.length && hierarchy.at(-1).source > marks.length) hierarchy.pop();
+      let level;
+      if (hierarchy.at(-1)?.source === marks.length) level = hierarchy.at(-1).level;
+      else {
+        level = hierarchy.length ? Math.min(6, hierarchy.at(-1).level + 1) : 2;
+        hierarchy.push({ source: marks.length, level });
+      }
       // Only inline emphasis, escaped punctuation, and code occur in legacy headings.
       const html = title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/\\([.])/g, '$1').replace(/`([^`]+)`/g, '<code>$1</code>')
         .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-      return `\n<h${marks.length} id="${heading.id}">${html}</h${marks.length}>\n\n`;
+      return `\n<h${level} id="${heading.id}">${html}</h${level}>\n\n`;
     });
     return text;
   }).join('');

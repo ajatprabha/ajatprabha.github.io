@@ -4,6 +4,7 @@ description: "Two years ago I wrote about xload, which fills an annotated Go str
 publishedAt: "2026-08-12T01:00:00+00:00"
 route: "/2026/08/12/ferry-xload-learns-to-write"
 tags: ["golang"]
+projectIds: ["ferry"]
 author: "ajatprabha"
 cover: {"src":"/assets/images/ferry-hero.jpg","alt":"","height":900,"width":1440}
 legacySourceId: "2026-08-12-ferry-xload-learns-to-write"

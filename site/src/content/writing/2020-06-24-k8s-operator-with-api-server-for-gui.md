@@ -4,6 +4,7 @@ description: "If you have read my previous blog posts, I worked on an image prox
 publishedAt: "2020-06-24T12:00:00+00:00"
 route: "/2020/06/24/k8s-operator-with-api-server-for-gui"
 tags: ["kubernetes","golang"]
+projectIds: ["darkroom"]
 author: "ajatprabha"
 cover: {"src":"/assets/images/k8s-banner.jpg","alt":"","height":900,"width":1440}
 legacySourceId: "2020-06-24-k8s-operator-with-api-server-for-gui"
@@ -12,13 +13,13 @@ legacySourceId: "2020-06-24-k8s-operator-with-api-server-for-gui"
 If you have read my previous blog posts, I worked on an image proxy called [Darkroom](https://github.com/gojek/darkroom) which manipulates the images on the fly. I also started learning more about [Kubernetes](http://kubernetes.io/) and then I thought I should build something to get a deeper understanding of K8S. So the task that I took up is to create a GUI that is simple to use and it deploys `Darkroom` on-demand and everything else should happen without manually running `kubectl` commands.  
 
 
-<h3 id="background">Background</h3>
+<h2 id="background">Background</h2>
 
 
 Before starting off, let me tell you about the current state of `Darkroom`. It is a stateless application, configurable via environment variables and it has first-class support for containerization and the image size is less than 20MB. These are some of the reasons that I decided to pick this for the hands-on as the complexity to deploy is quite less. However, any application that follows the [Twelve Factor App](https://12factor.net/) principles should be a good candidate.
 
 
-<h3 id="why-make-an-operator">Why make an operator?</h3>
+<h2 id="why-make-an-operator">Why make an operator?</h2>
 
 
 There can be many ways on how you manage your workloads on K8S viz.
@@ -64,7 +65,7 @@ kubectl port-forward $(kubectl get pods -l app=darkroom -o=jsonpath='{.items[0].
 ```
 You should be able to see this image [http://localhost:3000/images/ IMG_20180604_125819.jpg?w=512](http://localhost:3000/images/IMG_20180604_125819.jpg?w=512) now, and change its width, height, etc by changing the query parameters.
 
-<h5 id="say-hello-to-operators-crd--controller">Say Hello to Operators (CRD + Controller)</h5>
+<h3 id="say-hello-to-operators-crd--controller">Say Hello to Operators (CRD + Controller)</h3>
 
 
 With the help of `CustomResourceDefinition` aka CRD, we can create our own custom APIs and extend the funcitonality of Kubernetes.

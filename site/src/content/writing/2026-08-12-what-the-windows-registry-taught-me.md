@@ -4,6 +4,7 @@ description: "I built a Windows registry driver for ferry, my two-way config lib
 publishedAt: "2026-08-12T00:30:00+00:00"
 route: "/2026/08/12/what-the-windows-registry-taught-me"
 tags: ["golang"]
+projectIds: ["ferry"]
 author: "ajatprabha"
 cover: {"src":"/assets/images/ferry-windows-hero.jpg","alt":"","height":900,"width":1440}
 legacySourceId: "2026-08-12-what-the-windows-registry-taught-me"

@@ -4,6 +4,7 @@ description: "Recently I came to know about TDD (Test Driven Development), a dev
 publishedAt: "2017-12-20T17:24:00+00:00"
 route: "/2017/12/20/tdd-why-bother"
 tags: ["tdd"]
+projectIds: []
 author: "ajatprabha"
 cover: {"src":"/assets/images/tdd-why-bother.jpg","alt":"","height":945,"width":2160}
 legacySourceId: "2017-12-20-tdd-why-bother"
@@ -55,7 +56,7 @@ This cycle is observed after every 10-15 minutes. It tells you that
 We’ll understand soon what this means with the help of an example. But in a nutshell, when you add even finer granularity to the unit tests, you should write more generalised production code to make the test pass.
 
 
-<h4 id="now-lets-take-the-example-of-building-a-stack-class-using-tdd">Now let’s take the example of building a stack class using TDD.</h4>
+<h3 id="now-lets-take-the-example-of-building-a-stack-class-using-tdd">Now let’s take the example of building a stack class using TDD.</h3>
 
 
 I’ll use python in this example. Under a directory, I created two files viz. `stack.py` and `test_stack.py` :
@@ -129,7 +130,7 @@ class Stack(object):
   
 
 
-<h4 id="stack-size-after-push-is-one">Stack size after push is one</h4>
+<h3 id="stack-size-after-push-is-one">Stack size after push is one</h3>
 
 
 Let me write another test which checks if the size of the stack is 1 or not after one push.  
@@ -191,7 +192,7 @@ class TestStack(unittest.TestCase):
   
 
 
-<h4 id="stack-size-is-zero-after-a-push-and-a-pop">Stack size is zero after a push and a pop</h4>
+<h3 id="stack-size-is-zero-after-a-push-and-a-pop">Stack size is zero after a push and a pop</h3>
 
 
 If I push an element and then pop it, the size should be zero after that.  
@@ -227,7 +228,7 @@ class Stack(object):
   
 
 
-<h4 id="stack-raises-underflow-error">Stack raises underflow error</h4>
+<h3 id="stack-raises-underflow-error">Stack raises underflow error</h3>
 
 
 What if the stack is empty and I try to pop a non-existing element? Yes, it should raise an error.  
@@ -270,7 +271,7 @@ class Stack(object):
   
 
 
-<h4 id="stack-raises-overflow-error">Stack raises overflow error</h4>
+<h3 id="stack-raises-overflow-error">Stack raises overflow error</h3>
 
 
 Great going till now, but what if the stack has a specific capacity and I can’t exceed its maximum capacity? I write another test just to check that and it should raise `OverFlowError` if pushed on a full stack.  
@@ -323,7 +324,7 @@ class Stack(object):
   
 
 
-<h4 id="pop-last-element-pushed-into-stack">Pop last element pushed into stack</h4>
+<h3 id="pop-last-element-pushed-into-stack">Pop last element pushed into stack</h3>
 
 
 Okay, till now every test is passing. But this stack is nowhere close to the actual definition of a stack. So, let me test if zero is popped when I had pushed it before.  
@@ -409,7 +410,7 @@ class Stack(object):
   
 
 
-<h4 id="true-lifo-operation">True LIFO operation</h4>
+<h3 id="true-lifo-operation">True LIFO operation</h3>
 
 
 Once again notice that I replaced the constant 0 with a more generic variable `_element`. But now, let’s make this Stack class really perform the Last-In-First-Out operations.  
@@ -493,7 +494,7 @@ class Stack(object):
 In other languages like C++, you’ll not get rid of `_size` and instead, can use it as an array index. In this way, even the initial code that I wrote is not a waste of time. I’m simply modifying the existing at every cycle and making sure the tests pass. None of the code that we write to pass the early tests is wasted code. It’s just incomplete and not generalised enough. After every cycle, the code evolves and becomes more general.
 
 
-<h4 id="references">References:</h4>
+<h3 id="references">References:</h3>
 
 
 1.  [The Clean Code Blog](http://blog.cleancoder.com/uncle-bob/2014/12/17/TheCyclesOfTDD.html)

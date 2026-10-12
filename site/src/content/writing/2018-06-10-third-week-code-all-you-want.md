@@ -4,6 +4,7 @@ description: "Week 3 was filled with more of coding and learning new things down
 publishedAt: "2018-06-10T12:00:00+00:00"
 route: "/2018/06/10/third-week-code-all-you-want"
 tags: ["gojek","internship"]
+projectIds: ["darkroom"]
 author: "ajatprabha"
 cover: {"src":"/assets/images/IMG_20180605_164123_1.jpg","alt":"","height":864,"width":1536}
 legacySourceId: "2018-06-10-third-week-code-all-you-want"
@@ -93,7 +94,7 @@ It was now time to introduce a new decision-making service that'll take in the r
 I was writing tests for a function and had to call the same function twice inside the decision-making service but wanted it to behave differently based on the input I was giving to the function. That's when I came across mocks in `Golang` and how they provide additional ways to ease the task of testing. Dependency injection was very important in this part as I had to use some of the existing services inside the new service while practicing TDD.😅  
 
 
-<h6 id="learning-session">Learning session</h6>
+<h3 id="learning-session">Learning session</h3>
 
 
 Puneet held a learning session in which I learned how actually the deploying process works, what happens inside all this one click `voodoo` that deploys your app automatically. There's a Chef, a knife, a cookbook, and many recipes. Yes, they're actually named like this.  

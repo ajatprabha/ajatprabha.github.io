@@ -4,6 +4,7 @@ description: "Meet xLoad, your data-loading superhero 🦸‍♂️! It effortle
 publishedAt: "2024-07-07T01:00:00+00:00"
 route: "/2024/07/07/xload-ultimate-data-loader-go-structs"
 tags: ["golang"]
+projectIds: []
 author: "ajatprabha"
 cover: {"src":"/assets/images/xload-gophers.jpg","alt":"","height":900,"width":1440}
 legacySourceId: "2024-07-07-xload-ultimate-data-loader-go-structs"
@@ -48,7 +49,7 @@ func main() {
 ```
 
 
-<h1 id="-dive-into-examples--tutorials"><strong>📝 Dive into Examples &amp; Tutorials</strong></h1>
+<h2 id="-dive-into-examples--tutorials"><strong>📝 Dive into Examples &amp; Tutorials</strong></h2>
 
 
 
@@ -148,7 +149,7 @@ For those special cases, xload allows you to craft custom loaders. As long as th
 ---
 
 
-<h1 id="-spotlight-crud-based-list-api">🔍 <strong>Spotlight: CRUD-based List API</strong></h1>
+<h2 id="-spotlight-crud-based-list-api">🔍 <strong>Spotlight: CRUD-based List API</strong></h2>
 
 
 Let's dive into a real-world example to see the transformation xload brings:
@@ -225,7 +226,7 @@ The transformation is clear: xload simplifies the data-parsing process and error
 ---
 
 
-<h1 id="-internationalization-with-lokalize-">🌐 <strong>Internationalization with Lokalize</strong> 🌐</h1>
+<h2 id="-internationalization-with-lokalize-">🌐 <strong>Internationalization with Lokalize</strong> 🌐</h2>
 
 
 With xload, you can load internationalization labels from files and then tweak them for each request using a remote service. This ensures your application speaks the language of your users, wherever they are.
@@ -243,7 +244,7 @@ type CTA struct {
 ```
 
 
-<h2 id="-wrap-up">🎉 <strong>Wrap Up</strong></h2>
+<h3 id="-wrap-up">🎉 <strong>Wrap Up</strong></h3>
 
 
 That's xload for you! A robust tool designed to simplify your data loading needs in Go. Dive in, explore, and let the magic unfold! 🌟
