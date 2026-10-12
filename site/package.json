@@ -16,7 +16,7 @@
     "validate:feeds": "node scripts/validate-feeds.mjs",
     "preview": "astro preview --host 0.0.0.0",
     "validate:composition": "node tests/browser/verify-composition.mjs",
-    "test:browser": "playwright test --config tests/browser/playwright.config.ts"
+    "test:browser": "node scripts/test-browser.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "0.4.3",

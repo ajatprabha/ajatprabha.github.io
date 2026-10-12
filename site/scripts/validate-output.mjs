@@ -25,11 +25,7 @@ for (const file of files) {
   const $ = load(await readFile(file, "utf8"));
   if (!$("title").text() || !$('meta[name="description"]').attr("content"))
     throw new Error(`Missing metadata: ${file}`);
-  if (
-    !$("main").length ||
-    (!file.endsWith("/theme-reference/index.html") && $("h1").length !== 1) ||
-    !$("h1").length
-  )
+  if (!$("main").length || $("h1").length !== 1)
     throw new Error(`Expected main and one h1: ${file}`);
   const canonical = $('link[rel="canonical"]').attr("href");
   if (!canonical?.startsWith("https://ajatprabha.in/"))
