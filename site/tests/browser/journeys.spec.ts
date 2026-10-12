@@ -91,34 +91,14 @@ test("home to writing/article and projects/detail, metadata and optional composi
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
   await expect(
-    page.getByRole("heading", { level: 1, name: "Ajat Prabha", exact: true }),
+    page.getByRole("heading", { level: 1, name: "Recent writing", exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole("heading", { level: 2, name: "Selected projects" }),
   ).toBeVisible();
-  await expect(
-    page.getByRole("heading", { level: 2, name: "Recent writing" }),
-  ).toBeVisible();
   await containment(page);
-  const destinations = page.getByRole("navigation", { name: "Explore the site" });
-  await expect(destinations.getByRole("link")).toHaveCount(3);
-  const actionBoxes = await destinations.getByRole("link").evaluateAll((links) =>
-    links.map((link) => {
-      const rect = link.getBoundingClientRect();
-      return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom };
-    }),
-  );
-  for (let index = 1; index < actionBoxes.length; index++) {
-    const previous = actionBoxes[index - 1];
-    const current = actionBoxes[index];
-    expect(
-      current.left > previous.right || current.top > previous.bottom,
-      "Hero navigation destinations have visible separation",
-    ).toBe(true);
-  }
-  const hero = page.locator(".home-hero img");
-  await expect(hero).toHaveAttribute("src", "/assets/images/blog-cover.jpg");
-  await loadedImage(hero);
+  await expect(page.locator("main h1")).toHaveCount(1);
+  await expect(page.locator(".home-hero")).toHaveCount(0);
   await loadedImage(page.locator(".featured-article img"));
   await expect(page.locator(".article-card-grid img")).toHaveCount(3);
   for (const image of await page.locator(".article-card-grid img").all()) {
@@ -179,12 +159,26 @@ test("home to writing/article and projects/detail, metadata and optional composi
     await loadedImage(image);
   }
   await centeredArticle(page, info.project.use.viewport!.width);
-  const contents = page
-    .locator("details")
-    .filter({ has: page.getByText("On this page", { exact: true }) });
+  const contents =
+    info.project.use.viewport!.width >= 1312
+      ? page.locator(".toc-rail")
+      : page.locator(".toc-disclosure");
   await expect(contents).toBeVisible();
-  await contents.locator("summary").click();
-  await expect(contents.getByRole("link")).toHaveCount(8);
+  if (info.project.use.viewport!.width < 1312) {
+    await contents.locator("summary").click();
+  }
+  await expect(contents.getByRole("link")).toHaveCount(12);
+  await contents.getByRole("link").first().focus();
+  await expect(contents.getByRole("link").first()).toBeFocused();
+  if (info.project.use.viewport!.width >= 1312) {
+    const firstLabel = contents.getByRole("link").first().locator(".toc-label");
+    await expect
+      .poll(() => firstLabel.evaluate((label) => getComputedStyle(label).opacity))
+      .toBe("1");
+    const rail = await contents.boundingBox();
+    const cover = await page.locator(".article-cover").boundingBox();
+    expect(rail!.x + rail!.width).toBeLessThanOrEqual(cover!.x);
+  }
   await contents.getByRole("link").first().click();
   expect(new URL(page.url()).hash).not.toBe("");
   await page.goto("/projects/");
@@ -310,15 +304,29 @@ test("keyboard focus, persisted color preference and reduced motion", async ({
   expect(focusVisible).toBe(true);
   await page.keyboard.press("Enter");
   await expect(page.locator("main")).toBeFocused();
-  const mode = page.getByRole("combobox", { name: "Color mode" });
-  await mode.selectOption("dark");
+  const mode = page.getByRole("button", { name: /^Color mode:/ });
+  async function chooseMode(value: "system" | "light" | "dark") {
+    for (let click = 0; click < 3; click++) {
+      if (await mode.getAttribute("data-color-mode") === value) break;
+      await mode.click();
+    }
+    await expect(mode).toHaveAttribute("data-color-mode", value);
+    await expect(mode).toHaveAccessibleName(`Color mode: ${value}`);
+  }
+  await chooseMode("dark");
   await expect(page.locator("html")).toHaveAttribute("data-mode", "dark");
   await page.reload();
-  await expect(mode).toHaveValue("dark");
+  await expect(mode).toHaveAttribute("data-color-mode", "dark");
   await expect(page.locator("html")).toHaveAttribute("data-mode", "dark");
-  await mode.selectOption("light");
+  await chooseMode("light");
   await expect(page.locator("html")).toHaveAttribute("data-mode", "light");
-  await mode.selectOption("system");
+  await chooseMode("system");
+  const systemMode = info.project.use.colorScheme === "dark" ? "light" : "dark";
+  await page.emulateMedia({ colorScheme: systemMode });
+  expect(
+    await page.locator("html").evaluate((html) => getComputedStyle(html).colorScheme),
+  ).toBe(systemMode);
+  await page.emulateMedia({ colorScheme: info.project.use.colorScheme });
   expect(
     await page.evaluate(() => localStorage.getItem("color-mode")),
   ).toBeNull();
@@ -356,9 +364,8 @@ test("core journeys and native article contents work with JavaScript disabled", 
   const page = await context.newPage();
   await page.goto(process.env.PREVIEW_URL ?? "http://127.0.0.1:4321");
   await expect(
-    page.getByRole("heading", { level: 1, name: "Ajat Prabha", exact: true }),
+    page.getByRole("heading", { level: 1, name: "Recent writing", exact: true }),
   ).toBeVisible();
-  await loadedImage(page.locator(".home-hero img"));
   await loadedImage(page.locator(".featured-article img"));
   await page.getByRole("link", { name: "All writing", exact: true }).click();
   await page
@@ -367,9 +374,19 @@ test("core journeys and native article contents work with JavaScript disabled", 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Ferry: xload Learns to Write",
   );
-  const contents = page.locator("details");
-  await contents.locator("summary").click();
+  const contents =
+    info.project.use.viewport!.width >= 1312
+      ? page.locator(".toc-rail")
+      : page.locator(".toc-disclosure");
+  await expect(contents).toBeVisible();
+  if (info.project.use.viewport!.width < 1312) {
+    await contents.locator("summary").click();
+  }
+  await expect(contents.getByRole("link")).toHaveCount(12);
   await expect(contents.getByRole("link").first()).toBeVisible();
+  await contents.getByRole("link").first().click();
+  expect(new URL(page.url()).hash).not.toBe("");
+  await expect(page.getByRole("button", { name: /^Color mode:/ })).toHaveCount(0);
   await containment(page);
   await page
     .getByRole("navigation", { name: "Main", exact: true })
