@@ -4,7 +4,7 @@ import type { WritingEntry } from '../lib/content';
 import { getWriting, toArticleSummary } from '../lib/content';
 import { tagPath } from '../lib/routes';
 import { site, navigation } from '../data/site';
-import { SiteShell, ArticleLayout, ArticleRow } from '../theme';
+import { SiteShell, ArticleLayout, ArticleRow, TableOfContents } from '../theme';
 import { metadata, formatDate } from './_metadata';
 import { extractOutline } from './_outline';
 export async function getStaticPaths() {
@@ -21,7 +21,7 @@ const pageMetadata = metadata(article.title, entry.data.description, article.hre
 <SiteShell site={site} navigation={navigation} activeSection="writing" metadata={pageMetadata}>
   <ArticleLayout article={article}>
     <div slot="metadata"><time datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time><span> by <a href="/author/ajatprabha/">Ajat Prabha</a></span><ul aria-label="Tags">{article.tags.map(tag => <li><a href={tagPath(tag)}>{tag}</a></li>)}</ul></div>
-    {outline.length > 1 && <nav slot="outline" aria-label="Article contents"><h2>On this page</h2><ul>{outline.map(heading => <li><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ul></nav>}
+    {outline.length > 1 && <TableOfContents slot="outline" headings={outline} variant="disclosure"/>}
     {article.cover && <figure><img src={article.cover.src} alt={article.cover.alt} width={article.cover.width} height={article.cover.height}/></figure>}
     <Content/>
     {related.length > 0 && <div slot="related"><h2>Related writing</h2>{related.map(other => <ArticleRow article={toArticleSummary(other)}/>)}</div>}
