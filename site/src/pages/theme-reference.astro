@@ -1,0 +1,12 @@
+---
+import { getEntry, render } from 'astro:content';
+import { SiteShell } from '../theme';
+import ThemeReference from '../theme/components/ThemeReference.astro';
+import { site, navigation } from '../data/site';
+import { toArticleSummary } from '../lib/content';
+import { canonicalUrl } from '../lib/routes';
+const entry = await getEntry('fixtures', 'foundation');
+if (!entry) throw new Error('Missing foundation fixture');
+const { Content } = await render(entry);
+---
+<SiteShell site={site} navigation={navigation} metadata={{title: 'Theme reference', description: entry.data.description, canonical: canonicalUrl('/theme-reference/'), noindex: true}}><ThemeReference article={toArticleSummary(entry)}><Content/></ThemeReference></SiteShell>

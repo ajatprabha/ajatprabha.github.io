@@ -96,3 +96,6 @@ exclude:
   - changelog.md
   - "*.Rmd"
   - .git*
+  - site
+  - scripts/migration
+  - .lavish

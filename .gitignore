@@ -7,3 +7,12 @@ node_modules/
 vendor/
 .DS_Store
 .build/
+
+# Astro local/generated output
+site/dist/
+site/.astro/
+site/public/assets/
+site/public/CNAME
+!site/package-lock.json
+
+/site/node_modules

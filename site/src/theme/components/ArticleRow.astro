@@ -1,0 +1,6 @@
+---
+import type { ArticleSummary } from '../../lib/types';
+interface Props { article: ArticleSummary }
+const { article } = Astro.props;
+---
+<article><h3><a href={article.href}>{article.title}</a></h3><time datetime={article.publishedAt}>{article.publishedAt.slice(0,10)}</time>{article.description && <p>{article.description}</p>}</article>

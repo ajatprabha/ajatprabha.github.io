@@ -1,0 +1,1135 @@
+{
+  "posts": [
+    {
+      "output": "2017/12/12/sdlc-waterfall-vs-agile.html",
+      "canonical": "https://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile",
+      "title": "Getting to know SDLC | Waterfall vs Agile Development",
+      "displayDates": [
+        "12 December 2017"
+      ],
+      "headings": [
+        {
+          "level": 4,
+          "id": "requirement-analysis",
+          "text": "Requirement Analysis"
+        },
+        {
+          "level": 4,
+          "id": "design",
+          "text": "Design"
+        },
+        {
+          "level": 4,
+          "id": "development",
+          "text": "Development"
+        },
+        {
+          "level": 4,
+          "id": "testing",
+          "text": "Testing"
+        },
+        {
+          "level": 4,
+          "id": "deployment",
+          "text": "Deployment"
+        },
+        {
+          "level": 4,
+          "id": "maintenance",
+          "text": "Maintenance"
+        },
+        {
+          "level": 2,
+          "id": "sdlc-models",
+          "text": "SDLC Models"
+        },
+        {
+          "level": 2,
+          "id": "1-waterfall",
+          "text": "1. Waterfall"
+        },
+        {
+          "level": 2,
+          "id": "2-agile-methodology",
+          "text": "2. Agile methodology"
+        },
+        {
+          "level": 3,
+          "id": "comparison",
+          "text": "Comparison:"
+        }
+      ],
+      "media": [
+        {
+          "element": "img",
+          "src": "/assets/images/SDLC-932x1024.png",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/waterfall-768x820.png",
+          "poster": null
+        }
+      ],
+      "tagRoutes": [
+        "/tag/agile-development/",
+        "/tag/sdlc/",
+        "/tag/waterfall/"
+      ]
+    },
+    {
+      "output": "2017/12/20/tdd-why-bother.html",
+      "canonical": "https://ajatprabha.in/2017/12/20/tdd-why-bother",
+      "title": "TDD (Test Driven Development), why bother?",
+      "displayDates": [
+        "20 December 2017"
+      ],
+      "headings": [
+        {
+          "level": 2,
+          "id": "what-is-tdd",
+          "text": "What is TDD?"
+        },
+        {
+          "level": 2,
+          "id": "the-three-laws-of-tdd",
+          "text": "The Three Laws of TDD"
+        },
+        {
+          "level": 2,
+          "id": "rgr-cycle",
+          "text": "RGR Cycle"
+        },
+        {
+          "level": 2,
+          "id": "specificgeneric-cycle",
+          "text": "Specific/Generic Cycle"
+        },
+        {
+          "level": 4,
+          "id": "now-lets-take-the-example-of-building-a-stack-class-using-tdd",
+          "text": "Now let’s take the example of building a stack class using TDD."
+        },
+        {
+          "level": 4,
+          "id": "stack-size-after-push-is-one",
+          "text": "Stack size after push is one"
+        },
+        {
+          "level": 4,
+          "id": "stack-size-is-zero-after-a-push-and-a-pop",
+          "text": "Stack size is zero after a push and a pop"
+        },
+        {
+          "level": 4,
+          "id": "stack-raises-underflow-error",
+          "text": "Stack raises underflow error"
+        },
+        {
+          "level": 4,
+          "id": "stack-raises-overflow-error",
+          "text": "Stack raises overflow error"
+        },
+        {
+          "level": 4,
+          "id": "pop-last-element-pushed-into-stack",
+          "text": "Pop last element pushed into stack"
+        },
+        {
+          "level": 4,
+          "id": "true-lifo-operation",
+          "text": "True LIFO operation"
+        },
+        {
+          "level": 4,
+          "id": "references",
+          "text": "References:"
+        }
+      ],
+      "media": [
+        {
+          "element": "img",
+          "src": "/assets/images/RGR-cycle-300x300.png",
+          "poster": null
+        }
+      ],
+      "tagRoutes": [
+        "/tag/tdd/"
+      ]
+    },
+    {
+      "output": "2018/05/27/first-week-at-gojek-bangalore.html",
+      "canonical": "https://ajatprabha.in/2018/05/27/first-week-at-gojek-bangalore",
+      "title": "Week 1 - Experience as an intern at GoJek",
+      "displayDates": [
+        "27 May 2018"
+      ],
+      "headings": [
+        {
+          "level": 3,
+          "id": "day-1",
+          "text": "Day 1"
+        }
+      ],
+      "media": [
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180520_061439.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180520_154815.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180528_084023.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180521_122110.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180521_184842.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180521_182624.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180528_084051.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180525_184345_blur.jpg",
+          "poster": null
+        }
+      ],
+      "tagRoutes": [
+        "/tag/gojek/",
+        "/tag/internship/",
+        "/tag/travel/"
+      ]
+    },
+    {
+      "output": "2018/05/27/how-i-got-the-internship-at-gojek.html",
+      "canonical": "https://ajatprabha.in/2018/05/27/how-i-got-the-internship-at-gojek",
+      "title": "How I got the internship at GoJek",
+      "displayDates": [
+        "27 May 2018"
+      ],
+      "headings": [],
+      "media": [
+        {
+          "element": "img",
+          "src": "/assets/images/2b354w.jpg",
+          "poster": null
+        }
+      ],
+      "tagRoutes": [
+        "/tag/gojek/",
+        "/tag/internship/"
+      ]
+    },
+    {
+      "output": "2018/06/03/second-week-at-gojek.html",
+      "canonical": "https://ajatprabha.in/2018/06/03/second-week-at-gojek",
+      "title": "Week 2 - Exploring Golang and the trip to Coorg",
+      "displayDates": [
+        " 3 June 2018"
+      ],
+      "headings": [
+        {
+          "level": 3,
+          "id": "day-1",
+          "text": "Day 1"
+        },
+        {
+          "level": 3,
+          "id": "weekend",
+          "text": "Weekend"
+        },
+        {
+          "level": 6,
+          "id": "rajas-seat",
+          "text": "Raja’s Seat"
+        },
+        {
+          "level": 6,
+          "id": "nisargadhama",
+          "text": "Nisargadhama"
+        }
+      ],
+      "media": [
+        {
+          "element": "img",
+          "src": "/assets/images/base_image.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/base_resized.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/base_cropped.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180602_082543.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180602_103608558_HDR.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180602_103745892.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_7152.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180602_150644.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180603_080640.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180603_080548.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/PANO_20180603_093929.jpg",
+          "poster": null
+        },
+        {
+          "element": "video",
+          "src": null,
+          "poster": null
+        },
+        {
+          "element": "source",
+          "src": "/assets/videos/VID_20180603_111153.mp4",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180603_123229_BURST2.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180603_123841.jpg",
+          "poster": null
+        }
+      ],
+      "tagRoutes": [
+        "/tag/gojek/",
+        "/tag/golang/",
+        "/tag/internship/",
+        "/tag/travel/"
+      ]
+    },
+    {
+      "output": "2018/06/10/third-week-code-all-you-want.html",
+      "canonical": "https://ajatprabha.in/2018/06/10/third-week-code-all-you-want",
+      "title": "Week 3 - Lots of code and learning",
+      "displayDates": [
+        "10 June 2018"
+      ],
+      "headings": [
+        {
+          "level": 2,
+          "id": "day-1",
+          "text": "Day 1"
+        },
+        {
+          "level": 2,
+          "id": "day-2-3",
+          "text": "Day 2-3"
+        },
+        {
+          "level": 2,
+          "id": "day-4",
+          "text": "Day 4"
+        },
+        {
+          "level": 6,
+          "id": "learning-session",
+          "text": "Learning session"
+        },
+        {
+          "level": 2,
+          "id": "day-5",
+          "text": "Day 5"
+        }
+      ],
+      "media": [
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180604_125819.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180604_125835.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180606_115642.jpg",
+          "poster": null
+        }
+      ],
+      "tagRoutes": [
+        "/tag/gojek/",
+        "/tag/internship/"
+      ]
+    },
+    {
+      "output": "2018/06/17/load-testing-vegeta-and-trip-to-pudducherry.html",
+      "canonical": "https://ajatprabha.in/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry",
+      "title": "Week 4 - Load testing with Vegeta and trip to Puducherry",
+      "displayDates": [
+        "17 June 2018"
+      ],
+      "headings": [
+        {
+          "level": 2,
+          "id": "day-1",
+          "text": "Day 1"
+        },
+        {
+          "level": 2,
+          "id": "day-2-3",
+          "text": "Day 2-3"
+        },
+        {
+          "level": 2,
+          "id": "day-4-5",
+          "text": "Day 4-5"
+        },
+        {
+          "level": 2,
+          "id": "weekend",
+          "text": "Weekend"
+        }
+      ],
+      "media": [
+        {
+          "element": "img",
+          "src": "/assets/images/vegeta-blue.png",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180616_110649.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180616_114501.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180616_135555469.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20180617_080512_1.jpg",
+          "poster": null
+        }
+      ],
+      "tagRoutes": [
+        "/tag/gojek/",
+        "/tag/internship/",
+        "/tag/travel/"
+      ]
+    },
+    {
+      "output": "2020/06/24/k8s-operator-with-api-server-for-gui.html",
+      "canonical": "https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui",
+      "title": "Writing Kubernetes Operator with an API Server for Custom GUI",
+      "displayDates": [
+        "24 June 2020"
+      ],
+      "headings": [
+        {
+          "level": 3,
+          "id": "background",
+          "text": "Background"
+        },
+        {
+          "level": 3,
+          "id": "why-make-an-operator",
+          "text": "Why make an operator?"
+        },
+        {
+          "level": 5,
+          "id": "say-hello-to-operators-crd--controller",
+          "text": "Say Hello to Operators (CRD + Controller)"
+        },
+        {
+          "level": 2,
+          "id": "prepare-environment",
+          "text": "Prepare Environment"
+        },
+        {
+          "level": 2,
+          "id": "setup",
+          "text": "Setup"
+        },
+        {
+          "level": 3,
+          "id": "api-definition",
+          "text": "API Definition"
+        },
+        {
+          "level": 4,
+          "id": "modifying-resource",
+          "text": "Modifying Resource"
+        },
+        {
+          "level": 2,
+          "id": "implementing-controller",
+          "text": "Implementing Controller"
+        },
+        {
+          "level": 2,
+          "id": "api-server-and-gui",
+          "text": "API Server and GUI"
+        }
+      ],
+      "media": [
+        {
+          "element": "img",
+          "src": "/assets/images/operator-diagram.svg",
+          "poster": null
+        },
+        {
+          "element": "video",
+          "src": null,
+          "poster": null
+        },
+        {
+          "element": "source",
+          "src": "/assets/videos/operator-ex-01.mp4",
+          "poster": null
+        },
+        {
+          "element": "video",
+          "src": null,
+          "poster": null
+        },
+        {
+          "element": "source",
+          "src": "/assets/videos/operator-ex-02.mp4",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/Screenshot-2020-06-25 01-31-09.png",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/Screenshot-2020-06-25 01-31-37.png",
+          "poster": null
+        }
+      ],
+      "tagRoutes": [
+        "/tag/golang/",
+        "/tag/kubernetes/"
+      ]
+    },
+    {
+      "output": "2020/10/06/diy-sound-system-minimalistic.html",
+      "canonical": "https://ajatprabha.in/2020/10/06/diy-sound-system-minimalistic",
+      "title": "Making a DIY Sound System that looks minimalistic",
+      "displayDates": [
+        " 6 October 2020"
+      ],
+      "headings": [
+        {
+          "level": 3,
+          "id": "studying-about-sound-systems",
+          "text": "Studying about sound systems"
+        },
+        {
+          "level": 3,
+          "id": "the-diy-power-supply",
+          "text": "The DIY Power Supply"
+        }
+      ],
+      "media": [
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20200828_110823.jpg",
+          "poster": null
+        },
+        {
+          "element": "img",
+          "src": "/assets/images/IMG_20200925_104125.jpg",
+          "poster": null
+        },
+        {
+          "element": "video",
+          "src": null,
+          "poster": null
+        },
+        {
+          "element": "source",
+          "src": "/assets/videos/Snapchat-1775669112.mp4",
+          "poster": null
+        },
+        {
+          "element": "video",
+          "src": null,
+          "poster": null
+        },
+        {
+          "element": "source",
+          "src": "/assets/videos/Snapchat-1169001711.mp4",
+          "poster": null
+        }
+      ],
+      "tagRoutes": [
+        "/tag/diy/",
+        "/tag/sound/"
+      ]
+    },
+    {
+      "output": "2023/05/24/intro-xrun-package-managing-component-lifecycle-go.html",
+      "canonical": "https://ajatprabha.in/2023/05/24/intro-xrun-package-managing-component-lifecycle-go",
+      "title": "Introduction to xrun: A Flexible Package for Managing Component Lifecycles in Go",
+      "displayDates": [
+        "24 May 2023"
+      ],
+      "headings": [
+        {
+          "level": 1,
+          "id": "introducing-xrun",
+          "text": "Introducing xrun"
+        },
+        {
+          "level": 2,
+          "id": "getting-started",
+          "text": "Getting Started"
+        },
+        {
+          "level": 2,
+          "id": "features-of-xrun",
+          "text": "Features of xrun"
+        },
+        {
+          "level": 5,
+          "id": "component",
+          "text": "Component"
+        },
+        {
+          "level": 5,
+          "id": "componentfunc",
+          "text": "ComponentFunc"
+        },
+        {
+          "level": 5,
+          "id": "manager",
+          "text": "Manager"
+        },
+        {
+          "level": 2,
+          "id": "creating-and-using-components",
+          "text": "Creating and Using Components"
+        },
+        {
+          "level": 4,
+          "id": "combining-components-with-xrunall",
+          "text": "Combining Components with xrun.All"
+        },
+        {
+          "level": 2,
+          "id": "extending-xrun-custom-component-examples",
+          "text": "Extending xrun: Custom Component Examples"
+        },
+        {
+          "level": 3,
+          "id": "http-server",
+          "text": "HTTP Server"
+        },
+        {
+          "level": 3,
+          "id": "grpc-server-experimental",
+          "text": "gRPC Server (Experimental)"
+        },
+        {
+          "level": 2,
+          "id": "conclusion",
+          "text": "Conclusion"
+        }
+      ],
+      "media": [],
+      "tagRoutes": [
+        "/tag/golang/"
+      ]
+    },
+    {
+      "output": "2024/07/07/xload-ultimate-data-loader-go-structs.html",
+      "canonical": "https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs",
+      "title": "Unleashing xLoad: Your Ultimate Data Loader for Go Structs!",
+      "displayDates": [
+        " 7 July 2024"
+      ],
+      "headings": [
+        {
+          "level": 2,
+          "id": "️-why-xload",
+          "text": "🤷‍♂️ Why xload?"
+        },
+        {
+          "level": 2,
+          "id": "getting-started-️",
+          "text": "Getting Started 🛠️"
+        },
+        {
+          "level": 2,
+          "id": "how-does-xload-work-its-magic-",
+          "text": "How does xload work its magic? 🎩✨"
+        },
+        {
+          "level": 1,
+          "id": "-dive-into-examples--tutorials",
+          "text": "📝 Dive into Examples & Tutorials"
+        },
+        {
+          "level": 3,
+          "id": "-1-loading-from-environment-variables",
+          "text": "🌍 1. Loading from Environment Variables"
+        },
+        {
+          "level": 3,
+          "id": "-2-using-custom-types",
+          "text": "🎨 2. Using Custom Types"
+        },
+        {
+          "level": 3,
+          "id": "-3-nested-structs",
+          "text": "🪄 3. Nested Structs"
+        },
+        {
+          "level": 3,
+          "id": "-4-inbuilt-loaders",
+          "text": "📦 4. Inbuilt Loaders"
+        },
+        {
+          "level": 3,
+          "id": "️-5-custom-loaders",
+          "text": "🛠️ 5. Custom Loaders"
+        },
+        {
+          "level": 1,
+          "id": "-spotlight-crud-based-list-api",
+          "text": "🔍 Spotlight: CRUD-based List API"
+        },
+        {
+          "level": 3,
+          "id": "before-xload",
+          "text": "Before xload:"
+        },
+        {
+          "level": 3,
+          "id": "after-xload",
+          "text": "After xload:"
+        },
+        {
+          "level": 1,
+          "id": "-internationalization-with-lokalize-",
+          "text": "🌐 Internationalization with Lokalize 🌐"
+        },
+        {
+          "level": 2,
+          "id": "-wrap-up",
+          "text": "🎉 Wrap Up"
+        }
+      ],
+      "media": [],
+      "tagRoutes": [
+        "/tag/golang/"
+      ]
+    },
+    {
+      "output": "2026/08/12/ferry-xload-learns-to-write.html",
+      "canonical": "https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write",
+      "title": "Ferry: xload Learns to Write",
+      "displayDates": [
+        "12 August 2026"
+      ],
+      "headings": [
+        {
+          "level": 2,
+          "id": "-the-breaking-point",
+          "text": "🩹 The breaking point"
+        },
+        {
+          "level": 2,
+          "id": "️-meet-ferry",
+          "text": "⛴️ Meet ferry"
+        },
+        {
+          "level": 2,
+          "id": "-a-small-core-everything-else-is-a-driver",
+          "text": "🔌 A small core, everything else is a driver"
+        },
+        {
+          "level": 3,
+          "id": "adding-your-own-word-to-the-tags",
+          "text": "Adding your own word to the tags"
+        },
+        {
+          "level": 2,
+          "id": "-what-it-does-differently",
+          "text": "🔬 What it does differently"
+        },
+        {
+          "level": 3,
+          "id": "back-to-the-old-pain",
+          "text": "Back to the old pain"
+        },
+        {
+          "level": 3,
+          "id": "the-collision-nobody-checks",
+          "text": "The collision nobody checks"
+        },
+        {
+          "level": 2,
+          "id": "️-performance-and-the-thing-i-found-while-measuring-it",
+          "text": "⏱️ Performance, and the thing I found while measuring it"
+        },
+        {
+          "level": 3,
+          "id": "nobody-fsyncs",
+          "text": "Nobody fsyncs"
+        },
+        {
+          "level": 2,
+          "id": "-a-note-on-the-windows-driver",
+          "text": "🪟 A note on the Windows driver"
+        },
+        {
+          "level": 2,
+          "id": "-built-in-10-days-with-claude",
+          "text": "🤖 Built in 10 days with Claude"
+        },
+        {
+          "level": 2,
+          "id": "-wrap-up",
+          "text": "🎉 Wrap up"
+        }
+      ],
+      "media": [],
+      "tagRoutes": [
+        "/tag/golang/"
+      ]
+    },
+    {
+      "output": "2026/08/12/what-the-windows-registry-taught-me.html",
+      "canonical": "https://ajatprabha.in/2026/08/12/what-the-windows-registry-taught-me",
+      "title": "What the Windows Registry Taught Me",
+      "displayDates": [
+        "12 August 2026"
+      ],
+      "headings": [
+        {
+          "level": 2,
+          "id": "-why-the-registry-at-all",
+          "text": "🔐 Why the registry at all"
+        },
+        {
+          "level": 2,
+          "id": "️-the-registry-is-a-nicer-tree-than-it-looks",
+          "text": "🗂️ The registry is a nicer tree than it looks"
+        },
+        {
+          "level": 2,
+          "id": "-reg_sz-is-better-at-numbers-than-the-number-types",
+          "text": "🔢 REG_SZ is better at numbers than the number types"
+        },
+        {
+          "level": 2,
+          "id": "️-encrypting-the-parts-that-need-it",
+          "text": "🛡️ Encrypting the parts that need it"
+        },
+        {
+          "level": 2,
+          "id": "️-where-the-registry-runs-out",
+          "text": "⚠️ Where the registry runs out"
+        },
+        {
+          "level": 2,
+          "id": "-wrap-up",
+          "text": "🎉 Wrap up"
+        }
+      ],
+      "media": [],
+      "tagRoutes": [
+        "/tag/golang/"
+      ]
+    }
+  ],
+  "feeds": {
+    "feed.xml": [
+      {
+        "title": "Ferry: xload Learns to Write",
+        "id": "https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write",
+        "published": "2026-08-12T01:00:00+00:00",
+        "url": "https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write"
+      },
+      {
+        "title": "What the Windows Registry Taught Me",
+        "id": "https://ajatprabha.in/2026/08/12/what-the-windows-registry-taught-me",
+        "published": "2026-08-12T00:30:00+00:00",
+        "url": "https://ajatprabha.in/2026/08/12/what-the-windows-registry-taught-me"
+      },
+      {
+        "title": "Unleashing xLoad: Your Ultimate Data Loader for Go Structs!",
+        "id": "https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs",
+        "published": "2024-07-07T01:00:00+00:00",
+        "url": "https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs"
+      },
+      {
+        "title": "Introduction to xrun: A Flexible Package for Managing Component Lifecycles in Go",
+        "id": "https://ajatprabha.in/2023/05/24/intro-xrun-package-managing-component-lifecycle-go",
+        "published": "2023-05-24T01:00:00+00:00",
+        "url": "https://ajatprabha.in/2023/05/24/intro-xrun-package-managing-component-lifecycle-go"
+      },
+      {
+        "title": "Making a DIY Sound System that looks minimalistic",
+        "id": "https://ajatprabha.in/2020/10/06/diy-sound-system-minimalistic",
+        "published": "2020-10-06T12:00:00+00:00",
+        "url": "https://ajatprabha.in/2020/10/06/diy-sound-system-minimalistic"
+      },
+      {
+        "title": "Writing Kubernetes Operator with an API Server for Custom GUI",
+        "id": "https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui",
+        "published": "2020-06-24T12:00:00+00:00",
+        "url": "https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui"
+      },
+      {
+        "title": "Week 4 - Load testing with Vegeta and trip to Puducherry",
+        "id": "https://ajatprabha.in/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry",
+        "published": "2018-06-17T12:00:00+00:00",
+        "url": "https://ajatprabha.in/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry"
+      },
+      {
+        "title": "Week 3 - Lots of code and learning",
+        "id": "https://ajatprabha.in/2018/06/10/third-week-code-all-you-want",
+        "published": "2018-06-10T12:00:00+00:00",
+        "url": "https://ajatprabha.in/2018/06/10/third-week-code-all-you-want"
+      },
+      {
+        "title": "Week 2 - Exploring Golang and the trip to Coorg",
+        "id": "https://ajatprabha.in/2018/06/03/second-week-at-gojek",
+        "published": "2018-06-03T12:00:00+00:00",
+        "url": "https://ajatprabha.in/2018/06/03/second-week-at-gojek"
+      },
+      {
+        "title": "Week 1 - Experience as an intern at GoJek",
+        "id": "https://ajatprabha.in/2018/05/27/first-week-at-gojek-bangalore",
+        "published": "2018-05-27T18:00:00+00:00",
+        "url": "https://ajatprabha.in/2018/05/27/first-week-at-gojek-bangalore"
+      }
+    ],
+    "atom.xml": [
+      {
+        "title": "Ferry: xload Learns to Write",
+        "id": "https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write",
+        "published": "Wed, 12 Aug 2026 01:00:00 +0000",
+        "url": "\n        https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write"
+      },
+      {
+        "title": "What the Windows Registry Taught Me",
+        "id": "https://ajatprabha.in/2026/08/12/what-the-windows-registry-taught-me",
+        "published": "Wed, 12 Aug 2026 00:30:00 +0000",
+        "url": "\n        https://ajatprabha.in/2026/08/12/what-the-windows-registry-taught-me"
+      },
+      {
+        "title": "Unleashing xLoad: Your Ultimate Data Loader for Go Structs!",
+        "id": "https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs",
+        "published": "Sun, 07 Jul 2024 01:00:00 +0000",
+        "url": "\n        https://ajatprabha.in/2024/07/07/xload-ultimate-data-loader-go-structs"
+      },
+      {
+        "title": "Introduction to xrun: A Flexible Package for Managing Component Lifecycles in Go",
+        "id": "https://ajatprabha.in/2023/05/24/intro-xrun-package-managing-component-lifecycle-go",
+        "published": "Wed, 24 May 2023 01:00:00 +0000",
+        "url": "\n        https://ajatprabha.in/2023/05/24/intro-xrun-package-managing-component-lifecycle-go"
+      },
+      {
+        "title": "Making a DIY Sound System that looks minimalistic",
+        "id": "https://ajatprabha.in/2020/10/06/diy-sound-system-minimalistic",
+        "published": "Tue, 06 Oct 2020 12:00:00 +0000",
+        "url": "\n        https://ajatprabha.in/2020/10/06/diy-sound-system-minimalistic"
+      },
+      {
+        "title": "Writing Kubernetes Operator with an API Server for Custom GUI",
+        "id": "https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui",
+        "published": "Wed, 24 Jun 2020 12:00:00 +0000",
+        "url": "\n        https://ajatprabha.in/2020/06/24/k8s-operator-with-api-server-for-gui"
+      },
+      {
+        "title": "Week 4 - Load testing with Vegeta and trip to Puducherry",
+        "id": "https://ajatprabha.in/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry",
+        "published": "Sun, 17 Jun 2018 12:00:00 +0000",
+        "url": "\n        https://ajatprabha.in/2018/06/17/load-testing-vegeta-and-trip-to-pudducherry"
+      },
+      {
+        "title": "Week 3 - Lots of code and learning",
+        "id": "https://ajatprabha.in/2018/06/10/third-week-code-all-you-want",
+        "published": "Sun, 10 Jun 2018 12:00:00 +0000",
+        "url": "\n        https://ajatprabha.in/2018/06/10/third-week-code-all-you-want"
+      },
+      {
+        "title": "Week 2 - Exploring Golang and the trip to Coorg",
+        "id": "https://ajatprabha.in/2018/06/03/second-week-at-gojek",
+        "published": "Sun, 03 Jun 2018 12:00:00 +0000",
+        "url": "\n        https://ajatprabha.in/2018/06/03/second-week-at-gojek"
+      },
+      {
+        "title": "Week 1 - Experience as an intern at GoJek",
+        "id": "https://ajatprabha.in/2018/05/27/first-week-at-gojek-bangalore",
+        "published": "Sun, 27 May 2018 18:00:00 +0000",
+        "url": "\n        https://ajatprabha.in/2018/05/27/first-week-at-gojek-bangalore"
+      },
+      {
+        "title": "How I got the internship at GoJek",
+        "id": "https://ajatprabha.in/2018/05/27/how-i-got-the-internship-at-gojek",
+        "published": "Sun, 27 May 2018 16:00:00 +0000",
+        "url": "\n        https://ajatprabha.in/2018/05/27/how-i-got-the-internship-at-gojek"
+      },
+      {
+        "title": "TDD (Test Driven Development), why bother?",
+        "id": "https://ajatprabha.in/2017/12/20/tdd-why-bother",
+        "published": "Wed, 20 Dec 2017 17:24:00 +0000",
+        "url": "\n        https://ajatprabha.in/2017/12/20/tdd-why-bother"
+      },
+      {
+        "title": "Getting to know SDLC | Waterfall vs Agile Development",
+        "id": "https://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile",
+        "published": "Tue, 12 Dec 2017 17:49:00 +0000",
+        "url": "\n        https://ajatprabha.in/2017/12/12/sdlc-waterfall-vs-agile"
+      }
+    ]
+  },
+  "indexRoutes": [
+    "/",
+    "/about/",
+    "/author/ajatprabha/",
+    "/author/ajatprabha/page2/",
+    "/page2/",
+    "/tag/agile-development/",
+    "/tag/diy/",
+    "/tag/gojek/",
+    "/tag/golang/",
+    "/tag/internship/",
+    "/tag/kubernetes/",
+    "/tag/sdlc/",
+    "/tag/sound/",
+    "/tag/tdd/",
+    "/tag/travel/",
+    "/tag/waterfall/"
+  ],
+  "mediaSha256": {
+    "assets/images/02b587d10a77b073ff88da10728676c3.jpg": "59af49433a1916c3aa156aedcc5866344de4cace2c7f75a8dc16c291425f28d2",
+    "assets/images/2b354w.jpg": "e3bab501a80282e6323ea5048d464989d0cfded333fbdb802c644da3c6389aec",
+    "assets/images/IMG_20171015_170057.jpg": "1709b8bd8cbc13ce5e076700d347ac6bd7de7959ace7144199bacda58b928d72",
+    "assets/images/IMG_20180520_061439.jpg": "de9521eb9da856a20b55822395f1603acb0ba7619be9457beaab651ce4c3acaa",
+    "assets/images/IMG_20180520_154815.jpg": "87e55dccf12dcf8685afab88f09a955897851b9fa46acef4844e5e97775d171c",
+    "assets/images/IMG_20180521_122110.jpg": "3ef6bab94a8a80608fe7cb8f36383dd6a3d82c603ce4a779e395a3257d263570",
+    "assets/images/IMG_20180521_182624.jpg": "293519411c0bd201a58850a4f7b0c86894550c05b24741d4f439cd113a3fe2d5",
+    "assets/images/IMG_20180521_184842.jpg": "5bfe0fcd95260cd7e4d35cd6cff46edbc06f836e3fa71cea43cae03769369ab5",
+    "assets/images/IMG_20180525_184345_blur.jpg": "8846603df1bb988406161932ff28b63f319e702cb2e7188f18277823405007c9",
+    "assets/images/IMG_20180528_084003.jpg": "d7fface6e2eebe3544c38fd4f59c0467032d2b6018c8169f1eb1790cc0ca85ec",
+    "assets/images/IMG_20180528_084023.jpg": "380ec0bc60e02ea495237d5f8912a15ed74c855cc749a8b29b725e8de6baf0e1",
+    "assets/images/IMG_20180528_084051.jpg": "164aec88be7d25285f5854cb0299311e4537a98021c835848a081ec139536568",
+    "assets/images/IMG_20180602_082543.jpg": "4e295772f4e3d15608990999193ab167210c93e8b5b1cbb48fb99f7b0da5cf36",
+    "assets/images/IMG_20180602_103608558_HDR.jpg": "a8bb631844bfd9c856c56316c5bb865cffa0e2739d4888113d338fd3b74bed0c",
+    "assets/images/IMG_20180602_103745892.jpg": "5cf974b721df252dd33944ac7af4fecc6e5c0a0f5942c91bd821f83635ac58ea",
+    "assets/images/IMG_20180602_150644.jpg": "389c71b8adfac0dd3ab01aa51563de1432dd966941fc8a3b814b161535c53462",
+    "assets/images/IMG_20180603_080548.jpg": "b7ea68c8e1c09431253caee60ec45c10fbcc83bdc2c753549e60295ed7bfdafb",
+    "assets/images/IMG_20180603_080640.jpg": "d75ed9523e06e1fe2c6181db37c691bb5713ed1fae70b0fcbdd239b9d4154956",
+    "assets/images/IMG_20180603_095731.jpg": "9f1541b504fb28ecb2bb3809164306cb9237deb1d9059d0cc9c9e1985af49b1d",
+    "assets/images/IMG_20180603_123229_BURST2.jpg": "a467718901d9a238e462b8046b32a675ccc08012ff4e5eebb457b7d084d0d064",
+    "assets/images/IMG_20180603_123841.jpg": "1fab9dbbd01cb2b8097c37aa9a084ca19aa3ed6452b01cd3ec5a6e210203c386",
+    "assets/images/IMG_20180604_125819.jpg": "b5f5b730b3c6069606850bf715765d9298c2763977e002abb8d10fa0f20d3fad",
+    "assets/images/IMG_20180604_125835.jpg": "3bc6755ced341f4bcfcd99ead117eabb6d40d80599014811958f71e89c90a7fc",
+    "assets/images/IMG_20180605_164123_1.jpg": "bb55974341238f0c9f9e0e793f11b04826a8e80bd2e0960453a6d4f0a40585db",
+    "assets/images/IMG_20180606_115642.jpg": "06c8ab1df73659c08db811336600922b109b5079d8f52a8035cb4ae8488cd8dd",
+    "assets/images/IMG_20180616_110649.jpg": "cebb7126c8782c5dab475f3d268e541adc04126a91b28499a8efea6beb199470",
+    "assets/images/IMG_20180616_114501.jpg": "6d73a6eff39ff6d037b7c0c15241ce1400ad5630f714ee4a35451085c0741186",
+    "assets/images/IMG_20180616_135555469.jpg": "861ad3e13014bce9d708549bac65e76dca1d273eadff85455df9c4da1be16df3",
+    "assets/images/IMG_20180617_080512_1.jpg": "ec4d957758c6233373d6d35de5c71ea7ea4b9cb395e9219eda17ab3080155228",
+    "assets/images/IMG_20180617_083757.jpg": "4aee7df8759081c9f5f671d8943adea89bde45160bf7642180aaeae8b7a4b5b3",
+    "assets/images/IMG_20200828_110823.jpg": "3decae7accbed7708eca8a0318d09fb96c69560e1c93c4ee5eb4b6ce73115f1d",
+    "assets/images/IMG_20200925_104125.jpg": "30d7ea2bd0c29374b288c522895e2fb157af2b0ed4b2525264b8b16c9022f4a5",
+    "assets/images/IMG_20201007_235240.jpg": "7d1004567cd79efb0bc6e14b32e433ce094655af68df1f18e1ef9cce8109baa3",
+    "assets/images/IMG_7152.jpg": "db51b58cf7b90a8f2bb9ff62bc18a2e35c93e2c9d1cf3c0cfb7e8f4c2a8e9e5b",
+    "assets/images/PANO_20180603_093929.jpg": "ac08fe9957afc7857ef141a449a8315e136fc7e6513ae83d5fa56cf581aebc80",
+    "assets/images/RGR-cycle-300x300.png": "263e6efacd143105acb7b2f16d82360f54c850a0712fc069e8702ec1dc01a6d2",
+    "assets/images/RGR-cycle.png": "10568cd97ad03d05b12810743be394401f52562c11163fa07ac9e9ae716b7aee",
+    "assets/images/SDLC-932x1024.png": "c5f33ea446d22bf7cad2dee6e7124bdd306a8ba6312ef5245d3d582c23f2c97d",
+    "assets/images/Screenshot-2020-06-25 01-31-09.png": "bd9c8614a6e2406125f9966249dd01c173a7671e01d55f35b414e7070ba8294b",
+    "assets/images/Screenshot-2020-06-25 01-31-37.png": "9984fd39593e234ed729d6fc4c4032131bf2c1180ff219bb77650699dbed84d0",
+    "assets/images/advanced.jpg": "cd6443b25108ec1fe1db19cb6eeb92cf500aab01ac783b82be7d4adf73ec58a5",
+    "assets/images/ajat-cover.jpg": "91f80ff5ccc4da4574e24ab213b513580f485b30a5658bab3865489423daa606",
+    "assets/images/ajat.jpg": "92a34587964709e3ffdb7b5db886b893bbc5365bbed2ceffc4b09f1a8cabba34",
+    "assets/images/base_cropped.jpg": "4cb5db45f92e14dea82ddc3b0648ffd7b88d33f24ddc2b7314919d96acb470f8",
+    "assets/images/base_image.jpg": "23d2ca082b684b27a6d003db019a24bc49eab9e72009186397ddee9dd791c445",
+    "assets/images/base_resized.jpg": "759db5eb6560a0720f50bbe48823ae392963c39464ebae3b6dacdaa3856038e9",
+    "assets/images/blog-cover.jpg": "6ebe3759cbe10bc88e1d65ca0d9f01e2c83fc91036cf0bbfd9b6b192d5163746",
+    "assets/images/blog-icon.png": "231b70f1023013f8d46129e0b0776306e3578bf857797d4c734d0da7981e8ace",
+    "assets/images/blog-logo.png": "e4a3752cf01ce08baa789048c2b5f89c70ae990591aafe759a3260955b65a1df",
+    "assets/images/favicon.png": "c14d88e6ba0c4b63ed4d23498aff39cdf6840389ebf749482edb08c7ccfccaa2",
+    "assets/images/ferry-hero.jpg": "9737c14b5f3fbdb1c7552d2ddfb5baeefb290bac40920805374ce915c1a99d07",
+    "assets/images/ferry-windows-hero.jpg": "959dcd7b77c09231635a14e5a2701e3170a904828889035e8404f0e802906ec8",
+    "assets/images/getting-to-know.jpg": "b6ec46df2fd0405b11e4a1fff894a9d77a77e4689202c5cdebca4093d314154c",
+    "assets/images/ghost-logo.svg": "24e331a1022338bfb8cecc57a88a2680cb51f4f28dd51a7f3d6904c157103d91",
+    "assets/images/ghost.png": "83755f213ec9b882c84726747855e215d5b468190de2584ee51a270115336f95",
+    "assets/images/gophers.jpg": "23e2e4a45c9b42f3bc26bec5b5e600f5d799892d4d4a6541229cab915e3b1ca1",
+    "assets/images/k8s-banner.jpg": "2531f20b00ff9077381ed12d468b71cadd0b6d4a91646440476f936025aa6c62",
+    "assets/images/operator-diagram.svg": "0802e3bb048a706efc216edd1061c491a9ee29381a8546e967573ecc143b2126",
+    "assets/images/tdd-why-bother.jpg": "7a725f5ab5a90491fa739791e960e0cb2e7ae1e5533a90adb39682c2aef29ef1",
+    "assets/images/vegeta-blue.png": "1035f0dccc9527fa58039bca65d51fff8031e78ac2d7ff5795a70e5fdaca56aa",
+    "assets/images/waterfall-281x300.png": "f85315ca32c499190c4d01dad21578967fc1be3ea857e03ae7e889e358b11437",
+    "assets/images/waterfall-768x820.png": "f86a8356c8f722537b0219e6c8b8a54debaa5daf199ebf3598b5f3a1e0240474",
+    "assets/images/xload-gophers.jpg": "64cb4fddab0fbb1b7abb9d48448895c6d7cbe502ae2c59cb3ba4250c970c8215",
+    "assets/videos/Snapchat-1169001711.mp4": "9d006df468977d1fb8d37566bdede92e048c882e1ed70c9142859addc8a7000a",
+    "assets/videos/Snapchat-1775669112.mp4": "23f0e10ea31d8450300f861e703af4a91700f10bc052ba07bc73794155f3c6e2",
+    "assets/videos/VID_20180603_111153.mp4": "9e4fdb54547bc274666e1fdd734b0106aafd4559481fe16dc198daa00d49d2c2",
+    "assets/videos/operator-ex-01.mp4": "8f0147a3d55c9e0eace513b5408d97a31b27bb6fed351fb4c7d21e6eadee00f1",
+    "assets/videos/operator-ex-02.mp4": "855b0ec14627c117c92b0535d4ac5ceca8a19145bfe110146a66eca5f48825b1"
+  },
+  "provenance": "Rebuilt source planning tip 152dd17a84ae35fdc6f6f1d8e09b90227be7abb3 using ruby:2.7.7 and isolated ffi <1.17 dependency constraint; captured 2026-10-12"
+}

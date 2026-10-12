@@ -1,0 +1,6 @@
+---
+import type { ArticleSummary } from '../../lib/types';
+interface Props { article: ArticleSummary }
+const { article } = Astro.props;
+---
+<article><header><h1>{article.title}</h1><slot name="metadata"/></header>{Astro.slots.has('outline') && <aside aria-label="On this page"><slot name="outline"/></aside>}<div class="prose"><slot/></div>{Astro.slots.has('related') && <section aria-label="Related writing"><slot name="related"/></section>}</article>

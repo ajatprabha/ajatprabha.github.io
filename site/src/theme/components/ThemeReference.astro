@@ -1,0 +1,7 @@
+---
+import ArticleLayout from '../layouts/ArticleLayout.astro';
+import type { ArticleSummary } from '../../lib/types';
+interface Props { article: ArticleSummary }
+const { article } = Astro.props;
+---
+<ArticleLayout article={article}><time slot="metadata" datetime={article.publishedAt}>{article.publishedAt.slice(0,10)}</time><slot/></ArticleLayout>

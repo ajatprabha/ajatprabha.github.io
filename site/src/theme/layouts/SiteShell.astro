@@ -1,0 +1,6 @@
+---
+import type { SiteIdentity, NavigationItem, PageMetadata } from '../../lib/types';
+interface Props { site: SiteIdentity; navigation: NavigationItem[]; metadata: PageMetadata; activeSection?: string }
+const { site, navigation, metadata, activeSection } = Astro.props;
+---
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><title>{metadata.title} | {site.name}</title><meta name="description" content={metadata.description}/><link rel="canonical" href={metadata.canonical}/>{metadata.noindex && <meta name="robots" content="noindex,nofollow"/>}<slot name="head"/></head><body><a href="#main">Skip to content</a><header><a href="/">{site.name}</a><nav aria-label="Main">{navigation.map(item => <a href={item.href} aria-current={activeSection === item.label.toLowerCase() ? 'page' : undefined}>{item.label}</a>)}</nav></header><main id="main"><slot/></main><footer><a href="/feed.xml">RSS</a><slot name="footer"/></footer></body></html>
