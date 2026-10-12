@@ -46,13 +46,97 @@ Foundation validation covers schema fixtures, unique routes, references, prepare
 It does not claim all 13-post source parity, full route parity, feed identity parity, browser acceptance, or a verified legacy build.
 Those gates advance when actual migration content, pages, and baseline evidence arrive.
 Feed checks report missing endpoints at early stages; `VALIDATION_STAGE=composition` makes both required.
-Browser journeys will be provided and run at composition stage rather than fabricated at fixture stage.
+Browser journeys are implemented at composition stage and exercise real Chromium against built output.
 
-## Remaining gates
+## Migration evidence
 
 - Baseline integrated: published `1d98a436` and isolated Ruby 2.7.7/Jekyll 3.8.7 rebuild match posts, feeds, archives and media hashes.
   The untouched install fails on ffi 1.17.4; the capture uses a throwaway ffi <1.17 constraint and force_ruby_platform.
-- Integrate all 13 posts, projects, About and Gist sources.
-- Extend output/feed validation using the actual baseline and composition routes.
-- Independently review and exercise keyboard, no-JavaScript, mobile, desktop and both color modes.
+- All 13 posts, six approved projects, role-neutral About and all 24 Gist occurrences are integrated.
+- Stage-aware output and feed checks enforce the actual publication baseline.
+- Independent standards/spec reviews and real Chromium desktop/mobile, light/dark, keyboard, reduced-motion and no-JavaScript journeys are implemented.
 - Archive comments if any are found; confirm the separate live GSoC publishing mechanism is preserved.
+
+## Integrated validation gate
+
+Composition is detected from the committed `site/src/data/validation-stage.json` marker.
+The marker activates required historical output/feed parity and CI composition/browser checks without an operator environment flag.
+Source checks compare 13 exact title/route/publication instants and execute the content transformation and Gist fidelity suite.
+Output checks compare actual baseline headings/media/routes and all built local links and fragments.
+Feeds preserve Atom newest ten at `/feed.xml` and RSS all thirteen at `/atom.xml`, including baseline IDs and publication instants.
+The independent built-composition check remains a separate interface from the shared validators.
+Playwright `1.64.0` provides the browser command once the browser test adapter lands.
+Pinned `@astrojs/markdown-satteri` `0.4.3` supports a native static table transform preserving semantic headers in named, keyboard-reachable scroll regions.
+The table transform interface test runs in the shared check command.
+`fast-xml-validator` `1.4.2` supplies nondeprecated XML syntax checks.
+The complete selected dependencies audit contains zero known vulnerabilities at install time.
+
+Foundation/source/theme layers continue to run the fixture or available-source checks without claiming full composition parity.
+CI separately rebuilds legacy source in the pinned isolated runtime and compares actual posts, feeds, archives and media hashes to publication evidence.
+The compatibility capture constraint does not change production Gemfile or the production deployment workflow.
+
+## Review delivery
+
+The final cumulative review branch is `migration/04-composition` at `/tmp/ajat-astro-preview-review`.
+The final output is local review material; production remains the Jekyll publication.
+The stack remains unmerged pending explicit user approval.
+
+| Layer | Branch | Draft PR | Review contents |
+| --- | --- | --- | --- |
+| Foundation | migration/01-foundation | [#3](https://github.com/ajatprabha/ajatprabha.github.io/pull/3) | Pinned runtime, fixture interfaces, isolated baseline and legacy parity CI |
+| Content | migration/02-content | [#4](https://github.com/ajatprabha/ajatprabha.github.io/pull/4) | Exact articles, local Gist captures, six projects and About |
+| Theme | migration/03-theme | [#5](https://github.com/ajatprabha/ajatprabha.github.io/pull/5) | Owned compositional light/dark theme, self-hosted fonts and review fixture |
+| Composition | migration/04-composition | [#6](https://github.com/ajatprabha/ajatprabha.github.io/pull/6) | Actual page/archive/feed routes, strict parity and Chromium journeys |
+
+The root orchestrator integrates delegated commits and manages this review stack.
+Implementation owners remain foundation/shared tooling/theme, content, and pages/browser/evidence.
+The pinned IBM Plex Sans subset uses internal name Field Journal Sans because upstream reserves the name Plex.
+Its selected glyph designs and real italics remain IBM Plex Sans; both complete upstream font licenses are deployed with the fonts.
+
+### Local validation evidence
+
+The integrated validation checkpoint passed Astro/TypeScript with zero errors, warnings or hints and the static table-transform interface test.
+All 13 historical metadata records and the six content/source/Gist transformation tests passed.
+The 39-page review build passed baseline article/routes/heading/media/local-link parity and independent composition verification.
+Both feeds passed exact historical format, ordered item count, identity, title, publication instant and link checks.
+The isolated legacy rebuild passed equality for posts, feeds, archives and historical media hashes.
+The 16 Chromium journeys cover desktop/mobile at 320px, light/dark, real navigation, selected rich articles, keyboard focus, saved preference, reduced motion and disabled JavaScript.
+The browser runner chooses an available loopback port and owns a foreground Astro preview when PREVIEW_URL is absent.
+It stops that owned process after the run; with an explicit PREVIEW_URL it uses the review server without stopping it.
+Final cumulative checks and screenshots are rerun in the final review worktree by the orchestrator and browser owner.
+Hosted CI may still be pending at delivery and must be reported separately from local results.
+
+### Review server and reproduction
+
+```sh
+cd /tmp/ajat-astro-preview-review
+export PATH=/tmp/ajat-node24/bin:$PATH
+npm --prefix site ci
+npm --prefix site run check
+npm --prefix site run validate:content
+npm --prefix site run build
+npm --prefix site run validate:output
+npm --prefix site run validate:feeds
+npm --prefix site run validate:composition
+npm --prefix site exec -- playwright install --with-deps chromium
+npm --prefix site run test:browser
+npm --prefix site run preview -- --port 4321
+```
+
+The review server is `http://localhost:4321`, with host binding exposed for environment browser access.
+Astro 7 tracks its agent-started preview as a background process in the final worktree.
+From the final repository root, run `(cd site && npm exec -- astro preview status)` to inspect it and `(cd site && npm exec -- astro preview stop)` to stop it.
+Astro preview status and stop require the site working directory; npm exec with --prefix resolves the binary without changing the working directory.
+The process remains available only while this runtime environment stays active.
+The isolated environment's local Chromium shared-library extraction is `/tmp/ajat-browser-libs/extracted/usr/lib/x86_64-linux-gnu`.
+If standard browser dependency installation lacks privileges locally, prepend that path using LD_LIBRARY_PATH for the browser command.
+CI uses the ordinary Playwright `--with-deps chromium` installation.
+Normal build excludes the noindex reference route; `build:review` includes `/theme-reference/` for visual component review.
+
+### Production gates
+
+- Obtain the owner's authenticated Disqus export and preserve any existing comments; anonymous access failure did not prove zero comments.
+- Review each real video for meaningful audio and provide captions or a transcript where required; playback controls alone do not satisfy this accessibility review.
+- Obtain explicit approval before merging the review stack, changing the production builder, deployment, or deleting legacy tooling.
+- Keep the separate GSoC project archive publishing mechanism and link intact.
+- Finish hosted CI and user visual/content review before a production-cutover change is proposed.

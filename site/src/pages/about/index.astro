@@ -1,0 +1,30 @@
+---
+import { getEntry, render } from "astro:content";
+import { site, navigation } from "../../data/site";
+import { SiteShell, IndexLayout } from "../../theme";
+import { metadata, introduction } from "../_metadata";
+const profile = await getEntry("about", "profile");
+const body = profile ? await render(profile) : undefined;
+const Content = body?.Content;
+---
+
+<SiteShell
+  site={site}
+  navigation={navigation}
+  activeSection="about"
+  metadata={metadata(
+    "About",
+    profile?.data.description ?? introduction,
+    "/about/",
+  )}
+>
+  <IndexLayout
+    ><h1 slot="intro">About</h1><div slot="entries" class="prose">
+      {Content ? <Content /> : <p>{introduction}</p>}<p>
+        <a href="https://github.com/ajatprabha">GitHub</a> · <a
+          href="https://www.linkedin.com/in/ajatprabha">LinkedIn</a
+        > · <a href="https://ajatprabha.in/gsoc-meta-k8s/">GSoC 2019 archive</a>
+      </p>
+    </div></IndexLayout
+  >
+</SiteShell>

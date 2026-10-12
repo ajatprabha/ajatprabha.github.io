@@ -1,0 +1,41 @@
+---
+import { getWriting } from "../../lib/content";
+import type { WritingEntry } from "../../lib/content";
+import { tagSlug, tagPath } from "../../lib/routes";
+import Archive from "../_Archive.astro";
+export async function getStaticPaths() {
+  const entries = await getWriting();
+  const tags = [...new Set(entries.flatMap((entry) => entry.data.tags))];
+  return tags.flatMap((tag) => {
+    const tagged = entries.filter((entry) => entry.data.tags.includes(tag));
+    const pageCount = Math.ceil(tagged.length / 10);
+    return Array.from({ length: pageCount }, (_, index) => ({
+      params: { archive: `${tagSlug(tag)}${index ? `/page${index + 1}` : ""}` },
+      props: {
+        tag,
+        entries: tagged.slice(index * 10, (index + 1) * 10),
+        page: index + 1,
+        pageCount,
+      },
+    }));
+  });
+}
+interface Props {
+  tag: string;
+  entries: WritingEntry[];
+  page: number;
+  pageCount: number;
+}
+const { tag, entries, page, pageCount } = Astro.props;
+const basePath = tagPath(tag);
+---
+
+<Archive
+  title={`Writing tagged ${tag}`}
+  description={`Entries about ${tag}.`}
+  path={page === 1 ? basePath : `${basePath}page${page}/`}
+  entries={entries}
+  page={page}
+  pageCount={pageCount}
+  basePath={basePath}
+/>

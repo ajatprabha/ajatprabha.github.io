@@ -1,0 +1,50 @@
+---
+import { site, navigation } from "../data/site";
+import {
+  getWriting,
+  getProjects,
+  toArticleSummary,
+  toProjectSummary,
+} from "../lib/content";
+import { SiteShell, HomeLayout, ArticleRow, ProjectCard } from "../theme";
+import { metadata, introduction } from "./_metadata";
+const [writing, projects] = await Promise.all([getWriting(), getProjects()]);
+---
+
+<SiteShell
+  site={site}
+  navigation={navigation}
+  metadata={metadata("Field journal", site.description, "/")}
+>
+  <HomeLayout>
+    <div slot="intro">
+      <p>Engineering field journal</p><h1>Notes from building things.</h1><p>
+        {introduction}
+      </p><p>
+        My work spans Go libraries, real-time messaging, API infrastructure, and
+        developer tooling.
+      </p><a href="/about/">More about me</a>
+    </div>
+    <div slot="projects">
+      <h2>Selected projects</h2><p>Tools and systems I've built.</p><div class="project-grid">
+        {
+          projects
+            .slice(0, 3)
+            .map((entry) => <ProjectCard project={toProjectSummary(entry)} />)
+        }
+      </div><a href="/projects/">All projects</a>
+    </div>
+    <div slot="writing">
+      <h2>Recent writing</h2>{
+        writing
+          .slice(0, 5)
+          .map((entry) => <ArticleRow article={toArticleSummary(entry)} />)
+      }<a href="/writing/">All writing</a>
+    </div>
+    <p slot="note">
+      Follow new entries through <a href="/feed.xml">RSS</a>, or visit my <a
+        href="https://ajatprabha.in/gsoc-meta-k8s/">GSoC 2019 project archive</a
+      >.
+    </p>
+  </HomeLayout>
+</SiteShell>

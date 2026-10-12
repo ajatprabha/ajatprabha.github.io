@@ -1,0 +1,71 @@
+---
+import { render } from "astro:content";
+import type { ProjectEntry } from "../../lib/content";
+import {
+  getProjects,
+  getWriting,
+  toProjectSummary,
+  toArticleSummary,
+} from "../../lib/content";
+import { site, navigation } from "../../data/site";
+import { SiteShell, ProjectLayout, ArticleRow } from "../../theme";
+import { metadata } from "../_metadata";
+export async function getStaticPaths() {
+  return (await getProjects()).map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+interface Props {
+  entry: ProjectEntry;
+}
+const { entry } = Astro.props;
+const project = toProjectSummary(entry);
+const { Content } = await render(entry);
+const related = (await getWriting()).filter((article) =>
+  article.data.projectIds.includes(entry.id),
+);
+---
+
+<SiteShell
+  site={site}
+  navigation={navigation}
+  activeSection="projects"
+  metadata={metadata(project.title, project.description, project.href)}
+>
+  <ProjectLayout project={project}>
+    <nav slot="metadata" aria-label="Project links">
+      {project.links?.source && <a href={project.links.source}>Source code</a>}{
+        project.links?.website && <a href={project.links.website}>Website</a>
+      }{
+        project.links?.documentation && (
+          <a href={project.links.documentation}>Documentation</a>
+        )
+      }
+    </nav>
+    {
+      project.preview?.kind === "image" && (
+        <figure slot="preview">
+          <img
+            src={project.preview.image.src}
+            alt={project.preview.image.alt}
+          />
+          {project.preview.caption && (
+            <figcaption>{project.preview.caption}</figcaption>
+          )}
+        </figure>
+      )
+    }
+    <Content />
+    {
+      related.length > 0 && (
+        <section slot="related">
+          <h2>Related writing</h2>
+          {related.map((article) => (
+            <ArticleRow article={toArticleSummary(article)} />
+          ))}
+        </section>
+      )
+    }
+  </ProjectLayout>
+</SiteShell>
