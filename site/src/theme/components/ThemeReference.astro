@@ -15,6 +15,8 @@ import {
   TableOfContents,
   ProjectPreview,
   Pagination,
+  Video,
+  PageIntro,
 } from "../index";
 import type { ArticleSummary, ProjectSummary } from "../../lib/types";
 interface Props {
@@ -130,6 +132,70 @@ const project: ProjectSummary = {
         />
       </Gallery>
       <ProjectPreview preview={{ kind: "none" }} />
+    </div>
+  </Section>
+  <Section title="Supported review variants" variant="plain">
+    <p>
+      These are review fixtures for component coverage, separate from real site
+      content.
+    </p>
+    <PageIntro title="Home introduction fixture" variant="home">
+      <p>A concise home introduction.</p>
+    </PageIntro>
+    <PageIntro title="Compact introduction fixture" variant="compact">
+      <p>A concise index introduction.</p>
+    </PageIntro>
+    <div class="prose">
+      <Gallery variant="three-column">
+        {[1, 2, 3].map((index) => (
+          <Figure
+            image={{
+              src: "/assets/images/operator-diagram.svg",
+              alt: `Operator diagram gallery fixture ${index}`,
+              width: 1152,
+              height: 864,
+            }}
+            variant="with-caption"
+            caption="Full technical diagram, without cropping."
+          />
+        ))}
+      </Gallery>
+      <ProjectPreview
+        preview={{
+          kind: "diagram",
+          src: "/assets/images/operator-diagram.svg",
+          alt: "Operator flow used as an existing diagram preview fixture",
+          caption: "Existing operator diagram, used only as review media.",
+        }}
+      />
+      <ProjectPreview
+        preview={{
+          kind: "image",
+          image: {
+            src: "/assets/images/IMG_20180605_164123_1.jpg",
+            alt: "Existing travel photograph used as review media",
+          },
+          caption: "Existing photograph, with its original aspect ratio.",
+        }}
+      />
+      <Video
+        src="/assets/videos/VID_20180603_111153.mp4"
+        width={640}
+        height={360}
+        variant="landscape"
+        caption="Existing landscape video fixture. Native playback controls; no autoplay."
+      />
+      <Video
+        src="/assets/videos/Snapchat-1775669112.mp4"
+        variant="portrait"
+        caption="Existing portrait video fixture. Bounded reading height and native controls."
+      />
+      <TableOfContents
+        headings={[
+          { depth: 2, slug: "reference-controls", text: "Review controls" },
+        ]}
+        variant="disclosure"
+      />
     </div>
   </Section>
 </div>
