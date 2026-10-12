@@ -22,3 +22,6 @@ This follows the [OFL modification requirements](https://openfontlicense.org/how
 | source-serif-4-OFL.txt | `5f94c3fd3a23131a417ab5a0c8452de57e70c3cfb9f604d88241f7065ebf9fd9` |
 | source-serif-4-latin-italic.woff2 | `7e1bc73e4310b41868cdb2e1722fc71a54f3f5b4b6f48e946444a5c5b11c169b` |
 | source-serif-4-latin.woff2 | `b7f956bbec0a69986cc670295584260c1e0cf5ea4434bc9dfaec568f51ae82d1` |
+
+To regenerate, create an isolated Python environment with `fonttools==4.61.1` and `brotli==1.2.0`, then run `python site/scripts/prepare-fonts.py`.
+Regeneration is optional maintenance tooling; normal installation and build use committed WOFF2 assets without network font downloads.
