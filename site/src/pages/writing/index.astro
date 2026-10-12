@@ -1,0 +1,10 @@
+---
+import { site, navigation } from '../../data/site';
+import { getWriting, toArticleSummary } from '../../lib/content';
+import { SiteShell, IndexLayout, ArticleRow } from '../../theme';
+import { metadata } from '../_metadata';
+const entries = await getWriting();
+---
+<SiteShell site={site} navigation={navigation} activeSection="writing" metadata={metadata('Writing', 'Technical decisions, projects, and things learned along the way.', '/writing/')}>
+  <IndexLayout><div slot="intro"><h1>Writing</h1><p>Technical decisions, projects, and things learned along the way.</p></div><div slot="entries">{entries.map(entry => <ArticleRow article={toArticleSummary(entry)}/>)}</div></IndexLayout>
+</SiteShell>

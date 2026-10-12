@@ -1,0 +1,6 @@
+---
+import { site, navigation } from '../data/site';
+import { SiteShell, IndexLayout } from '../theme';
+import { metadata } from './_metadata';
+---
+<SiteShell site={site} navigation={navigation} metadata={metadata('Page not found', 'This page could not be found.', '/404.html', { noindex: true })}><IndexLayout><h1 slot="intro">Page not found</h1><div slot="entries"><p>This page could not be found.</p><p><a href="/">Return home</a> or <a href="/writing/">browse the writing archive</a>.</p></div></IndexLayout></SiteShell>
