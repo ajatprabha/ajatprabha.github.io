@@ -76,6 +76,22 @@ test("home to writing/article and projects/detail, metadata and optional composi
     page.getByRole("heading", { level: 2, name: "Recent writing" }),
   ).toBeVisible();
   await containment(page);
+  const destinations = page.getByRole("navigation", { name: "Explore the site" });
+  await expect(destinations.getByRole("link")).toHaveCount(3);
+  const actionBoxes = await destinations.getByRole("link").evaluateAll((links) =>
+    links.map((link) => {
+      const rect = link.getBoundingClientRect();
+      return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom };
+    }),
+  );
+  for (let index = 1; index < actionBoxes.length; index++) {
+    const previous = actionBoxes[index - 1];
+    const current = actionBoxes[index];
+    expect(
+      current.left > previous.right || current.top > previous.bottom,
+      "Hero navigation destinations have visible separation",
+    ).toBe(true);
+  }
   const hero = page.locator(".home-hero img");
   await expect(hero).toHaveAttribute("src", "/assets/images/blog-cover.jpg");
   await loadedImage(hero);
