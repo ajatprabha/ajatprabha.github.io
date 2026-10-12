@@ -1,0 +1,22 @@
+name: Preview validation
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  astro-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: site/.nvmrc
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - run: npm --prefix site ci
+      - run: npm --prefix site run check
+      - run: npm --prefix site run validate:content
+      - run: npm --prefix site run build:review
+      - run: npm --prefix site run validate:output
+      - run: npm --prefix site run validate:feeds
