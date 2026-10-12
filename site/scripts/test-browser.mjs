@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { createServer } from "node:net";
 import { setTimeout } from "node:timers/promises";
 import { fileURLToPath } from "node:url";
 const site = fileURLToPath(new URL("../", import.meta.url));
@@ -6,7 +7,18 @@ let server;
 const env = { ...process.env };
 try {
   if (!env.PREVIEW_URL) {
-    env.PREVIEW_URL = "http://127.0.0.1:4325";
+    const port = await new Promise((resolve, reject) => {
+      const probe = createServer();
+      probe.once("error", reject);
+      probe.listen(0, "127.0.0.1", () => {
+        const address = probe.address();
+        const selected =
+          typeof address === "object" && address ? address.port : null;
+        probe.close((error) => (error ? reject(error) : resolve(selected)));
+      });
+    });
+    if (!port) throw new Error("Unable to select an available preview port");
+    env.PREVIEW_URL = `http://127.0.0.1:${port}`;
     server = spawn(
       process.execPath,
       [
@@ -15,7 +27,7 @@ try {
         "--host",
         "127.0.0.1",
         "--port",
-        "4325",
+        String(port),
         "--ignore-lock",
       ],
       { cwd: site, stdio: "inherit" },
