@@ -56,3 +56,21 @@ Browser journeys will be provided and run at composition stage rather than fabri
 - Extend output/feed validation using the actual baseline and composition routes.
 - Independently review and exercise keyboard, no-JavaScript, mobile, desktop and both color modes.
 - Archive comments if any are found; confirm the separate live GSoC publishing mechanism is preserved.
+
+## Integrated validation gate
+
+Composition is detected from the committed `site/src/data/validation-stage.json` marker.
+The marker activates required historical output/feed parity and CI composition/browser checks without an operator environment flag.
+Source checks compare 13 exact title/route/publication instants and execute the content transformation and Gist fidelity suite.
+Output checks compare actual baseline headings/media/routes and all built local links and fragments.
+Feeds preserve Atom newest ten at `/feed.xml` and RSS all thirteen at `/atom.xml`, including baseline IDs and publication instants.
+The independent built-composition check remains a separate interface from the shared validators.
+Playwright `1.64.0` provides the browser command once the browser test adapter lands.
+Pinned `@astrojs/markdown-satteri` `0.4.3` supports a native static table transform preserving semantic headers in named, keyboard-reachable scroll regions.
+The table transform interface test runs in the shared check command.
+`fast-xml-validator` `1.4.2` supplies nondeprecated XML syntax checks.
+The complete selected dependencies audit contains zero known vulnerabilities at install time.
+
+Foundation/source/theme layers continue to run the fixture or available-source checks without claiming full composition parity.
+CI separately rebuilds legacy source in the pinned isolated runtime and compares actual posts, feeds, archives and media hashes to publication evidence.
+The compatibility capture constraint does not change production Gemfile or the production deployment workflow.
