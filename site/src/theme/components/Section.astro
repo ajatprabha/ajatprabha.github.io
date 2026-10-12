@@ -1,0 +1,5 @@
+---
+interface Props { title?: string; variant?: 'plain' | 'ruled' | 'surface' }
+const { title, variant = 'plain' } = Astro.props;
+---
+<section class:list={['section', `section--${variant}`]}><div class="section-heading">{title && <h2>{title}</h2>}<slot name="heading"/></div><slot/></section>

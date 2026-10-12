@@ -1,0 +1,6 @@
+---
+import type { Cover } from '../../lib/types';
+interface Props { image: Cover; caption?: string; variant?: 'inline' | 'wide' | 'with-caption' }
+const { image, caption, variant = 'inline' } = Astro.props;
+---
+<figure class:list={['figure', `figure--${variant}`]}><img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async"/>{caption && <figcaption>{caption}</figcaption>}<slot/></figure>

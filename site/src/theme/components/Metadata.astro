@@ -1,0 +1,5 @@
+---
+interface Props { publishedAt?: string; status?: string }
+const { publishedAt, status } = Astro.props;
+---
+<div class="metadata">{publishedAt && <time datetime={publishedAt}>{new Intl.DateTimeFormat('en',{year:'numeric',month:'long',day:'numeric',timeZone:'UTC'}).format(new Date(publishedAt))}</time>}{status && <span>{status}</span>}<slot/></div>

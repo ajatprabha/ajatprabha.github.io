@@ -3,4 +3,4 @@ import type { ProjectSummary } from '../../lib/types';
 interface Props { project: ProjectSummary }
 const { project } = Astro.props;
 ---
-<article><header><h1>{project.title}</h1><p>{project.description}</p><slot name="metadata"/></header><slot name="preview"/><div class="prose"><slot/></div><slot name="related"/></article>
+<article class="project-layout"><header class="project-header"><h1>{project.title}</h1><p>{project.description}</p><slot name="metadata"/></header>{Astro.slots.has('preview') && <div class="project-preview"><slot name="preview"/></div>}<div class="reading-body prose"><slot/></div>{Astro.slots.has('related') && <section class="related-section" aria-label="Related writing"><slot name="related"/></section>}</article>

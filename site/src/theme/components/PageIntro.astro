@@ -1,0 +1,5 @@
+---
+interface Props { title: string; variant?: 'home' | 'compact' }
+const { title, variant = 'compact' } = Astro.props;
+---
+<div class:list={['page-intro', variant === 'home' && 'home-intro']}><h1>{title}</h1><slot/></div>

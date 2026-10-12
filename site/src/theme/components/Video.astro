@@ -1,0 +1,5 @@
+---
+interface Props { src: string; poster?: string; width?: number; height?: number; variant?: 'landscape' | 'portrait'; caption?: string; track?: { src: string; label: string; language: string } }
+const { src, poster, width, height, variant = 'landscape', caption, track } = Astro.props;
+---
+<figure><video class={`video--${variant}`} src={src} poster={poster} width={width} height={height} controls playsinline preload="metadata">{track && <track kind="captions" src={track.src} label={track.label} srclang={track.language}/>}<p><a href={src}>Download video</a></p></video>{caption && <figcaption>{caption}</figcaption>}</figure>
