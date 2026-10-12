@@ -18,6 +18,11 @@ const Heading = headingLevel === 1 ? "h1" : "h2";
       <slot name="outline" />
     </aside>
   )}
+  {Astro.slots.has("cover") && (
+    <div class="article-cover">
+      <slot name="cover" />
+    </div>
+  )}
   <div class="reading-body prose">
     <slot />
   </div>

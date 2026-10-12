@@ -1,0 +1,20 @@
+---
+import type { ArticleSummary } from "../../lib/types";
+interface Props {
+  article: ArticleSummary;
+}
+const { article } = Astro.props;
+---
+
+{article.cover && (
+  <a class="article-media" href={article.href} tabindex="-1" aria-hidden="true">
+    <img
+      src={article.cover.src}
+      alt=""
+      width={article.cover.width}
+      height={article.cover.height}
+      loading="lazy"
+      decoding="async"
+    />
+  </a>
+)}

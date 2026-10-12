@@ -158,3 +158,42 @@
   margin: 0;
   width: 100%;
 }
+
+/* Resolve the reading measure once for every text block, independent of its font. */
+.reading-body {
+  --width-reading: 42.5rem;
+}
+/* Reading and media share a centered axis; rich blocks use the wider page frame. */
+.reading-body > * {
+  max-width: min(100%, var(--width-reading));
+  margin-inline: auto;
+}
+.reading-body > :is(figure, .gallery, pre, .table-scroll, table, .callout),
+.reading-body > p:has(> img),
+.reading-body > div:has(> .gallery) {
+  max-width: 100%;
+  width: 100%;
+}
+.reading-body > blockquote {
+  width: min(100%, calc(var(--width-reading) + 4rem));
+  max-width: 100%;
+  margin: var(--space-8) auto;
+  padding: var(--space-6) var(--space-8);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-subtle);
+}
+.reading-body > blockquote > * {
+  max-width: var(--width-reading);
+  margin-inline: auto;
+}
+.reading-body > blockquote > :last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 36rem) {
+  .reading-body > blockquote {
+    padding: var(--space-4) var(--space-6);
+  }
+}
+.reading-body > p > img:only-child {
+  width: 100%;
+}

@@ -4,19 +4,36 @@ interface Props {
   variant?: "rail" | "disclosure";
 }
 const { headings, variant = "disclosure" } = Astro.props;
+const sections = headings.filter(
+  (heading) => heading.depth === 2 || heading.depth === 3,
+);
 ---
 
-<details open={variant === "rail"}>
-  <summary>On this page</summary>
-  <nav aria-label="Article outline">
-    <ol>
-      {headings
-        .filter((heading) => heading.depth === 2)
-        .map((heading) => (
-          <li>
+<div class:list={["toc", { "toc--rail": variant === "rail" }]}>
+  <details class="toc-disclosure">
+    <summary>On this page</summary>
+    <nav aria-label="Article outline">
+      <ol>
+        {sections.map((heading) => (
+          <li class:list={{ "toc-subsection": heading.depth === 3 }}>
             <a href={`#${heading.slug}`}>{heading.text}</a>
           </li>
         ))}
-    </ol>
-  </nav>
-</details>
+      </ol>
+    </nav>
+  </details>
+  {variant === "rail" && (
+    <nav class="toc-rail" aria-label="Article outline">
+      <ol>
+        {sections.map((heading) => (
+          <li class:list={{ "toc-subsection": heading.depth === 3 }}>
+            <a href={`#${heading.slug}`} title={heading.text}>
+              <span class="toc-marker" aria-hidden="true"></span>
+              <span class="toc-label">{heading.text}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )}
+</div>

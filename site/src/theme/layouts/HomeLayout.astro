@@ -1,12 +1,14 @@
 <div class="home-layout">
-  <div class="home-intro">
-    <slot name="intro" />
-  </div>
-  <section aria-label="Selected projects">
-    <slot name="projects" />
-  </section>
+  {Astro.slots.has("intro") && (
+    <div class="home-intro">
+      <slot name="intro" />
+    </div>
+  )}
   <section aria-label="Recent writing">
     <slot name="writing" />
+  </section>
+  <section aria-label="Selected projects">
+    <slot name="projects" />
   </section>
   <section>
     <slot name="note" />

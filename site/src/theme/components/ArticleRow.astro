@@ -1,4 +1,5 @@
 ---
+import ArticleMedia from "./ArticleMedia.astro";
 import type { ArticleSummary } from "../../lib/types";
 interface Props {
   article: ArticleSummary;
@@ -8,7 +9,8 @@ const { article, headingLevel = 3 } = Astro.props;
 const Heading = headingLevel === 2 ? "h2" : "h3";
 ---
 
-<article class="article-row">
+<article class:list={["article-row", { "article-row--image": article.cover }]}>
+  <ArticleMedia article={article} />
   <time datetime={article.publishedAt}>
     {new Intl.DateTimeFormat("en", {
       year: "numeric",

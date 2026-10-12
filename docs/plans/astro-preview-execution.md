@@ -140,3 +140,21 @@ Normal build excludes the noindex reference route; `build:review` includes `/the
 - Obtain explicit approval before merging the review stack, changing the production builder, deployment, or deleting legacy tooling.
 - Keep the separate GSoC project archive publishing mechanism and link intact.
 - Finish hosted CI and user visual/content review before a production-cutover change is proposed.
+
+## Additive logo media preservation check
+
+The authorized image-led preview adds `assets/images/ajat-prabha-logo.svg` and `ajat-prabha-mark.svg`.
+The published baseline remains frozen; these files are additions, rather than replacements for historical media.
+The pinned isolated Jekyll build was rerun from visual checkpoint `0a434d70cbbce9b32bdd08fb9e5f9677eac83504` into `/tmp/ajat-legacy-logo-rebuilt`.
+The original whole-dictionary comparison reproduced a `mediaSha256` failure despite exact posts, feeds and archive routes and all 68 historical media hashes remaining unchanged.
+The compatibility check now requires every frozen historical media path and hash while allowing additional captured media.
+Article, feed and archive comparisons remain exact.
+The actual rebuilt artifact passes with 68 historical media files preserved and two additional SVG files captured.
+Both additional SVG hashes were independently compared with the authorized source files and match exactly.
+Seven filesystem/capture-interface tests cover unchanged output, additive SVGs, missing/changed historical media, and changed articles, feed identities or archive routes.
+
+```sh
+sh scripts/legacy-build.sh /tmp/ajat-legacy-logo-rebuilt
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/legacy-compare-test.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/legacy-compare.py /tmp/ajat-legacy-logo-rebuilt
+```

@@ -19,3 +19,5 @@ export { default as ProjectPreview } from "./components/ProjectPreview.astro";
 export { default as Pagination } from "./components/Pagination.astro";
 export { default as CodeBlock } from "./components/CodeBlock.astro";
 export { default as ColorModeControl } from "./components/ColorModeControl.astro";
+export { default as ArticleCard } from "./components/ArticleCard.astro";
+export { default as FeaturedArticle } from "./components/FeaturedArticle.astro";

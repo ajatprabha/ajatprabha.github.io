@@ -1,4 +1,4 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Page, type Locator } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 const article = "/2026/08/12/ferry-xload-learns-to-write";
@@ -18,6 +18,63 @@ async function containment(page: Page) {
     "Page must contain wide content",
   ).toBe(true);
 }
+async function loadedImage(image: Locator) {
+  await image.scrollIntoViewIfNeeded();
+  await expect
+    .poll(() =>
+      image.evaluate(
+        (element) =>
+          element instanceof HTMLImageElement &&
+          element.complete &&
+          element.naturalWidth > 0,
+      ),
+    )
+    .toBe(true);
+}
+async function centeredArticle(page: Page, viewportWidth: number) {
+  const geometry = await page
+    .locator(".prose > p")
+    .first()
+    .evaluate((paragraph) => {
+      const prose = paragraph.getBoundingClientRect();
+      const cover = document
+        .querySelector(".article-cover img")
+        ?.getBoundingClientRect();
+      return {
+        center: prose.x + prose.width / 2,
+        width: prose.width,
+        left: prose.left,
+        right: prose.right,
+        headings: Array.from(
+          document.querySelectorAll(".reading-body > h2, .reading-body > h3"),
+          (heading) => {
+            const rect = heading.getBoundingClientRect();
+            return {
+              left: rect.left,
+              right: rect.right,
+              textAlign: getComputedStyle(heading).textAlign,
+            };
+          },
+        ),
+        coverWidth: cover?.width,
+        quoteWidth: document
+          .querySelector(".reading-body > blockquote")
+          ?.getBoundingClientRect().width,
+      };
+    });
+  expect(Math.abs(geometry.center - viewportWidth / 2)).toBeLessThanOrEqual(2);
+  if (viewportWidth >= 1000) {
+    expect(geometry.headings.length).toBeGreaterThan(0);
+    for (const heading of geometry.headings) {
+      expect(Math.abs(heading.left - geometry.left)).toBeLessThanOrEqual(1);
+      expect(Math.abs(heading.right - geometry.right)).toBeLessThanOrEqual(1);
+      expect(["left", "start"]).toContain(heading.textAlign);
+    }
+    expect(geometry.coverWidth).toBeGreaterThan(geometry.width);
+    expect(geometry.quoteWidth).toBeGreaterThan(geometry.width);
+    expect(geometry.quoteWidth).toBeLessThanOrEqual(geometry.coverWidth!);
+  }
+}
 async function screenshot(page: Page, name: string) {
   const directory =
     process.env.BROWSER_EVIDENCE_DIR ?? "/tmp/ajat-astro-evidence";
@@ -33,16 +90,20 @@ test("home to writing/article and projects/detail, metadata and optional composi
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Notes from building things.",
-  );
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Recent writing", exact: true }),
+  ).toBeVisible();
   await expect(
     page.getByRole("heading", { level: 2, name: "Selected projects" }),
   ).toBeVisible();
-  await expect(
-    page.getByRole("heading", { level: 2, name: "Recent writing" }),
-  ).toBeVisible();
   await containment(page);
+  await expect(page.locator("main h1")).toHaveCount(1);
+  await expect(page.locator(".home-hero")).toHaveCount(0);
+  await loadedImage(page.locator(".featured-article img"));
+  await expect(page.locator(".article-card-grid img")).toHaveCount(3);
+  for (const image of await page.locator(".article-card-grid img").all()) {
+    await loadedImage(image);
+  }
   const palette = await page.evaluate(() => {
     const style = getComputedStyle(document.body);
     const luminance = (color: string) => {
@@ -77,6 +138,8 @@ test("home to writing/article and projects/detail, metadata and optional composi
   await expect(page).toHaveURL(/\/writing\/?$/);
   await expect(page.locator("main h2").first()).toBeVisible();
   await expect(page.locator("main h3")).toHaveCount(0);
+  await expect(page.locator(".article-card-grid img")).toHaveCount(13);
+  await loadedImage(page.locator(".article-card-grid img").first());
   await page
     .getByRole("link", { name: "Ferry: xload Learns to Write", exact: true })
     .click();
@@ -87,12 +150,35 @@ test("home to writing/article and projects/detail, metadata and optional composi
     "href",
     `https://ajatprabha.in${article}`,
   );
-  const contents = page
-    .locator("details")
-    .filter({ has: page.getByText("On this page", { exact: true }) });
+  const relatedSection = page.getByRole("region", {
+    name: "Related writing",
+    exact: true,
+  });
+  await expect(relatedSection.locator(".article-card-grid img")).toHaveCount(3);
+  for (const image of await relatedSection.locator(".article-card-grid img").all()) {
+    await loadedImage(image);
+  }
+  await centeredArticle(page, info.project.use.viewport!.width);
+  const contents =
+    info.project.use.viewport!.width >= 1312
+      ? page.locator(".toc-rail")
+      : page.locator(".toc-disclosure");
   await expect(contents).toBeVisible();
-  await contents.locator("summary").click();
-  await expect(contents.getByRole("link")).toHaveCount(8);
+  if (info.project.use.viewport!.width < 1312) {
+    await contents.locator("summary").click();
+  }
+  await expect(contents.getByRole("link")).toHaveCount(12);
+  await contents.getByRole("link").first().focus();
+  await expect(contents.getByRole("link").first()).toBeFocused();
+  if (info.project.use.viewport!.width >= 1312) {
+    const firstLabel = contents.getByRole("link").first().locator(".toc-label");
+    await expect
+      .poll(() => firstLabel.evaluate((label) => getComputedStyle(label).opacity))
+      .toBe("1");
+    const rail = await contents.boundingBox();
+    const cover = await page.locator(".article-cover").boundingBox();
+    expect(rail!.x + rail!.width).toBeLessThanOrEqual(cover!.x);
+  }
   await contents.getByRole("link").first().click();
   expect(new URL(page.url()).hash).not.toBe("");
   await page.goto("/projects/");
@@ -105,6 +191,10 @@ test("home to writing/article and projects/detail, metadata and optional composi
     page.getByRole("link", { name: "Source code", exact: true }),
   ).toHaveAttribute("href", "https://github.com/gojek/darkroom");
   await expect(page.locator('aside[aria-label="On this page"]')).toHaveCount(0);
+  await expect(page.locator(".article-card-grid img")).toHaveCount(4);
+  for (const image of await page.locator(".article-card-grid img").all()) {
+    await loadedImage(image);
+  }
   await page.goto("/about/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("About");
   await expect(page.locator("main")).toContainText("Kong");
@@ -127,6 +217,9 @@ test("representative media/code/table articles stay contained and load local res
   for (const path of fixtures) {
     await page.goto(path);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(page.locator(".article-header")).not.toContainText("by Ajat Prabha");
+    await expect(page.locator(".article-header time")).toBeVisible();
+    await expect(page.getByRole("list", { name: "Tags", exact: true })).toBeVisible();
     await page.evaluate(async () => {
       await document.fonts.ready;
     });
@@ -167,6 +260,15 @@ test("representative media/code/table articles stay contained and load local res
     }
     if (path.includes("diy-sound")) {
       await expect(page.locator(".gallery")).toHaveCount(2);
+      if (info.project.use.viewport!.width >= 1000) {
+        const galleryWidth = await page.locator(".gallery").first().evaluate(
+          (gallery) => gallery.getBoundingClientRect().width,
+        );
+        const proseWidth = await page.locator(".prose > p").first().evaluate(
+          (paragraph) => paragraph.getBoundingClientRect().width,
+        );
+        expect(galleryWidth).toBeGreaterThan(proseWidth);
+      }
       expect(await page.locator("video").count()).toBe(2);
       for (const video of await page.locator("video").all()) {
         await expect(video).toHaveAttribute("controls", "");
@@ -205,15 +307,29 @@ test("keyboard focus, persisted color preference and reduced motion", async ({
   expect(focusVisible).toBe(true);
   await page.keyboard.press("Enter");
   await expect(page.locator("main")).toBeFocused();
-  const mode = page.getByRole("combobox", { name: "Color mode" });
-  await mode.selectOption("dark");
+  const mode = page.getByRole("button", { name: /^Color mode:/ });
+  async function chooseMode(value: "system" | "light" | "dark") {
+    for (let click = 0; click < 3; click++) {
+      if (await mode.getAttribute("data-color-mode") === value) break;
+      await mode.click();
+    }
+    await expect(mode).toHaveAttribute("data-color-mode", value);
+    await expect(mode).toHaveAccessibleName(`Color mode: ${value}`);
+  }
+  await chooseMode("dark");
   await expect(page.locator("html")).toHaveAttribute("data-mode", "dark");
   await page.reload();
-  await expect(mode).toHaveValue("dark");
+  await expect(mode).toHaveAttribute("data-color-mode", "dark");
   await expect(page.locator("html")).toHaveAttribute("data-mode", "dark");
-  await mode.selectOption("light");
+  await chooseMode("light");
   await expect(page.locator("html")).toHaveAttribute("data-mode", "light");
-  await mode.selectOption("system");
+  await chooseMode("system");
+  const systemMode = info.project.use.colorScheme === "dark" ? "light" : "dark";
+  await page.emulateMedia({ colorScheme: systemMode });
+  expect(
+    await page.locator("html").evaluate((html) => getComputedStyle(html).colorScheme),
+  ).toBe(systemMode);
+  await page.emulateMedia({ colorScheme: info.project.use.colorScheme });
   expect(
     await page.evaluate(() => localStorage.getItem("color-mode")),
   ).toBeNull();
@@ -250,6 +366,10 @@ test("core journeys and native article contents work with JavaScript disabled", 
   });
   const page = await context.newPage();
   await page.goto(process.env.PREVIEW_URL ?? "http://127.0.0.1:4321");
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Recent writing", exact: true }),
+  ).toBeVisible();
+  await loadedImage(page.locator(".featured-article img"));
   await page.getByRole("link", { name: "All writing", exact: true }).click();
   await page
     .getByRole("link", { name: "Ferry: xload Learns to Write", exact: true })
@@ -257,9 +377,19 @@ test("core journeys and native article contents work with JavaScript disabled", 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Ferry: xload Learns to Write",
   );
-  const contents = page.locator("details");
-  await contents.locator("summary").click();
+  const contents =
+    info.project.use.viewport!.width >= 1312
+      ? page.locator(".toc-rail")
+      : page.locator(".toc-disclosure");
+  await expect(contents).toBeVisible();
+  if (info.project.use.viewport!.width < 1312) {
+    await contents.locator("summary").click();
+  }
+  await expect(contents.getByRole("link")).toHaveCount(12);
   await expect(contents.getByRole("link").first()).toBeVisible();
+  await contents.getByRole("link").first().click();
+  expect(new URL(page.url()).hash).not.toBe("");
+  await expect(page.getByRole("button", { name: /^Color mode:/ })).toHaveCount(0);
   await containment(page);
   await page
     .getByRole("navigation", { name: "Main", exact: true })
@@ -268,4 +398,29 @@ test("core journeys and native article contents work with JavaScript disabled", 
   await page.getByRole("link", { name: "Darkroom", exact: true }).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Darkroom");
   await context.close();
+});
+test("image-less writing remains readable and navigable", async ({ page }) => {
+  const response = await page.request.get("/theme-reference/");
+  test.skip(
+    response.status() === 404,
+    "Reference fixture is excluded from production builds",
+  );
+  expect(response.ok()).toBe(true);
+  await page.goto("/theme-reference/");
+  const fallback = page.locator(".article-card").filter({
+    has: page.getByRole("heading", {
+      name: "Writing without a cover",
+      exact: true,
+    }),
+  });
+  await expect(fallback).toBeVisible();
+  await expect(fallback.locator("img")).toHaveCount(0);
+  const title = fallback.getByRole("link", {
+    name: "Writing without a cover",
+    exact: true,
+  });
+  await expect(title).toHaveAttribute("href", "/writing/");
+  await title.click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Writing");
+  await containment(page);
 });

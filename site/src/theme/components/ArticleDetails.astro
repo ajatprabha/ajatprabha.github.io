@@ -1,0 +1,19 @@
+---
+import type { ArticleSummary } from "../../lib/types";
+interface Props {
+  article: ArticleSummary;
+}
+const { article } = Astro.props;
+---
+
+<div class="article-details">
+  <time datetime={article.publishedAt}>
+    {new Intl.DateTimeFormat("en", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    }).format(new Date(article.publishedAt))}
+  </time>
+  {article.tags[0] && <span>{article.tags[0]}</span>}
+</div>
