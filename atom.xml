@@ -8,6 +8,24 @@
     
       
       <item>
+        <title>What an error means in your Go application</title>
+        
+          <description>&lt;p&gt;Suppose a user asks a service to attach &lt;code class=&quot;highlighter-rouge&quot;&gt;shop.example&lt;/code&gt; as a custom domain.
+The controller checks the Domain Name System (DNS), but the required CNAME record is missing.
+A CNAME record points one domain name to another.
+Until the user adds the correct record, the domain stays pending.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Tue, 13 Oct 2026 06:30:00 +0000</pubDate>
+        <link>
+        https://ajatprabha.in/2026/10/13/application-error-handling</link>
+        <guid isPermaLink="true">https://ajatprabha.in/2026/10/13/application-error-handling</guid>
+      </item>
+      
+    
+      
+      <item>
         <title>Ferry: xload Learns to Write</title>
         
           <description>&lt;p&gt;Two years ago I wrote about &lt;a href=&quot;/2024/07/07/xload-ultimate-data-loader-go-structs&quot;&gt;xload&lt;/a&gt;, which fills an annotated Go struct from env vars, query params, files, anything you put behind a &lt;code class=&quot;highlighter-rouge&quot;&gt;Loader&lt;/code&gt;.

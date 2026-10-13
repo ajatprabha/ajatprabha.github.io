@@ -1,4 +1,248 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://ajatprabha.in/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ajatprabha.in/" rel="alternate" type="text/html" /><updated>2026-09-07T10:21:01+00:00</updated><id>https://ajatprabha.in/feed.xml</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">Ferry: xload Learns to Write</title><link href="https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write" rel="alternate" type="text/html" title="Ferry: xload Learns to Write" /><published>2026-08-12T01:00:00+00:00</published><updated>2026-08-12T01:00:00+00:00</updated><id>https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write</id><content type="html" xml:base="https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write">&lt;p&gt;Two years ago I wrote about &lt;a href=&quot;/2024/07/07/xload-ultimate-data-loader-go-structs&quot;&gt;xload&lt;/a&gt;, which fills an annotated Go struct from env vars, query params, files, anything you put behind a &lt;code class=&quot;highlighter-rouge&quot;&gt;Loader&lt;/code&gt;.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://ajatprabha.in/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ajatprabha.in/" rel="alternate" type="text/html" /><updated>2026-10-13T17:00:17+00:00</updated><id>https://ajatprabha.in/feed.xml</id><title type="html">Ajat Prabha</title><subtitle>Blog</subtitle><entry><title type="html">What an error means in your Go application</title><link href="https://ajatprabha.in/2026/10/13/application-error-handling" rel="alternate" type="text/html" title="What an error means in your Go application" /><published>2026-10-13T06:30:00+00:00</published><updated>2026-10-13T06:30:00+00:00</updated><id>https://ajatprabha.in/2026/10/13/application-error-handling</id><content type="html" xml:base="https://ajatprabha.in/2026/10/13/application-error-handling">&lt;p&gt;Suppose a user asks a service to attach &lt;code class=&quot;highlighter-rouge&quot;&gt;shop.example&lt;/code&gt; as a custom domain.
+The controller checks the Domain Name System (DNS), but the required CNAME record is missing.
+A CNAME record points one domain name to another.
+Until the user adds the correct record, the domain stays pending.&lt;/p&gt;
+
+&lt;p&gt;The next check finds the same problem.
+If each check writes an error-level log, this expected condition can look like a service fault.
+The log gets louder, but the record does not appear. 😅&lt;/p&gt;
+
+&lt;p&gt;The error still matters.
+It explains why the domain is pending.
+I want to keep that cause and give the application a common way to describe what it means.
+Go supplies tools to create and inspect errors.
+The application supplies the classification and decides how to respond.&lt;/p&gt;
+
+&lt;h2 id=&quot;when-the-log-function-learns-dns-rules&quot;&gt;When the log function learns DNS rules&lt;/h2&gt;
+
+&lt;p&gt;Start with a boundary: the function that runs an operation and reports its result.
+Suppose a fictional DNS library, &lt;code class=&quot;highlighter-rouge&quot;&gt;example.com/dnscheck&lt;/code&gt;, exports &lt;code class=&quot;highlighter-rouge&quot;&gt;dnscheck.ErrRecordMissing&lt;/code&gt; for a missing record.
+The DNS check returns that library error to the application.&lt;/p&gt;
+
+&lt;p&gt;The boundary can check that value before it chooses a log level.
+Here, &lt;code class=&quot;highlighter-rouge&quot;&gt;err&lt;/code&gt; is a known non-nil error, and &lt;code class=&quot;highlighter-rouge&quot;&gt;logger&lt;/code&gt; is a &lt;code class=&quot;highlighter-rouge&quot;&gt;*slog.Logger&lt;/code&gt; from &lt;code class=&quot;highlighter-rouge&quot;&gt;log/slog&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;// Import &quot;errors&quot; and &quot;example.com/dnscheck&quot;.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;errors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Is&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dnscheck&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ErrRecordMissing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;operation incomplete&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;err&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;operation failed&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;err&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This works for the missing record.
+Then another expected condition needs a different log level, so the boundary gets another check.
+Soon, the function that writes logs also needs rules from each operation it runs.
+I’d rather keep those rules near the code that understands the workflow.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;errors.Is&lt;/code&gt; answers whether an error matches a known cause, including through wrappers.
+That is useful for a caller that must handle the missing record.
+For log severity, I want a shared classification across operations.
+I’ll call that classification the error’s &lt;em&gt;kind&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-small-internalerrs-package&quot;&gt;A small &lt;code class=&quot;highlighter-rouge&quot;&gt;internal/errs&lt;/code&gt; package&lt;/h2&gt;
+
+&lt;p&gt;The wrapper needs three fields: the failed operation, the kind and the cause.
+This is the whole package for the example:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;errs&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;errors&quot;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Kind&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;uint8&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Unknown&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Kind&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;iota&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Transient&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Op&lt;/span&gt;   &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Kind&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Kind&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;Err&lt;/span&gt;  &lt;span class=&quot;kt&quot;&gt;error&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Op&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Err&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Unwrap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KindOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Kind&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;errors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;As&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Kind&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Unknown&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Op&lt;/code&gt; names the failed operation.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Kind&lt;/code&gt; stores its classification.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Err&lt;/code&gt; holds the original cause.
+Only create this wrapper for a known non-nil error; &lt;code class=&quot;highlighter-rouge&quot;&gt;Error()&lt;/code&gt; calls the cause’s &lt;code class=&quot;highlighter-rouge&quot;&gt;Error()&lt;/code&gt; method.
+Return &lt;code class=&quot;highlighter-rouge&quot;&gt;nil&lt;/code&gt; directly when an operation succeeds.&lt;/p&gt;
+
+&lt;p&gt;An error chain connects a wrapper to its cause, which can itself wrap another error.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Unwrap&lt;/code&gt; exposes that cause to Go’s standard inspection tools.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;errors.Is&lt;/code&gt; can still match the original value.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;errors.As&lt;/code&gt; can still find an underlying error type, including this wrapper.
+The &lt;a href=&quot;https://pkg.go.dev/errors&quot;&gt;Go errors documentation&lt;/a&gt; describes both searches.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;KindOf&lt;/code&gt; returns the kind of the first &lt;code class=&quot;highlighter-rouge&quot;&gt;*errs.Error&lt;/code&gt; that &lt;code class=&quot;highlighter-rouge&quot;&gt;errors.As&lt;/code&gt; finds.
+For these single-cause chains, that means the outermost application wrapper.
+If there is no application wrapper, the result is &lt;code class=&quot;highlighter-rouge&quot;&gt;Unknown&lt;/code&gt;.
+An outer &lt;code class=&quot;highlighter-rouge&quot;&gt;Unknown&lt;/code&gt; does not inherit an inner &lt;code class=&quot;highlighter-rouge&quot;&gt;Transient&lt;/code&gt; automatically.
+That rule matters when we add another operation later.&lt;/p&gt;
+
+&lt;h2 id=&quot;assign-the-kind-where-the-workflow-is-clear&quot;&gt;Assign the kind where the workflow is clear&lt;/h2&gt;
+
+&lt;p&gt;In this workflow, &lt;code class=&quot;highlighter-rouge&quot;&gt;Transient&lt;/code&gt; means the service expects to check the configuration again.
+The user can still need to add the record.
+The kind does not promise success or decide when the next check runs.&lt;/p&gt;
+
+&lt;p&gt;The DNS library reports the missing record.
+The domain code knows what that means for this workflow, so it assigns the kind there.
+Assume the example module is &lt;code class=&quot;highlighter-rouge&quot;&gt;example.com/domainapp&lt;/code&gt;, with the package above at &lt;code class=&quot;highlighter-rouge&quot;&gt;internal/errs&lt;/code&gt;.
+The fictional library’s &lt;code class=&quot;highlighter-rouge&quot;&gt;CheckCNAME&lt;/code&gt; function checks the required CNAME and returns &lt;code class=&quot;highlighter-rouge&quot;&gt;dnscheck.ErrRecordMissing&lt;/code&gt; when it is absent.
+Its DNS implementation is outside this example.&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;domain&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+	&lt;span class=&quot;s&quot;&gt;&quot;context&quot;&lt;/span&gt;
+	&lt;span class=&quot;s&quot;&gt;&quot;errors&quot;&lt;/span&gt;
+
+	&lt;span class=&quot;s&quot;&gt;&quot;example.com/dnscheck&quot;&lt;/span&gt;
+	&lt;span class=&quot;s&quot;&gt;&quot;example.com/domainapp/internal/errs&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;checkDomain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;domain&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dnscheck&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CheckCNAME&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;errors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Is&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dnscheck&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ErrRecordMissing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;errs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+			&lt;span class=&quot;n&quot;&gt;Op&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;   &lt;span class=&quot;s&quot;&gt;&quot;check_domain&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+			&lt;span class=&quot;n&quot;&gt;Kind&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;errs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Transient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+			&lt;span class=&quot;n&quot;&gt;Err&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The wrapper keeps the library error as its cause.
+A caller can inspect that cause while the boundary uses the application’s &lt;code class=&quot;highlighter-rouge&quot;&gt;Transient&lt;/code&gt; kind.
+An unfamiliar failure passes through unchanged and gets the unknown kind at the boundary.
+With the &lt;code class=&quot;highlighter-rouge&quot;&gt;fmt&lt;/code&gt; import, other functions can add context with &lt;code class=&quot;highlighter-rouge&quot;&gt;fmt.Errorf(&quot;check configuration: %w&quot;, err)&lt;/code&gt; after a non-nil check.
+The &lt;code class=&quot;highlighter-rouge&quot;&gt;%w&lt;/code&gt; verb preserves inspection of both the kind and cause, as &lt;a href=&quot;https://go.dev/blog/go1.13-errors&quot;&gt;Go’s error wrapping guide&lt;/a&gt; explains.&lt;/p&gt;
+
+&lt;p&gt;Now the boundary can choose a log level without checking DNS error values.
+It also records a Datadog span, which represents one operation within a trace.
+This function uses Datadog’s Go v2 tracer; tracer startup and shutdown happen elsewhere.
+Like middleware, the boundary starts the span, calls the operation, then reports the result.&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;domain&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+	&lt;span class=&quot;s&quot;&gt;&quot;context&quot;&lt;/span&gt;
+	&lt;span class=&quot;s&quot;&gt;&quot;log/slog&quot;&lt;/span&gt;
+
+	&lt;span class=&quot;s&quot;&gt;&quot;example.com/domainapp/internal/errs&quot;&lt;/span&gt;
+	&lt;span class=&quot;s&quot;&gt;&quot;github.com/DataDog/dd-trace-go/v2/ddtrace/tracer&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;runDomainCheck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;slog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;domain&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;span&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tracer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StartSpanFromContext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;domain.check&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+	&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;checkDomain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+	&lt;span class=&quot;k&quot;&gt;defer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;span&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Finish&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tracer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WithError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+	&lt;span class=&quot;n&quot;&gt;level&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;slog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LevelError&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;unknown&quot;&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;errs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;KindOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;errs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Transient&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;level&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;slog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LevelDebug&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;transient&quot;&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;span&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SetTag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;app.error.kind&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;level&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;domain check failed&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;s&quot;&gt;&quot;domain&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;s&quot;&gt;&quot;kind&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;s&quot;&gt;&quot;err&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Put these two &lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;domain&lt;/span&gt;&lt;/code&gt; snippets in separate files.
+The caller names the operation directly:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;// Inside a caller with ctx and logger available.&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;runDomainCheck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;shop.example&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I’d use debug for the expected repeat checks in this example.
+Unknown errors use the error level.
+The logger’s handler must enable debug if you want to see those entries.
+These levels and handler settings come from &lt;a href=&quot;https://pkg.go.dev/log/slog&quot;&gt;Go’s &lt;code class=&quot;highlighter-rouge&quot;&gt;slog&lt;/code&gt; package&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Use the boundary once per operation.
+Inner functions return errors without also writing logs.
+The boundary owns log severity and returns the same error to its caller.
+That keeps one failed check from producing a log at every layer.&lt;/p&gt;
+
+&lt;p&gt;We can generalise &lt;code class=&quot;highlighter-rouge&quot;&gt;runDomainCheck&lt;/code&gt; into middleware that reports errors from other operations.
+The application owns and controls the error vocabulary, so the boundary can use the same kinds across those operations.
+Each operation maps library errors to those kinds where it knows the workflow.
+The shared boundary needs no rules for individual libraries.
+I keep the named function here so the call sequence stays easy to follow.&lt;/p&gt;
+
+&lt;p&gt;For every failure, &lt;code class=&quot;highlighter-rouge&quot;&gt;app.error.kind&lt;/code&gt; has one of two values: &lt;code class=&quot;highlighter-rouge&quot;&gt;unknown&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;transient&lt;/code&gt;.
+This bounded tag lets a dashboard separate those failures without using error messages as categories.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;WithError(err)&lt;/code&gt; records the returned error when the span finishes, according to the &lt;a href=&quot;https://pkg.go.dev/github.com/DataDog/dd-trace-go/v2/ddtrace/tracer&quot;&gt;Datadog tracer documentation&lt;/a&gt;.
+A debug log does not turn a failed span into a success.
+The custom tag alone changes neither Datadog’s error status nor its alert rules.&lt;/p&gt;
+
+&lt;p&gt;The caller can still use &lt;code class=&quot;highlighter-rouge&quot;&gt;errors.Is(err, dnscheck.ErrRecordMissing)&lt;/code&gt; to record why the domain is pending.
+Metrics still count the failed check.
+The classification helps choose a response while keeping the failure visible.&lt;/p&gt;
+
+&lt;h2 id=&quot;keep-the-operation-names&quot;&gt;Keep the operation names&lt;/h2&gt;
+
+&lt;p&gt;An outer function can add its own operation after it checks that &lt;code class=&quot;highlighter-rouge&quot;&gt;err&lt;/code&gt; is non-nil:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;errs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Op&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;attach_domain&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Kind&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;errs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;KindOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Err&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This preserves the existing kind explicitly.
+The chain is &lt;code class=&quot;highlighter-rouge&quot;&gt;attach_domain -&amp;gt; check_domain -&amp;gt; record missing&lt;/code&gt;.
+Go already supports error chains, including ordinary &lt;code class=&quot;highlighter-rouge&quot;&gt;%w&lt;/code&gt; wrappers.
+Because the application owns &lt;code class=&quot;highlighter-rouge&quot;&gt;Op&lt;/code&gt;, callers can read structured operation names for logs or traces without parsing messages.&lt;/p&gt;
+
+&lt;h2 id=&quot;know-when-to-stop&quot;&gt;Know when to stop&lt;/h2&gt;
+
+&lt;p&gt;If standard error values or types meet the application’s needs, I’d use them directly.
+A local package earns its place when several operations need shared classifications at a boundary.
+Add another kind or field only when a caller needs it.&lt;/p&gt;
+
+&lt;p&gt;Keep logging, tracing, retry limits and state changes outside the error package.
+Those decisions need workflow context and can change independently.
+I want the package to remain small enough that I can read it without a second cup of coffee.&lt;/p&gt;
+
+&lt;p&gt;Back at &lt;code class=&quot;highlighter-rouge&quot;&gt;shop.example&lt;/code&gt;, the record is still missing and the domain is still pending.
+The service keeps the cause, counts the failed check and expects to check again.
+Each expected check can use a debug log without looking like another service fault.
+The user still has to fix DNS.&lt;/p&gt;</content><author><name>Ajat Prabha</name></author><category term="golang" /><summary type="html">Suppose a user asks a service to attach shop.example as a custom domain. The controller checks the Domain Name System (DNS), but the required CNAME record is missing. A CNAME record points one domain name to another. Until the user adds the correct record, the domain stays pending.</summary></entry><entry><title type="html">Ferry: xload Learns to Write</title><link href="https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write" rel="alternate" type="text/html" title="Ferry: xload Learns to Write" /><published>2026-08-12T01:00:00+00:00</published><updated>2026-08-12T01:00:00+00:00</updated><id>https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write</id><content type="html" xml:base="https://ajatprabha.in/2026/08/12/ferry-xload-learns-to-write">&lt;p&gt;Two years ago I wrote about &lt;a href=&quot;/2024/07/07/xload-ultimate-data-loader-go-structs&quot;&gt;xload&lt;/a&gt;, which fills an annotated Go struct from env vars, query params, files, anything you put behind a &lt;code class=&quot;highlighter-rouge&quot;&gt;Loader&lt;/code&gt;.
 It does that one job well.
 It does exactly half of what I needed.&lt;/p&gt;
 
@@ -2241,44 +2485,4 @@ Now the Go wrapper stretches the image while resizing, so we wrote some logic to
     &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;p&gt;This was the best road trip I went on. Let’s see where I go next! And yes, the next blog will consist more about the code that I wrote and the things I did at GoJek.&lt;/p&gt;</content><author><name>Ajat Prabha</name></author><category term="gojek" /><category term="internship" /><category term="travel" /><category term="golang" /><summary type="html">It’s been great till now and our mentor came back from Jakarta. It’s time to start building the service that will handle 50K+ image requests per minute. I also went on a road trip to Coorg at the weekend, the scenes were jaw-dropping, one of the best trips I went on.</summary></entry><entry><title type="html">Week 1 - Experience as an intern at GoJek</title><link href="https://ajatprabha.in/2018/05/27/first-week-at-gojek-bangalore" rel="alternate" type="text/html" title="Week 1 - Experience as an intern at GoJek" /><published>2018-05-27T18:00:00+00:00</published><updated>2018-05-27T18:00:00+00:00</updated><id>https://ajatprabha.in/2018/05/27/first-week-at-gojek-bangalore</id><content type="html" xml:base="https://ajatprabha.in/2018/05/27/first-week-at-gojek-bangalore">&lt;blockquote&gt;
-  &lt;p&gt;It began, the week I’ve been waiting for since months! I was finally interning with GoJek in Bangalore.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Before I go on and talk about my experience with GoJek and the internship, I wrote about how I got it in the first place. Read it &lt;a href=&quot;/2018/05/27/how-i-got-the-internship-at-gojek&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;20&lt;sup&gt;th&lt;/sup&gt; May it was, I had packed my bags and was ready to leave for the airport. A quick check of the things I need to carry and the next moment I was driving.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/IMG_20180520_061439.jpg&quot; alt=&quot;Car&quot; style=&quot;max-width: 400px&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I reached the airport at around 0800 hours and my flight landed in Bangalore at around 1400 hours. I arrived at accommodation provided by GoJek and it was far better than my expectations. It was a fully furnished 3 BHK apartment. And the view outside the balcony was jaw-dropping. Just look at the image below!&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/IMG_20180520_154815.jpg&quot; alt=&quot;Diamond district balcony&quot; style=&quot;max-width: 512px&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I did nothing that day except unpack my bag and I was so tired that I went to straight to take a nap. When I woke up I got a treat by my seniors.😁&lt;/p&gt;
-
-&lt;h3 id=&quot;day-1&quot;&gt;Day 1&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/IMG_20180528_084023.jpg&quot; alt=&quot;GoJek office&quot; style=&quot;max-width: 720px&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The next day at 1100 hours I was in the GoJek office waiting with fellow interns for the HR person to brief us. The first thing that she said was that the guys are bringing your laptops shortly and we were asked to fill-up the NDA. And there it was, a 15” MacBook Pro with maxed out specs and the awesome touch bar. 😍&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/IMG_20180521_122110.jpg&quot; alt=&quot;MacBook&quot; style=&quot;max-width: 600px&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I went ahead and got the initial setup done. I had used my friends MacBook Air before so I knew about &lt;code class=&quot;highlighter-rouge&quot;&gt;brew&lt;/code&gt; and installed it. But then I came to know that there is something called &lt;code class=&quot;highlighter-rouge&quot;&gt;brew cask&lt;/code&gt; also. And then I was assigned to a team along with Rajat Mangla and Venkata Sainath Thota. Deepesh Naini is our mentor on the current project, he briefed us about GoJek and answered our doubts.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;One thing different from most other offices is the culture here at GoJek. One can be comfortable in their own clothing style. And anyone can go grab snacks, coffee, soft drinks, etc. anytime they want. And there is a recreation room too with pool table, PS4, table-tennis table, etc.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div style=&quot;margin-bottom: 3rem;&quot;&gt;&lt;img src=&quot;/assets/images/IMG_20180521_184842.jpg&quot; alt=&quot;Dining area&quot; style=&quot;width: 50%; display: inline-block; padding: 0.8rem;&quot; /&gt;&lt;img src=&quot;/assets/images/IMG_20180521_182624.jpg&quot; alt=&quot;Dining area&quot; style=&quot;width: 50%; display: inline-block; padding: 0.8rem;&quot; /&gt;&lt;img src=&quot;/assets/images/IMG_20180528_084051.jpg&quot; alt=&quot;Recreation room&quot; style=&quot;max-width: 98%; margin: 0.5em auto;&quot; /&gt;&lt;/div&gt;
-
-&lt;p&gt;We then met Aayush, he showed us our desk and we continued the process of setting up our machines. I finished the setup and asked Aayush what to do next? He gave the three of us access to one of the repositories which are a part of the Go-Food platform. I had to go through it and understand the project structure, it was built on top of &lt;code class=&quot;highlighter-rouge&quot;&gt;Ruby On Rails&lt;/code&gt;. The syntax was new to me but since I had worked previously on &lt;code class=&quot;highlighter-rouge&quot;&gt;Django&lt;/code&gt; so I was aware of MVC architecture and my blog is built using &lt;code class=&quot;highlighter-rouge&quot;&gt;Jekyll&lt;/code&gt; so I knew a little about Ruby’s project structure and bundler, etc.&lt;/p&gt;
-
-&lt;p&gt;But obviously, the project wasn’t completely clear to me. The next step was to question everything! What is this? Why is this so? etc. Aayush asked us every possible question. I could answer only a few, in others, I was confused or simply didn’t have the answer.&lt;/p&gt;
-
-&lt;p&gt;I learned quite a lot during the next three days. &lt;code class=&quot;highlighter-rouge&quot;&gt;RSpec&lt;/code&gt; was completely new to me, I was aware of &lt;a href=&quot;/2017/12/20/tdd-why-bother&quot;&gt;TDD&lt;/a&gt; but RSpec introduced me to BDD. After the initial three days of learning &lt;code class=&quot;highlighter-rouge&quot;&gt;Ruby&lt;/code&gt;, we were given a project which was to be done in &lt;code class=&quot;highlighter-rouge&quot;&gt;Go&lt;/code&gt; and will involve creating an API for image manipulation. I again looked at the repository for the new project and tried to build it. I went through the code and then paired with Rajat and Sainath to write our first piece of code as an intern. We pushed the code to the remote server and created a merge request. And yes, having an external monitor while coding is a bliss. 🙃&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/IMG_20180525_184345_blur.jpg&quot; alt=&quot;GitLab&quot; style=&quot;max-width: 720px&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The learning experience has been great so far and there is so much more to explore. I’m meeting new people, many more yet to meet.😅 I’ve made new friends, all of them are great. I’m liking Bangalore so far, especially the weather. It’s been raining almost every day since I’ve arrived. I went to my cousin’s home for the weekend and this is pretty much it about the first week.&lt;/p&gt;</content><author><name>Ajat Prabha</name></author><category term="gojek" /><category term="internship" /><category term="travel" /><summary type="html">It began, the week I’ve been waiting for since months! I was finally interning with GoJek in Bangalore.</summary></entry></feed>
+&lt;p&gt;This was the best road trip I went on. Let’s see where I go next! And yes, the next blog will consist more about the code that I wrote and the things I did at GoJek.&lt;/p&gt;</content><author><name>Ajat Prabha</name></author><category term="gojek" /><category term="internship" /><category term="travel" /><category term="golang" /><summary type="html">It’s been great till now and our mentor came back from Jakarta. It’s time to start building the service that will handle 50K+ image requests per minute. I also went on a road trip to Coorg at the weekend, the scenes were jaw-dropping, one of the best trips I went on.</summary></entry></feed>
